@@ -234,7 +234,7 @@ CREATE TABLE catalogo_tipo_expediente (
 CREATE TABLE catalogo_tipo_relacion (
   id_tipo_relacion TINYINT NOT NULL,
   clave VARCHAR(5) NOT NULL,
-  descripcion VARCHAR(25) NOT NULL,
+  descripcion VARCHAR(50) NOT NULL,
   activo BOOLEAN NOT NULL DEFAULT TRUE,
   PRIMARY KEY (id_tipo_relacion),
   UNIQUE KEY uk_catalogo_tipo_relacion_clave (clave)
