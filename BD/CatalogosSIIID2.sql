@@ -86893,5 +86893,5 @@ INSERT INTO catalogo_nacionalidad (id_nacionalidad, clave, descripcion) VALUES
 INSERT INTO catalogo_genero (id_genero, clave, descripcion) VALUES
 (1, 1, 'Masculino'),
 (2, 2, 'Femenino'),
-(3, 3, 'No identificado');
+(3, 3, 'No Identificado');
 
