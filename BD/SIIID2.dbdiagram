@@ -19,8 +19,8 @@
     {
       "name": "catalogo_delito",
       "schemaName": "public",
-      "x": 1583.5449921556328,
-      "y": 306.01837898591793
+      "x": 1583.1451731905458,
+      "y": 296
     },
     {
       "name": "catalogo_subtipo_delito",
@@ -62,7 +62,7 @@
       "name": "catalogo_ciudad",
       "schemaName": "public",
       "x": 679.50927734375,
-      "y": 360
+      "y": 344
     },
     {
       "name": "catalogo_tipo_asentamiento",

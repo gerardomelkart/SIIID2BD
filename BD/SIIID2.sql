@@ -52,7 +52,6 @@ CREATE TABLE catalogo_ciudad (
   descripcion VARCHAR(50) NOT NULL,
   activo BOOLEAN NOT NULL DEFAULT TRUE,
   PRIMARY KEY (id_ciudad),
-  UNIQUE KEY uk_catalogo_ciudad_clave (clave)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE catalogo_entidad_federativa (
@@ -226,9 +225,11 @@ CREATE TABLE catalogo_delito_sabana (
 
 CREATE TABLE catalogo_tipo_expediente (
   id_tipo_expediente TINYINT NOT NULL,
+  clave VARCHAR(5) NOT NULL,
   descripcion VARCHAR(25) NOT NULL,
   activo BOOLEAN NOT NULL DEFAULT TRUE,
-  PRIMARY KEY (id_tipo_expediente)
+  PRIMARY KEY (id_tipo_expediente),
+  UNIQUE KEY uk_catalogo_tipo_relacion_clave (clave)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE catalogo_tipo_relacion (
@@ -241,7 +242,7 @@ CREATE TABLE catalogo_tipo_relacion (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE catalogo_nacionalidad (
-  id_nacionalidad TINYINT NOT NULL,
+  id_nacionalidad INT NOT NULL,
   clave VARCHAR(5) NOT NULL,
   descripcion VARCHAR(50) NOT NULL,
   activo BOOLEAN NOT NULL DEFAULT TRUE,
@@ -505,7 +506,7 @@ CREATE TABLE victima (
   id_tipo_victima_moral TINYINT NULL,
   id_sexo TINYINT NULL,
   id_genero TINYINT NULL,
-  id_nacionalidad TINYINT NULL,
+  id_nacionalidad INT NULL,
   id_pertenece_poblacion_indigena TINYINT NULL,
   id_presenta_discapacidad TINYINT NULL,
   fecha_nacimiento DATE NULL,
@@ -546,7 +547,7 @@ CREATE TABLE victima_historico (
   id_tipo_victima_moral TINYINT NULL,
   id_sexo TINYINT NULL,
   id_genero TINYINT NULL,
-  id_nacionalidad TINYINT NULL,
+  id_nacionalidad INT NULL,
   id_pertenece_poblacion_indigena TINYINT NULL,
   id_presenta_discapacidad TINYINT NULL,
   fecha_nacimiento DATE NULL,

@@ -77,7 +77,7 @@ Table catalogo_oficina {
 
 Table catalogo_ciudad {
   id_ciudad int [pk]
-  clave varchar(5) [not null, unique]
+  clave varchar(5) [not null]
   descripcion varchar(50) [not null]
   activo boolean [not null, default: true]
 }
@@ -131,6 +131,7 @@ Table catalogo_tipo_zona {
 
 Table catalogo_tipo_expediente {
   id_tipo_expediente tinyint [pk]
+  clave varchar(5) [not null, unique]
   descripcion varchar(25) [not null]
   activo boolean [not null, default: true]
 }
@@ -143,7 +144,7 @@ Table catalogo_tipo_relacion {
 }
 
 Table catalogo_nacionalidad {
-  id_nacionalidad tinyint [pk]
+  id_nacionalidad int [pk]
   clave varchar(5) [not null, unique]
   descripcion varchar(50) [not null]
   activo boolean [not null, default: true]
@@ -339,7 +340,7 @@ Table victima {
   id_tipo_victima_moral tinyint [ref: > catalogo_tipo_victima_moral.id_tipo_victima_moral]
   id_sexo tinyint [ref: > catalogo_sexo.id_sexo]
   id_genero tinyint [ref: > catalogo_genero.id_genero]
-  id_nacionalidad tinyint [ref: > catalogo_nacionalidad.id_nacionalidad]
+  id_nacionalidad int [ref: > catalogo_nacionalidad.id_nacionalidad]
   id_pertenece_poblacion_indigena tinyint [ref: > catalogo_pertenece_poblacion_indigena.id_pertenece_poblacion_indigena]
   id_presenta_discapacidad tinyint [ref: > catalogo_presenta_discapacidad.id_presenta_discapacidad]
   fecha_nacimiento date
@@ -359,7 +360,7 @@ Table victima_historico {
   id_tipo_victima_moral tinyint [ref: > catalogo_tipo_victima_moral.id_tipo_victima_moral]
   id_sexo tinyint [ref: > catalogo_sexo.id_sexo]
   id_genero tinyint [ref: > catalogo_genero.id_genero]
-  id_nacionalidad tinyint [ref: > catalogo_nacionalidad.id_nacionalidad]
+  id_nacionalidad int [ref: > catalogo_nacionalidad.id_nacionalidad]
   id_pertenece_poblacion_indigena tinyint [ref: > catalogo_pertenece_poblacion_indigena.id_pertenece_poblacion_indigena]
   id_presenta_discapacidad tinyint [ref: > catalogo_presenta_discapacidad.id_presenta_discapacidad]
   fecha_nacimiento date
