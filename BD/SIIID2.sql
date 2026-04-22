@@ -69,7 +69,7 @@ CREATE TABLE catalogo_municipio (
   id_municipio INT NOT NULL,
   id_entidad_federativa TINYINT NOT NULL,
   clave VARCHAR(5) NOT NULL,
-  nombre VARCHAR(50) NOT NULL,
+  nombre VARCHAR(150) NOT NULL,
   activo BOOLEAN NOT NULL DEFAULT TRUE,
   PRIMARY KEY (id_municipio),
   UNIQUE KEY uk_catalogo_municipio_entidad_clave (id_entidad_federativa, clave),

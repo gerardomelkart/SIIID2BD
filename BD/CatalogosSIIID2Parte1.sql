@@ -86893,5 +86893,60 @@ INSERT INTO catalogo_nacionalidad (id_nacionalidad, clave, descripcion) VALUES
 INSERT INTO catalogo_genero (id_genero, clave, descripcion) VALUES
 (1, 1, 'Masculino'),
 (2, 2, 'Femenino'),
-(3, 3, 'No Identificado');
+(3, 3, 'No identificado');
 
+INSERT INTO catalogo_sexo (id_sexo, clave, descripcion) VALUES
+(1, 1, 'Hombre'),
+(2, 2, 'Mujer'),
+(3, 3, 'No identificado');
+
+INSERT INTO catalogo_grado_consumacion (id_grado_consumacion, clave, descripcion) VALUES
+(1, 1, 'Consumado'),
+(2, 2, 'Tentativa'),
+(3, 3, 'No identificado');
+
+INSERT INTO roles (id_rol, rol) VALUES
+(1, 'SUPER_USUARIO'),
+(2, 'ADMIN'),
+(3, 'USUARIO');
+
+INSERT INTO catalogo_forma_accion (id_forma_accion, clave, descripcion) VALUES
+(1, 1, 'Con violencia'),
+(2, 2, 'Sin violencia'),
+(3, 3, 'No identificado');
+
+INSERT INTO catalogo_instrumento_comision (id_instrumento_comision, clave, descripcion) VALUES
+(1, 1, 'Con arma de fuego'),
+(2, 2, 'Con arma blanca'),
+(3, 3, 'Con alguna parte del cuerpo'),
+(4, 4, 'Con algun vehiculo'),
+(5, 5, 'Con algun medio electronico o informatico'),
+(6, 6, 'Con otro instrumento'),
+(7, 7, 'No identificado'),
+(8, 8, 'No aplica');
+
+INSERT INTO catalogo_pertenece_poblacion_indigena (id_pertenece_poblacion_indigena, clave, descripcion) VALUES
+(1, 1, 'Si'),
+(2, 2, 'No'),
+(3, 3, 'No identificado'),
+(4, 4, 'No aplica');
+
+INSERT INTO catalogo_presenta_discapacidad (id_presenta_discapacidad, clave, descripcion) VALUES
+(1, 1, 'Si'),
+(2, 2, 'No'),
+(3, 3, 'No identificado'),
+(4, 4, 'No aplica');
+
+INSERT INTO catalogo_tipo_victima (id_tipo_victima, clave, descripcion) VALUES
+(1, 1, 'Persona fisica'),
+(2, 2, 'Persona moral'),
+(3, 3, 'Otro'),
+(4, 4, 'No identificado');
+
+INSERT INTO catalogo_tipo_victima_moral (id_tipo_victima_moral, clave, descripcion) VALUES
+(1, 1, 'Sociedad mercantil'),
+(2, 2, 'Sociedad civil'),
+(3, 3, 'Asociacion civil'),
+(4, 4, 'Institucion gubernamental'),
+(5, 5, 'Otra'),
+(6, 6, 'No identificada');

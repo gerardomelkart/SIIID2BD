@@ -102,7 +102,7 @@ Table catalogo_municipio {
   id_municipio int [pk]
   id_entidad_federativa tinyint [not null, ref: > catalogo_entidad_federativa.id_entidad_federativa]
   clave varchar(5) [not null]
-  nombre varchar(50) [not null]
+  nombre varchar(150) [not null]
   activo boolean [not null, default: true]
 
   indexes {

@@ -1,0 +1,20 @@
+notas:
+1. al catalogo de entidades federativas se le agrega la columna de siglas renapo
+2. se renombran todas las tablas y columnas a nombres mas entendibles
+3. algunas tablas se descartan ya que no se les encuentra sentido aun
+4. se normalizan todas las tablas, principalmente CP, delitos y delitos sabana
+5. la normalizacion mencionada anteriormente resulta en la generacion de mas catalogos
+6. revisar el campo "fue_modificado" en catalogo_delito y catalogo_delitoV1
+7. checar roles de momento se cargan genericos
+
+proceso:
+1.  se analizan las tablas y columnas para entender la logica de negocio (terminado)
+2.  se normalizan las tablas (terminado)
+3.  se agregan llaves foraneas, indices y constraints a las tablas (terminado)
+4.  se corrigen tipo de dato en las tablas ya que antes todo estaba en varchar (terminado)
+5.  carga y reestructuracion de los catalogos con la informacion disponible (proceso)
+6.  diseño y desarrollo del backend del proyecto por medio de microservicios en C# (no empezado aun)
+7.  diseño y desarrollo del frotend del proyecto por medio de angular (no empezado aun)
+8.  fase de  pruebas (no empezado aun)
+9.  puesta a produccion en fases (no empezado aun)
+10. planes de mantenimiento para la bd y el sistema (no empezado aun)
