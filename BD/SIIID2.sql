@@ -81,11 +81,11 @@ CREATE TABLE catalogo_localidad (
   id_localidad INT NOT NULL,
   id_municipio INT NOT NULL,
   clave VARCHAR(5) NOT NULL,
-  nombre VARCHAR(50) NOT NULL,
+  nombre VARCHAR(150) NOT NULL,
   id_tipo_zona TINYINT NOT NULL,
   activo BOOLEAN NOT NULL DEFAULT TRUE,
   PRIMARY KEY (id_localidad),
-  UNIQUE KEY uk_catalogo_localidad_municipio_clave (id_municipio, clave),
+  KEY idx_catalogo_localidad_id_municipio (id_municipio),
   CONSTRAINT fk_catalogo_localidad_municipio
     FOREIGN KEY (id_municipio) REFERENCES catalogo_municipio (id_municipio),
   CONSTRAINT fk_catalogo_localidad_tipo_zona

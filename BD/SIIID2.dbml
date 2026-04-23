@@ -114,12 +114,12 @@ Table catalogo_localidad {
   id_localidad int [pk]
   id_municipio int [not null, ref: > catalogo_municipio.id_municipio]
   clave varchar(5) [not null]
-  nombre varchar(50) [not null]
+  nombre varchar(150) [not null]
   id_tipo_zona tinyint [not null, ref: > catalogo_tipo_zona.id_tipo_zona]
   activo boolean [not null, default: true]
 
-  indexes {
-    (id_municipio, clave) [unique]
+  Indexes {
+    (id_municipio) [name: 'idx_catalogo_localidad_id_municipio']
   }
 }
 
