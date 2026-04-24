@@ -43,8 +43,8 @@
     {
       "name": "catalogo_delito_sabana",
       "schemaName": "public",
-      "x": 4735.346855389083,
-      "y": 214.59816210140798
+      "x": 4784,
+      "y": -240
     },
     {
       "name": "catalogo_asentamiento",
@@ -376,6 +376,51 @@
         "id_admite_tentativa"
       ],
       "secondTableName": "catalogo_modalidad_delito",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id_bien_juridico"
+      ],
+      "firstTableName": "catalogo_bien_juridico",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "id_bien_juridico"
+      ],
+      "secondTableName": "catalogo_delito_sabana",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id_delito"
+      ],
+      "firstTableName": "catalogo_delito",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "id_delito"
+      ],
+      "secondTableName": "catalogo_delito_sabana",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id_subtipo_delito"
+      ],
+      "firstTableName": "catalogo_subtipo_delito",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "id_subtipo_delito"
+      ],
+      "secondTableName": "catalogo_delito_sabana",
       "secondSchemaName": "public",
       "secondRelation": "*",
       "checkPoints": []

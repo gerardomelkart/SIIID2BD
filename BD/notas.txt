@@ -6,6 +6,7 @@ notas:
 5. la normalizacion mencionada anteriormente resulta en la generacion de mas catalogos
 6. revisar el campo "fue_modificado" en catalogo_delito y catalogo_delitoV1
 7. checar roles de momento se cargan genericos
+8. clave4 en sabana es incosistente
 
 proceso:
 1.  se analizan las tablas y columnas para entender la logica de negocio (terminado)
