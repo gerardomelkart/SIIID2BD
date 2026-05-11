@@ -7,32 +7,32 @@
     {
       "name": "catalogo_codigo_postal",
       "schemaName": "public",
-      "x": 2467.5997850765825,
-      "y": 193.59816210140798
+      "x": 2671.6181640625,
+      "y": 396
     },
     {
       "name": "catalogo_bien_juridico",
       "schemaName": "public",
       "x": 679.50927734375,
-      "y": 772
+      "y": 12
     },
     {
       "name": "catalogo_delito",
       "schemaName": "public",
-      "x": 1583.1451731905458,
-      "y": 296
+      "x": 1589.15234375,
+      "y": 137
     },
     {
       "name": "catalogo_subtipo_delito",
       "schemaName": "public",
-      "x": 2467.5997850765825,
-      "y": 591.598162101408
+      "x": 2671.6181640625,
+      "y": 158
     },
     {
       "name": "catalogo_modalidad_delito",
       "schemaName": "public",
-      "x": 3641.507988201582,
-      "y": 235.59816210140798
+      "x": 3865.5263671875,
+      "y": 263
     },
     {
       "name": "catalogo_admite_tentativa",
@@ -43,32 +43,32 @@
     {
       "name": "catalogo_delito_sabana",
       "schemaName": "public",
-      "x": 4784,
-      "y": -240
+      "x": 5039.365234375,
+      "y": 221
     },
     {
       "name": "catalogo_asentamiento",
       "schemaName": "public",
       "x": 679.50927734375,
-      "y": 12
+      "y": 218
     },
     {
       "name": "catalogo_oficina",
       "schemaName": "public",
       "x": 679.50927734375,
-      "y": 186
+      "y": 392
     },
     {
       "name": "catalogo_ciudad",
       "schemaName": "public",
       "x": 679.50927734375,
-      "y": 344
+      "y": 566
     },
     {
       "name": "catalogo_tipo_asentamiento",
       "schemaName": "public",
       "x": 679.50927734375,
-      "y": 566
+      "y": 772
     },
     {
       "name": "catalogo_entidad_federativa",
@@ -79,14 +79,14 @@
     {
       "name": "catalogo_municipio",
       "schemaName": "public",
-      "x": 1583.5449921556328,
-      "y": 545.0183789859179
+      "x": 1589.15234375,
+      "y": 481
     },
     {
       "name": "catalogo_localidad",
       "schemaName": "public",
-      "x": 2467.5997850765825,
-      "y": 851.598162101408
+      "x": 2671.6181640625,
+      "y": 795
     },
     {
       "name": "catalogo_tipo_zona",
@@ -146,7 +146,7 @@
       "name": "catalogo_forma_accion",
       "schemaName": "public",
       "x": 679.50927734375,
-      "y": 2626
+      "y": 2452
     },
     {
       "name": "catalogo_tipo_victima",
@@ -164,67 +164,67 @@
       "name": "catalogo_instrumento_comision",
       "schemaName": "public",
       "x": 679.50927734375,
-      "y": 2832
+      "y": 2658
     },
     {
       "name": "roles",
       "schemaName": "public",
       "x": 679.50927734375,
-      "y": 2452
+      "y": 2864
     },
     {
       "name": "usuario",
       "schemaName": "public",
-      "x": 1545.2902390851796,
-      "y": 808
+      "x": 1589.15234375,
+      "y": 866
     },
     {
       "name": "carga",
       "schemaName": "public",
-      "x": 2467.5997850765825,
-      "y": 1360.598162101408
+      "x": 2671.6181640625,
+      "y": 1108
     },
     {
       "name": "habilita_carga_modificacion",
       "schemaName": "public",
-      "x": 2467.5997850765825,
-      "y": 1122.598162101408
+      "x": 2671.6181640625,
+      "y": 1843
     },
     {
       "name": "carpeta_investigacion",
       "schemaName": "public",
-      "x": 3641.507988201582,
-      "y": 548.598162101408
+      "x": 3865.5263671875,
+      "y": 681
     },
     {
       "name": "carpeta_investigacion_historico",
       "schemaName": "public",
-      "x": 4735.346855389083,
-      "y": 506.598162101408
+      "x": 5039.365234375,
+      "y": 619
     },
     {
       "name": "delito",
       "schemaName": "public",
-      "x": 4735.346855389083,
-      "y": 1022.598162101408
+      "x": 5039.365234375,
+      "y": 1113
     },
     {
       "name": "delito_historico",
       "schemaName": "public",
-      "x": 5743.774101482833,
-      "y": 109.59816210140798
+      "x": 6067.79248046875,
+      "y": 158
     },
     {
       "name": "victima",
       "schemaName": "public",
-      "x": 5743.774101482833,
-      "y": 860.598162101408
+      "x": 6067.79248046875,
+      "y": 908
     },
     {
       "name": "victima_historico",
       "schemaName": "public",
-      "x": 6512.201347576583,
-      "y": 5.598162101407979
+      "x": 6816.2197265625,
+      "y": 12
     }
   ],
   "tableGroupCollapseStates": [],
