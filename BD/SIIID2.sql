@@ -201,39 +201,31 @@ CREATE TABLE catalogo_instrumento_comision (
 
 CREATE TABLE catalogo_delito_sabana (
   id_delito_sabana INT NOT NULL,
-  id_bien_juridico INT NOT NULL,
-  id_delito INT NOT NULL,
-  id_subtipo_delito INT NOT NULL,
   id_modalidad_delito INT NOT NULL,
   id_grado_consumacion TINYINT NOT NULL,
   id_instrumento_comision TINYINT NOT NULL,
-  clave4 VARCHAR(50) NOT NULL,
   id_forma_accion TINYINT NOT NULL,
+  delito_sabana VARCHAR(200) NOT NULL,
+  subtipo_delito_sabana VARCHAR(250) NOT NULL,
+  modalidad_delito_sabana VARCHAR(250) NOT NULL,
+  clave2_sabana VARCHAR(20) NOT NULL,
+  clave3_sabana VARCHAR(20) NOT NULL,
   activo BOOLEAN NOT NULL DEFAULT TRUE,
   PRIMARY KEY (id_delito_sabana),
   KEY idx_sabana_modalidad (id_modalidad_delito),
-  KEY idx_sabana_bien_juridico (id_bien_juridico),
-  KEY idx_sabana_delito (id_delito),
-  KEY idx_sabana_subtipo (id_subtipo_delito),
-  UNIQUE KEY uk_sabana_full (
-    id_bien_juridico,
-    id_delito,
-    id_subtipo_delito,
+  KEY idx_sabana_grado (id_grado_consumacion),
+  KEY idx_sabana_instrumento (id_instrumento_comision),
+  KEY idx_sabana_forma (id_forma_accion),
+  KEY idx_sabana_clave2 (clave2_sabana),
+  KEY idx_sabana_clave3 (clave3_sabana),
+  UNIQUE KEY uk_sabana_combinacion (
     id_modalidad_delito,
     id_grado_consumacion,
     id_instrumento_comision,
     id_forma_accion,
-    clave4
+    clave2_sabana,
+    clave3_sabana
   ),
-  CONSTRAINT fk_sabana_bien_juridico
-    FOREIGN KEY (id_bien_juridico)
-    REFERENCES catalogo_bien_juridico (id_bien_juridico),
-  CONSTRAINT fk_sabana_delito
-    FOREIGN KEY (id_delito)
-    REFERENCES catalogo_delito (id_delito),
-  CONSTRAINT fk_sabana_subtipo
-    FOREIGN KEY (id_subtipo_delito)
-    REFERENCES catalogo_subtipo_delito (id_subtipo_delito),
   CONSTRAINT fk_sabana_modalidad
     FOREIGN KEY (id_modalidad_delito)
     REFERENCES catalogo_modalidad_delito (id_modalidad_delito),
@@ -246,7 +238,9 @@ CREATE TABLE catalogo_delito_sabana (
   CONSTRAINT fk_sabana_forma
     FOREIGN KEY (id_forma_accion)
     REFERENCES catalogo_forma_accion (id_forma_accion)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE catalogo_tipo_expediente (
   id_tipo_expediente TINYINT NOT NULL,

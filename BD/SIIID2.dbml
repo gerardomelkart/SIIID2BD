@@ -52,24 +52,26 @@ Table catalogo_admite_tentativa {
 
 Table catalogo_delito_sabana {
   id_delito_sabana int [pk]
-  id_bien_juridico int [not null, ref: > catalogo_bien_juridico.id_bien_juridico]
-  id_delito int [not null, ref: > catalogo_delito.id_delito]
-  id_subtipo_delito int [not null, ref: > catalogo_subtipo_delito.id_subtipo_delito]
   id_modalidad_delito int [not null, ref: > catalogo_modalidad_delito.id_modalidad_delito]
   id_grado_consumacion tinyint [not null, ref: > catalogo_grado_consumacion.id_grado_consumacion]
   id_instrumento_comision tinyint [not null, ref: > catalogo_instrumento_comision.id_instrumento_comision]
-  clave4 varchar(50) [not null]
   id_forma_accion tinyint [not null, ref: > catalogo_forma_accion.id_forma_accion]
+  delito_sabana varchar(200) [not null]
+  subtipo_delito_sabana varchar(250) [not null]
+  modalidad_delito_sabana varchar(250) [not null]
+  clave2_sabana varchar(20) [not null]
+  clave3_sabana varchar(20) [not null]
   activo boolean [not null, default: true]
-
   indexes {
     (id_modalidad_delito) [name: 'idx_sabana_modalidad']
-    (id_bien_juridico) [name: 'idx_sabana_bien_juridico']
-    (id_delito) [name: 'idx_sabana_delito']
-    (id_subtipo_delito) [name: 'idx_sabana_subtipo']
-    (id_bien_juridico, id_delito, id_subtipo_delito, id_modalidad_delito, id_grado_consumacion, id_instrumento_comision, id_forma_accion, clave4) [unique, name: 'uk_sabana_full']
-  }
+    (id_grado_consumacion) [name: 'idx_sabana_grado']
+    (id_instrumento_comision) [name: 'idx_sabana_instrumento']
+    (id_forma_accion) [name: 'idx_sabana_forma']
+    (clave2_sabana) [name: 'idx_sabana_clave2']
+    (clave3_sabana) [name: 'idx_sabana_clave3']
 
+    (id_modalidad_delito, id_grado_consumacion, id_instrumento_comision, id_forma_accion, clave2_sabana, clave3_sabana) [unique, name: 'uk_sabana_combinacion']
+  }
 }
 
 Table catalogo_asentamiento {
