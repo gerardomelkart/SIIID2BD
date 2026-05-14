@@ -1,1389 +1,1393 @@
 {
-  "version": "1.0.0",
+  "version": "2.0.0",
   "darkMode": true,
   "gridEnabling": true,
-  "detailLevel": "All",
-  "tablePositions": [
-    {
-      "name": "catalogo_codigo_postal",
-      "schemaName": "public",
-      "x": 2671.6181640625,
-      "y": 396
-    },
-    {
-      "name": "catalogo_bien_juridico",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 12
-    },
-    {
-      "name": "catalogo_delito",
-      "schemaName": "public",
-      "x": 1589.15234375,
-      "y": 137
-    },
-    {
-      "name": "catalogo_subtipo_delito",
-      "schemaName": "public",
-      "x": 2671.6181640625,
-      "y": 158
-    },
-    {
-      "name": "catalogo_modalidad_delito",
-      "schemaName": "public",
-      "x": 3865.5263671875,
-      "y": 263
-    },
-    {
-      "name": "catalogo_admite_tentativa",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 978
-    },
-    {
-      "name": "catalogo_delito_sabana",
-      "schemaName": "public",
-      "x": 5039.365234375,
-      "y": 221
-    },
-    {
-      "name": "catalogo_asentamiento",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 218
-    },
-    {
-      "name": "catalogo_oficina",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 392
-    },
-    {
-      "name": "catalogo_ciudad",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 566
-    },
-    {
-      "name": "catalogo_tipo_asentamiento",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 772
-    },
-    {
-      "name": "catalogo_entidad_federativa",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 1358
-    },
-    {
-      "name": "catalogo_municipio",
-      "schemaName": "public",
-      "x": 1589.15234375,
-      "y": 481
-    },
-    {
-      "name": "catalogo_localidad",
-      "schemaName": "public",
-      "x": 2671.6181640625,
-      "y": 795
-    },
-    {
-      "name": "catalogo_tipo_zona",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 1184
-    },
-    {
-      "name": "catalogo_tipo_expediente",
-      "schemaName": "public",
-      "x": 341.89453125,
-      "y": 12
-    },
-    {
-      "name": "catalogo_tipo_relacion",
-      "schemaName": "public",
-      "x": 12,
-      "y": 12
-    },
-    {
-      "name": "catalogo_nacionalidad",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 1628
-    },
-    {
-      "name": "catalogo_genero",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 1834
-    },
-    {
-      "name": "catalogo_sexo",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 2040
-    },
-    {
-      "name": "catalogo_grado_consumacion",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 2246
-    },
-    {
-      "name": "catalogo_pertenece_poblacion_indigena",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 3038
-    },
-    {
-      "name": "catalogo_presenta_discapacidad",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 3244
-    },
-    {
-      "name": "catalogo_forma_accion",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 2452
-    },
-    {
-      "name": "catalogo_tipo_victima",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 3450
-    },
-    {
-      "name": "catalogo_tipo_victima_moral",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 3656
-    },
-    {
-      "name": "catalogo_instrumento_comision",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 2658
-    },
-    {
-      "name": "roles",
-      "schemaName": "public",
-      "x": 679.50927734375,
-      "y": 2864
-    },
-    {
-      "name": "usuario",
-      "schemaName": "public",
-      "x": 1589.15234375,
-      "y": 866
-    },
-    {
-      "name": "carga",
-      "schemaName": "public",
-      "x": 2671.6181640625,
-      "y": 1108
-    },
-    {
-      "name": "habilita_carga_modificacion",
-      "schemaName": "public",
-      "x": 2671.6181640625,
-      "y": 1843
-    },
-    {
-      "name": "carpeta_investigacion",
-      "schemaName": "public",
-      "x": 3865.5263671875,
-      "y": 681
-    },
-    {
-      "name": "carpeta_investigacion_historico",
-      "schemaName": "public",
-      "x": 5039.365234375,
-      "y": 619
-    },
-    {
-      "name": "delito",
-      "schemaName": "public",
-      "x": 5039.365234375,
-      "y": 1113
-    },
-    {
-      "name": "delito_historico",
-      "schemaName": "public",
-      "x": 6067.79248046875,
-      "y": 158
-    },
-    {
-      "name": "victima",
-      "schemaName": "public",
-      "x": 6067.79248046875,
-      "y": 908
-    },
-    {
-      "name": "victima_historico",
-      "schemaName": "public",
-      "x": 6816.2197265625,
-      "y": 12
-    }
-  ],
-  "tableGroupCollapseStates": [],
-  "stickyNoteLayouts": [],
-  "referencePaths": [
-    {
-      "firstFieldNames": [
-        "id_asentamiento"
-      ],
-      "firstTableName": "catalogo_asentamiento",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_asentamiento"
-      ],
-      "secondTableName": "catalogo_codigo_postal",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_oficina"
-      ],
-      "firstTableName": "catalogo_oficina",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_oficina"
-      ],
-      "secondTableName": "catalogo_codigo_postal",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_tipo_asentamiento"
-      ],
-      "firstTableName": "catalogo_tipo_asentamiento",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_tipo_asentamiento"
-      ],
-      "secondTableName": "catalogo_codigo_postal",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_municipio"
-      ],
-      "firstTableName": "catalogo_municipio",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_municipio"
-      ],
-      "secondTableName": "catalogo_codigo_postal",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_tipo_zona"
-      ],
-      "firstTableName": "catalogo_tipo_zona",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_tipo_zona"
-      ],
-      "secondTableName": "catalogo_codigo_postal",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_ciudad"
-      ],
-      "firstTableName": "catalogo_ciudad",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_ciudad"
-      ],
-      "secondTableName": "catalogo_codigo_postal",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_bien_juridico"
-      ],
-      "firstTableName": "catalogo_bien_juridico",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_bien_juridico"
-      ],
-      "secondTableName": "catalogo_delito",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_delito"
-      ],
-      "firstTableName": "catalogo_delito",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_delito"
-      ],
-      "secondTableName": "catalogo_subtipo_delito",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_subtipo_delito"
-      ],
-      "firstTableName": "catalogo_subtipo_delito",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_subtipo_delito"
-      ],
-      "secondTableName": "catalogo_modalidad_delito",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_admite_tentativa"
-      ],
-      "firstTableName": "catalogo_admite_tentativa",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_admite_tentativa"
-      ],
-      "secondTableName": "catalogo_modalidad_delito",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_bien_juridico"
-      ],
-      "firstTableName": "catalogo_bien_juridico",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_bien_juridico"
-      ],
-      "secondTableName": "catalogo_delito_sabana",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_delito"
-      ],
-      "firstTableName": "catalogo_delito",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_delito"
-      ],
-      "secondTableName": "catalogo_delito_sabana",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_subtipo_delito"
-      ],
-      "firstTableName": "catalogo_subtipo_delito",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_subtipo_delito"
-      ],
-      "secondTableName": "catalogo_delito_sabana",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_modalidad_delito"
-      ],
-      "firstTableName": "catalogo_modalidad_delito",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_modalidad_delito"
-      ],
-      "secondTableName": "catalogo_delito_sabana",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_grado_consumacion"
-      ],
-      "firstTableName": "catalogo_grado_consumacion",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_grado_consumacion"
-      ],
-      "secondTableName": "catalogo_delito_sabana",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_instrumento_comision"
-      ],
-      "firstTableName": "catalogo_instrumento_comision",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_instrumento_comision"
-      ],
-      "secondTableName": "catalogo_delito_sabana",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_forma_accion"
-      ],
-      "firstTableName": "catalogo_forma_accion",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_forma_accion"
-      ],
-      "secondTableName": "catalogo_delito_sabana",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_entidad_federativa"
-      ],
-      "firstTableName": "catalogo_entidad_federativa",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_entidad_federativa"
-      ],
-      "secondTableName": "catalogo_municipio",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_municipio"
-      ],
-      "firstTableName": "catalogo_municipio",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_municipio"
-      ],
-      "secondTableName": "catalogo_localidad",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_tipo_zona"
-      ],
-      "firstTableName": "catalogo_tipo_zona",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_tipo_zona"
-      ],
-      "secondTableName": "catalogo_localidad",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_entidad_federativa"
-      ],
-      "firstTableName": "catalogo_entidad_federativa",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_entidad_federativa"
-      ],
-      "secondTableName": "usuario",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_usuario"
-      ],
-      "firstTableName": "usuario",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_usuario_alta"
-      ],
-      "secondTableName": "usuario",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_usuario"
-      ],
-      "firstTableName": "usuario",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_usuario_modificacion"
-      ],
-      "secondTableName": "usuario",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_rol"
-      ],
-      "firstTableName": "roles",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_rol"
-      ],
-      "secondTableName": "usuario",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_usuario"
-      ],
-      "firstTableName": "usuario",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_usuario_carga"
-      ],
-      "secondTableName": "carga",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_usuario"
-      ],
-      "firstTableName": "usuario",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_usuario"
-      ],
-      "secondTableName": "habilita_carga_modificacion",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_usuario"
-      ],
-      "firstTableName": "usuario",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_usuario_registro"
-      ],
-      "secondTableName": "carpeta_investigacion",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_carga"
-      ],
-      "firstTableName": "carga",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_carga"
-      ],
-      "secondTableName": "carpeta_investigacion",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_carpeta_investigacion"
-      ],
-      "firstTableName": "carpeta_investigacion",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_carpeta_investigacion"
-      ],
-      "secondTableName": "carpeta_investigacion_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_usuario"
-      ],
-      "firstTableName": "usuario",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_usuario_registro"
-      ],
-      "secondTableName": "carpeta_investigacion_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_carga"
-      ],
-      "firstTableName": "carga",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_carga"
-      ],
-      "secondTableName": "carpeta_investigacion_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_usuario"
-      ],
-      "firstTableName": "usuario",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_usuario_modificacion"
-      ],
-      "secondTableName": "carpeta_investigacion_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_carga"
-      ],
-      "firstTableName": "carga",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_carga_nueva"
-      ],
-      "secondTableName": "carpeta_investigacion_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_carpeta_investigacion"
-      ],
-      "firstTableName": "carpeta_investigacion",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_carpeta_investigacion"
-      ],
-      "secondTableName": "delito",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_modalidad_delito"
-      ],
-      "firstTableName": "catalogo_modalidad_delito",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_modalidad_delito"
-      ],
-      "secondTableName": "delito",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_forma_accion"
-      ],
-      "firstTableName": "catalogo_forma_accion",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_forma_accion"
-      ],
-      "secondTableName": "delito",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_instrumento_comision"
-      ],
-      "firstTableName": "catalogo_instrumento_comision",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_instrumento_comision"
-      ],
-      "secondTableName": "delito",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_grado_consumacion"
-      ],
-      "firstTableName": "catalogo_grado_consumacion",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_grado_consumacion"
-      ],
-      "secondTableName": "delito",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_localidad"
-      ],
-      "firstTableName": "catalogo_localidad",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_localidad"
-      ],
-      "secondTableName": "delito",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_codigo_postal"
-      ],
-      "firstTableName": "catalogo_codigo_postal",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_codigo_postal"
-      ],
-      "secondTableName": "delito",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_usuario"
-      ],
-      "firstTableName": "usuario",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_usuario_registro"
-      ],
-      "secondTableName": "delito",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_carga"
-      ],
-      "firstTableName": "carga",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_carga"
-      ],
-      "secondTableName": "delito",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_delito"
-      ],
-      "firstTableName": "delito",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_delito"
-      ],
-      "secondTableName": "delito_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_carpeta_investigacion"
-      ],
-      "firstTableName": "carpeta_investigacion",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_carpeta_investigacion"
-      ],
-      "secondTableName": "delito_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_modalidad_delito"
-      ],
-      "firstTableName": "catalogo_modalidad_delito",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_modalidad_delito"
-      ],
-      "secondTableName": "delito_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_forma_accion"
-      ],
-      "firstTableName": "catalogo_forma_accion",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_forma_accion"
-      ],
-      "secondTableName": "delito_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_instrumento_comision"
-      ],
-      "firstTableName": "catalogo_instrumento_comision",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_instrumento_comision"
-      ],
-      "secondTableName": "delito_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_grado_consumacion"
-      ],
-      "firstTableName": "catalogo_grado_consumacion",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_grado_consumacion"
-      ],
-      "secondTableName": "delito_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_localidad"
-      ],
-      "firstTableName": "catalogo_localidad",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_localidad"
-      ],
-      "secondTableName": "delito_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_codigo_postal"
-      ],
-      "firstTableName": "catalogo_codigo_postal",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_codigo_postal"
-      ],
-      "secondTableName": "delito_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_usuario"
-      ],
-      "firstTableName": "usuario",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_usuario_registro"
-      ],
-      "secondTableName": "delito_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_carga"
-      ],
-      "firstTableName": "carga",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_carga"
-      ],
-      "secondTableName": "delito_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_usuario"
-      ],
-      "firstTableName": "usuario",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_usuario_modificacion"
-      ],
-      "secondTableName": "delito_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_carga"
-      ],
-      "firstTableName": "carga",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_carga_nueva"
-      ],
-      "secondTableName": "delito_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_delito"
-      ],
-      "firstTableName": "delito",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_delito"
-      ],
-      "secondTableName": "victima",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_tipo_victima"
-      ],
-      "firstTableName": "catalogo_tipo_victima",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_tipo_victima"
-      ],
-      "secondTableName": "victima",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_tipo_victima_moral"
-      ],
-      "firstTableName": "catalogo_tipo_victima_moral",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_tipo_victima_moral"
-      ],
-      "secondTableName": "victima",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_sexo"
-      ],
-      "firstTableName": "catalogo_sexo",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_sexo"
-      ],
-      "secondTableName": "victima",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_genero"
-      ],
-      "firstTableName": "catalogo_genero",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_genero"
-      ],
-      "secondTableName": "victima",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_nacionalidad"
-      ],
-      "firstTableName": "catalogo_nacionalidad",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_nacionalidad"
-      ],
-      "secondTableName": "victima",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_pertenece_poblacion_indigena"
-      ],
-      "firstTableName": "catalogo_pertenece_poblacion_indigena",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_pertenece_poblacion_indigena"
-      ],
-      "secondTableName": "victima",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_presenta_discapacidad"
-      ],
-      "firstTableName": "catalogo_presenta_discapacidad",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_presenta_discapacidad"
-      ],
-      "secondTableName": "victima",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_usuario"
-      ],
-      "firstTableName": "usuario",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_usuario_registro"
-      ],
-      "secondTableName": "victima",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_carga"
-      ],
-      "firstTableName": "carga",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_carga"
-      ],
-      "secondTableName": "victima",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_victima"
-      ],
-      "firstTableName": "victima",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_victima"
-      ],
-      "secondTableName": "victima_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_delito"
-      ],
-      "firstTableName": "delito",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_delito"
-      ],
-      "secondTableName": "victima_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_tipo_victima"
-      ],
-      "firstTableName": "catalogo_tipo_victima",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_tipo_victima"
-      ],
-      "secondTableName": "victima_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_tipo_victima_moral"
-      ],
-      "firstTableName": "catalogo_tipo_victima_moral",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_tipo_victima_moral"
-      ],
-      "secondTableName": "victima_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_sexo"
-      ],
-      "firstTableName": "catalogo_sexo",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_sexo"
-      ],
-      "secondTableName": "victima_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_genero"
-      ],
-      "firstTableName": "catalogo_genero",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_genero"
-      ],
-      "secondTableName": "victima_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_nacionalidad"
-      ],
-      "firstTableName": "catalogo_nacionalidad",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_nacionalidad"
-      ],
-      "secondTableName": "victima_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_pertenece_poblacion_indigena"
-      ],
-      "firstTableName": "catalogo_pertenece_poblacion_indigena",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_pertenece_poblacion_indigena"
-      ],
-      "secondTableName": "victima_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_presenta_discapacidad"
-      ],
-      "firstTableName": "catalogo_presenta_discapacidad",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_presenta_discapacidad"
-      ],
-      "secondTableName": "victima_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_usuario"
-      ],
-      "firstTableName": "usuario",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_usuario_registro"
-      ],
-      "secondTableName": "victima_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_carga"
-      ],
-      "firstTableName": "carga",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_carga"
-      ],
-      "secondTableName": "victima_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_usuario"
-      ],
-      "firstTableName": "usuario",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_usuario_modificacion"
-      ],
-      "secondTableName": "victima_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id_carga"
-      ],
-      "firstTableName": "carga",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "id_carga_nueva"
-      ],
-      "secondTableName": "victima_historico",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    }
-  ]
+  "currentViewName": null,
+  "defaultView": {
+    "detailLevel": "All",
+    "tablePositions": [
+      {
+        "name": "catalogo_codigo_postal",
+        "schemaName": "public",
+        "x": 2671.6181640625,
+        "y": 396
+      },
+      {
+        "name": "catalogo_bien_juridico",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 12
+      },
+      {
+        "name": "catalogo_delito",
+        "schemaName": "public",
+        "x": 1589.15234375,
+        "y": 137
+      },
+      {
+        "name": "catalogo_subtipo_delito",
+        "schemaName": "public",
+        "x": 2671.6181640625,
+        "y": 158
+      },
+      {
+        "name": "catalogo_modalidad_delito",
+        "schemaName": "public",
+        "x": 3865.5263671875,
+        "y": 263
+      },
+      {
+        "name": "catalogo_admite_tentativa",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 978
+      },
+      {
+        "name": "catalogo_delito_sabana",
+        "schemaName": "public",
+        "x": 5039.365234375,
+        "y": 200
+      },
+      {
+        "name": "catalogo_asentamiento",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 218
+      },
+      {
+        "name": "catalogo_oficina",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 392
+      },
+      {
+        "name": "catalogo_ciudad",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 566
+      },
+      {
+        "name": "catalogo_tipo_asentamiento",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 772
+      },
+      {
+        "name": "catalogo_entidad_federativa",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 1358
+      },
+      {
+        "name": "catalogo_municipio",
+        "schemaName": "public",
+        "x": 1589.15234375,
+        "y": 481
+      },
+      {
+        "name": "catalogo_localidad",
+        "schemaName": "public",
+        "x": 2671.6181640625,
+        "y": 795
+      },
+      {
+        "name": "catalogo_tipo_zona",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 1184
+      },
+      {
+        "name": "catalogo_tipo_expediente",
+        "schemaName": "public",
+        "x": 341.89453125,
+        "y": 12
+      },
+      {
+        "name": "catalogo_tipo_relacion",
+        "schemaName": "public",
+        "x": 12,
+        "y": 12
+      },
+      {
+        "name": "catalogo_nacionalidad",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 1628
+      },
+      {
+        "name": "catalogo_genero",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 1834
+      },
+      {
+        "name": "catalogo_sexo",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 2040
+      },
+      {
+        "name": "catalogo_grado_consumacion",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 2246
+      },
+      {
+        "name": "catalogo_pertenece_poblacion_indigena",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 3038
+      },
+      {
+        "name": "catalogo_presenta_discapacidad",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 3244
+      },
+      {
+        "name": "catalogo_forma_accion",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 2452
+      },
+      {
+        "name": "catalogo_tipo_victima",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 3450
+      },
+      {
+        "name": "catalogo_tipo_victima_moral",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 3656
+      },
+      {
+        "name": "catalogo_instrumento_comision",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 2658
+      },
+      {
+        "name": "roles",
+        "schemaName": "public",
+        "x": 679.50927734375,
+        "y": 2864
+      },
+      {
+        "name": "usuario",
+        "schemaName": "public",
+        "x": 1589.15234375,
+        "y": 866
+      },
+      {
+        "name": "carga",
+        "schemaName": "public",
+        "x": 2671.6181640625,
+        "y": 1108
+      },
+      {
+        "name": "habilita_carga_modificacion",
+        "schemaName": "public",
+        "x": 2671.6181640625,
+        "y": 1843
+      },
+      {
+        "name": "carpeta_investigacion",
+        "schemaName": "public",
+        "x": 3848,
+        "y": 680
+      },
+      {
+        "name": "carpeta_investigacion_historico",
+        "schemaName": "public",
+        "x": 5039.365234375,
+        "y": 619
+      },
+      {
+        "name": "delito",
+        "schemaName": "public",
+        "x": 5039.365234375,
+        "y": 1113
+      },
+      {
+        "name": "delito_historico",
+        "schemaName": "public",
+        "x": 6067.79248046875,
+        "y": 158
+      },
+      {
+        "name": "victima",
+        "schemaName": "public",
+        "x": 6067.79248046875,
+        "y": 908
+      },
+      {
+        "name": "victima_historico",
+        "schemaName": "public",
+        "x": 6816.2197265625,
+        "y": 12
+      }
+    ],
+    "tableGroupCollapseStates": [],
+    "stickyNoteLayouts": [],
+    "referencePaths": [
+      {
+        "firstFieldNames": [
+          "id_asentamiento"
+        ],
+        "firstTableName": "catalogo_asentamiento",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_asentamiento"
+        ],
+        "secondTableName": "catalogo_codigo_postal",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_oficina"
+        ],
+        "firstTableName": "catalogo_oficina",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_oficina"
+        ],
+        "secondTableName": "catalogo_codigo_postal",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_tipo_asentamiento"
+        ],
+        "firstTableName": "catalogo_tipo_asentamiento",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_tipo_asentamiento"
+        ],
+        "secondTableName": "catalogo_codigo_postal",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_municipio"
+        ],
+        "firstTableName": "catalogo_municipio",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_municipio"
+        ],
+        "secondTableName": "catalogo_codigo_postal",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_tipo_zona"
+        ],
+        "firstTableName": "catalogo_tipo_zona",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_tipo_zona"
+        ],
+        "secondTableName": "catalogo_codigo_postal",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_ciudad"
+        ],
+        "firstTableName": "catalogo_ciudad",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_ciudad"
+        ],
+        "secondTableName": "catalogo_codigo_postal",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_bien_juridico"
+        ],
+        "firstTableName": "catalogo_bien_juridico",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_bien_juridico"
+        ],
+        "secondTableName": "catalogo_delito",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_delito"
+        ],
+        "firstTableName": "catalogo_delito",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_delito"
+        ],
+        "secondTableName": "catalogo_subtipo_delito",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_subtipo_delito"
+        ],
+        "firstTableName": "catalogo_subtipo_delito",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_subtipo_delito"
+        ],
+        "secondTableName": "catalogo_modalidad_delito",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_admite_tentativa"
+        ],
+        "firstTableName": "catalogo_admite_tentativa",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_admite_tentativa"
+        ],
+        "secondTableName": "catalogo_modalidad_delito",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_bien_juridico"
+        ],
+        "firstTableName": "catalogo_bien_juridico",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_bien_juridico"
+        ],
+        "secondTableName": "catalogo_delito_sabana",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_delito"
+        ],
+        "firstTableName": "catalogo_delito",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_delito"
+        ],
+        "secondTableName": "catalogo_delito_sabana",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_subtipo_delito"
+        ],
+        "firstTableName": "catalogo_subtipo_delito",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_subtipo_delito"
+        ],
+        "secondTableName": "catalogo_delito_sabana",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_modalidad_delito"
+        ],
+        "firstTableName": "catalogo_modalidad_delito",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_modalidad_delito"
+        ],
+        "secondTableName": "catalogo_delito_sabana",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_grado_consumacion"
+        ],
+        "firstTableName": "catalogo_grado_consumacion",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_grado_consumacion"
+        ],
+        "secondTableName": "catalogo_delito_sabana",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_instrumento_comision"
+        ],
+        "firstTableName": "catalogo_instrumento_comision",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_instrumento_comision"
+        ],
+        "secondTableName": "catalogo_delito_sabana",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_forma_accion"
+        ],
+        "firstTableName": "catalogo_forma_accion",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_forma_accion"
+        ],
+        "secondTableName": "catalogo_delito_sabana",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_entidad_federativa"
+        ],
+        "firstTableName": "catalogo_entidad_federativa",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_entidad_federativa"
+        ],
+        "secondTableName": "catalogo_municipio",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_municipio"
+        ],
+        "firstTableName": "catalogo_municipio",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_municipio"
+        ],
+        "secondTableName": "catalogo_localidad",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_tipo_zona"
+        ],
+        "firstTableName": "catalogo_tipo_zona",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_tipo_zona"
+        ],
+        "secondTableName": "catalogo_localidad",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_entidad_federativa"
+        ],
+        "firstTableName": "catalogo_entidad_federativa",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_entidad_federativa"
+        ],
+        "secondTableName": "usuario",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_usuario"
+        ],
+        "firstTableName": "usuario",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_usuario_alta"
+        ],
+        "secondTableName": "usuario",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_usuario"
+        ],
+        "firstTableName": "usuario",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_usuario_modificacion"
+        ],
+        "secondTableName": "usuario",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_rol"
+        ],
+        "firstTableName": "roles",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_rol"
+        ],
+        "secondTableName": "usuario",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_usuario"
+        ],
+        "firstTableName": "usuario",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_usuario_carga"
+        ],
+        "secondTableName": "carga",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_usuario"
+        ],
+        "firstTableName": "usuario",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_usuario"
+        ],
+        "secondTableName": "habilita_carga_modificacion",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_usuario"
+        ],
+        "firstTableName": "usuario",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_usuario_registro"
+        ],
+        "secondTableName": "carpeta_investigacion",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_carga"
+        ],
+        "firstTableName": "carga",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_carga"
+        ],
+        "secondTableName": "carpeta_investigacion",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_carpeta_investigacion"
+        ],
+        "firstTableName": "carpeta_investigacion",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_carpeta_investigacion"
+        ],
+        "secondTableName": "carpeta_investigacion_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_usuario"
+        ],
+        "firstTableName": "usuario",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_usuario_registro"
+        ],
+        "secondTableName": "carpeta_investigacion_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_carga"
+        ],
+        "firstTableName": "carga",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_carga"
+        ],
+        "secondTableName": "carpeta_investigacion_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_usuario"
+        ],
+        "firstTableName": "usuario",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_usuario_modificacion"
+        ],
+        "secondTableName": "carpeta_investigacion_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_carga"
+        ],
+        "firstTableName": "carga",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_carga_nueva"
+        ],
+        "secondTableName": "carpeta_investigacion_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_carpeta_investigacion"
+        ],
+        "firstTableName": "carpeta_investigacion",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_carpeta_investigacion"
+        ],
+        "secondTableName": "delito",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_modalidad_delito"
+        ],
+        "firstTableName": "catalogo_modalidad_delito",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_modalidad_delito"
+        ],
+        "secondTableName": "delito",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_forma_accion"
+        ],
+        "firstTableName": "catalogo_forma_accion",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_forma_accion"
+        ],
+        "secondTableName": "delito",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_instrumento_comision"
+        ],
+        "firstTableName": "catalogo_instrumento_comision",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_instrumento_comision"
+        ],
+        "secondTableName": "delito",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_grado_consumacion"
+        ],
+        "firstTableName": "catalogo_grado_consumacion",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_grado_consumacion"
+        ],
+        "secondTableName": "delito",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_localidad"
+        ],
+        "firstTableName": "catalogo_localidad",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_localidad"
+        ],
+        "secondTableName": "delito",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_codigo_postal"
+        ],
+        "firstTableName": "catalogo_codigo_postal",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_codigo_postal"
+        ],
+        "secondTableName": "delito",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_usuario"
+        ],
+        "firstTableName": "usuario",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_usuario_registro"
+        ],
+        "secondTableName": "delito",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_carga"
+        ],
+        "firstTableName": "carga",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_carga"
+        ],
+        "secondTableName": "delito",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_delito"
+        ],
+        "firstTableName": "delito",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_delito"
+        ],
+        "secondTableName": "delito_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_carpeta_investigacion"
+        ],
+        "firstTableName": "carpeta_investigacion",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_carpeta_investigacion"
+        ],
+        "secondTableName": "delito_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_modalidad_delito"
+        ],
+        "firstTableName": "catalogo_modalidad_delito",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_modalidad_delito"
+        ],
+        "secondTableName": "delito_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_forma_accion"
+        ],
+        "firstTableName": "catalogo_forma_accion",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_forma_accion"
+        ],
+        "secondTableName": "delito_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_instrumento_comision"
+        ],
+        "firstTableName": "catalogo_instrumento_comision",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_instrumento_comision"
+        ],
+        "secondTableName": "delito_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_grado_consumacion"
+        ],
+        "firstTableName": "catalogo_grado_consumacion",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_grado_consumacion"
+        ],
+        "secondTableName": "delito_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_localidad"
+        ],
+        "firstTableName": "catalogo_localidad",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_localidad"
+        ],
+        "secondTableName": "delito_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_codigo_postal"
+        ],
+        "firstTableName": "catalogo_codigo_postal",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_codigo_postal"
+        ],
+        "secondTableName": "delito_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_usuario"
+        ],
+        "firstTableName": "usuario",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_usuario_registro"
+        ],
+        "secondTableName": "delito_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_carga"
+        ],
+        "firstTableName": "carga",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_carga"
+        ],
+        "secondTableName": "delito_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_usuario"
+        ],
+        "firstTableName": "usuario",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_usuario_modificacion"
+        ],
+        "secondTableName": "delito_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_carga"
+        ],
+        "firstTableName": "carga",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_carga_nueva"
+        ],
+        "secondTableName": "delito_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_delito"
+        ],
+        "firstTableName": "delito",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_delito"
+        ],
+        "secondTableName": "victima",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_tipo_victima"
+        ],
+        "firstTableName": "catalogo_tipo_victima",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_tipo_victima"
+        ],
+        "secondTableName": "victima",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_tipo_victima_moral"
+        ],
+        "firstTableName": "catalogo_tipo_victima_moral",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_tipo_victima_moral"
+        ],
+        "secondTableName": "victima",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_sexo"
+        ],
+        "firstTableName": "catalogo_sexo",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_sexo"
+        ],
+        "secondTableName": "victima",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_genero"
+        ],
+        "firstTableName": "catalogo_genero",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_genero"
+        ],
+        "secondTableName": "victima",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_nacionalidad"
+        ],
+        "firstTableName": "catalogo_nacionalidad",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_nacionalidad"
+        ],
+        "secondTableName": "victima",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_pertenece_poblacion_indigena"
+        ],
+        "firstTableName": "catalogo_pertenece_poblacion_indigena",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_pertenece_poblacion_indigena"
+        ],
+        "secondTableName": "victima",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_presenta_discapacidad"
+        ],
+        "firstTableName": "catalogo_presenta_discapacidad",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_presenta_discapacidad"
+        ],
+        "secondTableName": "victima",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_usuario"
+        ],
+        "firstTableName": "usuario",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_usuario_registro"
+        ],
+        "secondTableName": "victima",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_carga"
+        ],
+        "firstTableName": "carga",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_carga"
+        ],
+        "secondTableName": "victima",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_victima"
+        ],
+        "firstTableName": "victima",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_victima"
+        ],
+        "secondTableName": "victima_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_delito"
+        ],
+        "firstTableName": "delito",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_delito"
+        ],
+        "secondTableName": "victima_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_tipo_victima"
+        ],
+        "firstTableName": "catalogo_tipo_victima",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_tipo_victima"
+        ],
+        "secondTableName": "victima_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_tipo_victima_moral"
+        ],
+        "firstTableName": "catalogo_tipo_victima_moral",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_tipo_victima_moral"
+        ],
+        "secondTableName": "victima_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_sexo"
+        ],
+        "firstTableName": "catalogo_sexo",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_sexo"
+        ],
+        "secondTableName": "victima_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_genero"
+        ],
+        "firstTableName": "catalogo_genero",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_genero"
+        ],
+        "secondTableName": "victima_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_nacionalidad"
+        ],
+        "firstTableName": "catalogo_nacionalidad",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_nacionalidad"
+        ],
+        "secondTableName": "victima_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_pertenece_poblacion_indigena"
+        ],
+        "firstTableName": "catalogo_pertenece_poblacion_indigena",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_pertenece_poblacion_indigena"
+        ],
+        "secondTableName": "victima_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_presenta_discapacidad"
+        ],
+        "firstTableName": "catalogo_presenta_discapacidad",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_presenta_discapacidad"
+        ],
+        "secondTableName": "victima_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_usuario"
+        ],
+        "firstTableName": "usuario",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_usuario_registro"
+        ],
+        "secondTableName": "victima_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_carga"
+        ],
+        "firstTableName": "carga",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_carga"
+        ],
+        "secondTableName": "victima_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_usuario"
+        ],
+        "firstTableName": "usuario",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_usuario_modificacion"
+        ],
+        "secondTableName": "victima_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_carga"
+        ],
+        "firstTableName": "carga",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_carga_nueva"
+        ],
+        "secondTableName": "victima_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      }
+    ]
+  },
+  "views": {}
 }

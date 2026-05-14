@@ -387,8 +387,8 @@ CREATE TABLE habilita_carga_modificacion (
 
 CREATE TABLE carpeta_investigacion (
   id_carpeta_investigacion BIGINT NOT NULL AUTO_INCREMENT,
-  identificador_carpeta_fiscalia VARCHAR(50) NOT NULL,
-  nomenclatura_carpeta_fiscalia VARCHAR(50) NOT NULL,
+  identificador_carpeta_fiscalia VARCHAR(250) NOT NULL,
+  nomenclatura_carpeta_fiscalia VARCHAR(250) NOT NULL,
   fecha_inicio DATETIME NOT NULL,
   resumen_hechos TEXT NULL,
   id_usuario_registro INT NOT NULL,
@@ -405,8 +405,8 @@ CREATE TABLE carpeta_investigacion (
 CREATE TABLE carpeta_investigacion_historico (
   id_carpeta_investigacion_historico BIGINT NOT NULL AUTO_INCREMENT,
   id_carpeta_investigacion BIGINT NOT NULL,
-  identificador_carpeta_fiscalia VARCHAR(50) NOT NULL,
-  nomenclatura_carpeta_fiscalia VARCHAR(50) NOT NULL,
+  identificador_carpeta_fiscalia VARCHAR(250) NOT NULL,
+  nomenclatura_carpeta_fiscalia VARCHAR(250) NOT NULL,
   fecha_inicio DATETIME NOT NULL,
   resumen_hechos TEXT NULL,
   id_usuario_registro INT NOT NULL,
