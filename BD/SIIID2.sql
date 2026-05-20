@@ -426,14 +426,14 @@ CREATE TABLE carga_tmp_delito (
 
   id_ci VARCHAR(250) NOT NULL,
   id_delito VARCHAR(50) NOT NULL,
-  dto VARCHAR(150) NOT NULL,
-  moda_dto VARCHAR(150) NULL,
+  dto TEXT NOT NULL,
+  moda_dto TEXT NULL,
   forma_acc VARCHAR(50) NOT NULL,
   fha_de_hchos VARCHAR(50) NOT NULL,
   hra_de_hchos VARCHAR(50) NULL,
   emto_com_dto VARCHAR(50) NOT NULL,
   grdo_cons VARCHAR(50) NOT NULL,
-  clasf_de_dto VARCHAR(50) NOT NULL,
+  clasf_de_dto VARCHAR(100) NOT NULL,
 
   id_ent_hchos VARCHAR(50) NOT NULL,
   id_mun_hchos VARCHAR(50) NOT NULL,
@@ -840,3 +840,5 @@ CREATE TABLE victima_historico (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+SET GLOBAL local_infile = 1;
