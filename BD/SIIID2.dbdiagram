@@ -227,6 +227,24 @@
         "schemaName": "public",
         "x": 6816.2197265625,
         "y": 12
+      },
+      {
+        "name": "carga_tmp_carpeta",
+        "schemaName": "public",
+        "x": 12,
+        "y": 3866
+      },
+      {
+        "name": "carga_tmp_delito",
+        "schemaName": "public",
+        "x": 12,
+        "y": 4300
+      },
+      {
+        "name": "carga_tmp_victima",
+        "schemaName": "public",
+        "x": 12,
+        "y": 5214
       }
     ],
     "tableGroupCollapseStates": [],
@@ -1383,6 +1401,126 @@
           "id_carga_nueva"
         ],
         "secondTableName": "victima_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_entidad_federativa"
+        ],
+        "firstTableName": "catalogo_entidad_federativa",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_entidad_federativa"
+        ],
+        "secondTableName": "delito",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_municipio"
+        ],
+        "firstTableName": "catalogo_municipio",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_municipio"
+        ],
+        "secondTableName": "delito",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_entidad_federativa"
+        ],
+        "firstTableName": "catalogo_entidad_federativa",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_entidad_federativa"
+        ],
+        "secondTableName": "delito_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_municipio"
+        ],
+        "firstTableName": "catalogo_municipio",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_municipio"
+        ],
+        "secondTableName": "delito_historico",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_usuario"
+        ],
+        "firstTableName": "usuario",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_usuario_confirmacion"
+        ],
+        "secondTableName": "carga",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_carga"
+        ],
+        "firstTableName": "carga",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_carga"
+        ],
+        "secondTableName": "carga_tmp_carpeta",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_carga"
+        ],
+        "firstTableName": "carga",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_carga"
+        ],
+        "secondTableName": "carga_tmp_delito",
+        "secondSchemaName": "public",
+        "secondRelation": "*",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "id_carga"
+        ],
+        "firstTableName": "carga",
+        "firstSchemaName": "public",
+        "firstRelation": "1",
+        "secondFieldNames": [
+          "id_carga"
+        ],
+        "secondTableName": "carga_tmp_victima",
         "secondSchemaName": "public",
         "secondRelation": "*",
         "checkPoints": []

@@ -252,15 +252,120 @@ Table usuario {
 
 Table carga {
   id_carga bigint [pk, increment]
+
   id_usuario_carga int [not null, ref: > usuario.id_usuario]
   codigo_referencia varchar(50) [not null, unique]
+
   mes_corte tinyint [not null]
   anio_corte smallint [not null]
   fecha_carga datetime [not null, default: `CURRENT_TIMESTAMP`]
+
   total_carpetas_investigacion int [not null]
   total_delitos int [not null]
   total_victimas int [not null]
+
+  estado varchar(30) [not null, default: 'VALIDADO_PENDIENTE']
+  fecha_validacion datetime [not null, default: `CURRENT_TIMESTAMP`]
+  fecha_confirmacion datetime
+  fecha_expiracion datetime
+  id_usuario_confirmacion int [ref: > usuario.id_usuario]
+  mensaje_error text
+
   activo boolean [not null, default: true]
+
+  indexes {
+    (codigo_referencia) [unique, name: 'uk_carga_codigo_referencia']
+    (id_usuario_carga) [name: 'idx_carga_usuario_carga']
+    (id_usuario_confirmacion) [name: 'idx_carga_usuario_confirmacion']
+    (codigo_referencia) [name: 'idx_carga_codigo_referencia']
+    (estado) [name: 'idx_carga_estado']
+  }
+}
+
+Table carga_tmp_carpeta {
+  id_carga_tmp_carpeta bigint [pk, increment]
+  id_carga bigint [not null, ref: > carga.id_carga]
+  numero_fila int [not null]
+
+  id_ci varchar(250) [not null]
+  ntra_ci varchar(250) [not null]
+  fha_de_ini varchar(50) [not null]
+  hra_de_ini varchar(50)
+  rmen_de_hchos text
+
+  estado varchar(30) [not null, default: 'PENDIENTE']
+  fecha_procesamiento datetime
+  activo boolean [not null, default: true]
+
+  indexes {
+    (id_carga) [name: 'idx_carga_tmp_carpeta_id_carga']
+  }
+}
+
+Table carga_tmp_delito {
+  id_carga_tmp_delito bigint [pk, increment]
+  id_carga bigint [not null, ref: > carga.id_carga]
+  numero_fila int [not null]
+
+  id_ci varchar(250) [not null]
+  id_delito varchar(50) [not null]
+  dto varchar(150) [not null]
+  moda_dto varchar(150)
+  forma_acc varchar(50) [not null]
+  fha_de_hchos varchar(50) [not null]
+  hra_de_hchos varchar(50)
+  emto_com_dto varchar(50) [not null]
+  grdo_cons varchar(50) [not null]
+  clasf_de_dto varchar(50) [not null]
+
+  id_ent_hchos varchar(50) [not null]
+  id_mun_hchos varchar(50) [not null]
+  id_loc_hchos varchar(50)
+  nom_loc_hchos varchar(250)
+  id_col_hchos varchar(50)
+  nom_col_hchos varchar(250)
+  cp varchar(20)
+
+  coord_x varchar(50)
+  coord_y varchar(50)
+  dom_hchos text
+
+  estado varchar(30) [not null, default: 'PENDIENTE']
+  fecha_procesamiento datetime
+  activo boolean [not null, default: true]
+
+  indexes {
+    (id_carga) [name: 'idx_carga_tmp_delito_id_carga']
+    (id_carga, id_ci, id_delito) [name: 'idx_carga_tmp_delito_id_ci_id_delito']
+  }
+}
+
+Table carga_tmp_victima {
+  id_carga_tmp_victima bigint [pk, increment]
+  id_carga bigint [not null, ref: > carga.id_carga]
+  numero_fila int [not null]
+
+  id_ci varchar(250) [not null]
+  id_delito varchar(50) [not null]
+  id_vicf varchar(50) [not null]
+  id_tv varchar(50) [not null]
+  id_tpm varchar(50)
+  sexo varchar(50)
+  genero varchar(50)
+  pob varchar(50)
+  disc varchar(50)
+  fha_nac varchar(50)
+  edad varchar(50)
+  nacional varchar(50)
+
+  estado varchar(30) [not null, default: 'PENDIENTE']
+  fecha_procesamiento datetime
+  activo boolean [not null, default: true]
+
+  indexes {
+    (id_carga) [name: 'idx_carga_tmp_victima_id_carga']
+    (id_carga, id_ci, id_delito) [name: 'idx_carga_tmp_victima_id_ci_id_delito']
+  }
 }
 
 Table habilita_carga_modificacion {
@@ -302,41 +407,71 @@ Table carpeta_investigacion_historico {
 Table delito {
   id_delito bigint [pk, increment]
   id_carpeta_investigacion bigint [not null, ref: > carpeta_investigacion.id_carpeta_investigacion]
-  identificador_delito_carpeta_fiscalia varchar(50) [not null]
-  id_modalidad_delito int [not null, ref: > catalogo_modalidad_delito.id_modalidad_delito]
+
+  identificador_delito_fiscalia varchar(50) [not null]
+  delito_fiscalia varchar(150) [not null]
+  modalidad_delito_fiscalia varchar(150)
+
   id_forma_accion tinyint [not null, ref: > catalogo_forma_accion.id_forma_accion]
   fecha_hechos datetime [not null]
   id_instrumento_comision tinyint [not null, ref: > catalogo_instrumento_comision.id_instrumento_comision]
   id_grado_consumacion tinyint [not null, ref: > catalogo_grado_consumacion.id_grado_consumacion]
-  id_localidad int [not null, ref: > catalogo_localidad.id_localidad]
+  id_modalidad_delito int [not null, ref: > catalogo_modalidad_delito.id_modalidad_delito]
+
+  id_entidad_federativa tinyint [not null, ref: > catalogo_entidad_federativa.id_entidad_federativa]
+  id_municipio int [not null, ref: > catalogo_municipio.id_municipio]
+
+  id_localidad_fiscalia varchar(50)
+  localidad_fiscalia_nombre varchar(250)
+  id_colonia_fiscalia varchar(50)
+  colonia_fiscalia_nombre varchar(250)
+
   id_codigo_postal int [not null, ref: > catalogo_codigo_postal.id_codigo_postal]
+
   coordenada_x decimal(10,6) [not null]
   coordenada_y decimal(10,6) [not null]
   domicilio_hechos text
+
   id_usuario_registro int [not null, ref: > usuario.id_usuario]
   fecha_registro datetime [not null, default: `CURRENT_TIMESTAMP`]
   id_carga bigint [not null, ref: > carga.id_carga]
   activo boolean [not null, default: true]
 }
 
+
 Table delito_historico {
   id_delito_historico bigint [pk, increment]
   id_delito bigint [not null, ref: > delito.id_delito]
   id_carpeta_investigacion bigint [not null, ref: > carpeta_investigacion.id_carpeta_investigacion]
-  identificador_delito_carpeta_fiscalia varchar(50) [not null]
-  id_modalidad_delito int [not null, ref: > catalogo_modalidad_delito.id_modalidad_delito]
+
+  identificador_delito_fiscalia varchar(50) [not null]
+  delito_fiscalia varchar(150) [not null]
+  modalidad_delito_fiscalia varchar(150)
+
   id_forma_accion tinyint [not null, ref: > catalogo_forma_accion.id_forma_accion]
   fecha_hechos datetime [not null]
   id_instrumento_comision tinyint [not null, ref: > catalogo_instrumento_comision.id_instrumento_comision]
   id_grado_consumacion tinyint [not null, ref: > catalogo_grado_consumacion.id_grado_consumacion]
-  id_localidad int [not null, ref: > catalogo_localidad.id_localidad]
+  id_modalidad_delito int [not null, ref: > catalogo_modalidad_delito.id_modalidad_delito]
+
+  id_entidad_federativa tinyint [not null, ref: > catalogo_entidad_federativa.id_entidad_federativa]
+  id_municipio int [not null, ref: > catalogo_municipio.id_municipio]
+
+  id_localidad_fiscalia varchar(50)
+  localidad_fiscalia_nombre varchar(250)
+  id_colonia_fiscalia varchar(50)
+  colonia_fiscalia_nombre varchar(250)
+
   id_codigo_postal int [not null, ref: > catalogo_codigo_postal.id_codigo_postal]
+
   coordenada_x decimal(10,6) [not null]
   coordenada_y decimal(10,6) [not null]
   domicilio_hechos text
+
   id_usuario_registro int [not null, ref: > usuario.id_usuario]
   fecha_registro datetime [not null]
   id_carga bigint [not null, ref: > carga.id_carga]
+
   id_usuario_modificacion int [ref: > usuario.id_usuario]
   id_carga_nueva bigint [not null, ref: > carga.id_carga]
   fecha_modificacion datetime [not null, default: `CURRENT_TIMESTAMP`]
