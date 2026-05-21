@@ -410,8 +410,8 @@ Table delito {
   id_carpeta_investigacion bigint [not null, ref: > carpeta_investigacion.id_carpeta_investigacion]
 
   identificador_delito_fiscalia varchar(50) [not null]
-  delito_fiscalia varchar(150) [not null]
-  modalidad_delito_fiscalia varchar(150)
+  delito_fiscalia varchar(250) [not null]
+  modalidad_delito_fiscalia varchar(250)
 
   id_forma_accion tinyint [not null, ref: > catalogo_forma_accion.id_forma_accion]
   fecha_hechos datetime [not null]
@@ -422,12 +422,12 @@ Table delito {
   id_entidad_federativa tinyint [not null, ref: > catalogo_entidad_federativa.id_entidad_federativa]
   id_municipio int [not null, ref: > catalogo_municipio.id_municipio]
 
-  id_localidad_fiscalia varchar(50)
+  id_localidad_fiscalia varchar(250)
   localidad_fiscalia_nombre varchar(250)
-  id_colonia_fiscalia varchar(50)
+  id_colonia_fiscalia varchar(250)
   colonia_fiscalia_nombre varchar(250)
 
-  id_codigo_postal int [not null, ref: > catalogo_codigo_postal.id_codigo_postal]
+  id_codigo_postal int [ref: > catalogo_codigo_postal.id_codigo_postal]
 
   coordenada_x decimal(10,6) [not null]
   coordenada_y decimal(10,6) [not null]
@@ -446,8 +446,8 @@ Table delito_historico {
   id_carpeta_investigacion bigint [not null, ref: > carpeta_investigacion.id_carpeta_investigacion]
 
   identificador_delito_fiscalia varchar(50) [not null]
-  delito_fiscalia varchar(150) [not null]
-  modalidad_delito_fiscalia varchar(150)
+  delito_fiscalia varchar(250) [not null]
+  modalidad_delito_fiscalia varchar(250)
 
   id_forma_accion tinyint [not null, ref: > catalogo_forma_accion.id_forma_accion]
   fecha_hechos datetime [not null]
@@ -458,12 +458,12 @@ Table delito_historico {
   id_entidad_federativa tinyint [not null, ref: > catalogo_entidad_federativa.id_entidad_federativa]
   id_municipio int [not null, ref: > catalogo_municipio.id_municipio]
 
-  id_localidad_fiscalia varchar(50)
+  id_localidad_fiscalia varchar(250)
   localidad_fiscalia_nombre varchar(250)
-  id_colonia_fiscalia varchar(50)
+  id_colonia_fiscalia varchar(250)
   colonia_fiscalia_nombre varchar(250)
 
-  id_codigo_postal int [not null, ref: > catalogo_codigo_postal.id_codigo_postal]
+  id_codigo_postal int [ref: > catalogo_codigo_postal.id_codigo_postal]
 
   coordenada_x decimal(10,6) [not null]
   coordenada_y decimal(10,6) [not null]

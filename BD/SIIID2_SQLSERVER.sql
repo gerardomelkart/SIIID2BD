@@ -586,134 +586,176 @@ CREATE TABLE [carpeta_investigacion_historico] (
 );
 GO
 
-CREATE TABLE [delito] (
-  id_delito BIGINT NOT NULL IDENTITY(1,1),
-  id_carpeta_investigacion BIGINT NOT NULL,
-  identificador_delito_fiscalia NVARCHAR(50) NOT NULL,
-  delito_fiscalia NVARCHAR(150) NOT NULL,
-  modalidad_delito_fiscalia NVARCHAR(150) NULL,
-  id_forma_accion TINYINT NOT NULL,
-  fecha_hechos DATETIME2(0) NOT NULL,
-  id_instrumento_comision TINYINT NOT NULL,
-  id_grado_consumacion TINYINT NOT NULL,
-  id_modalidad_delito INT NOT NULL,
-  id_entidad_federativa TINYINT NOT NULL,
-  id_municipio INT NOT NULL,
-  id_localidad_fiscalia NVARCHAR(50) NULL,
-  localidad_fiscalia_nombre NVARCHAR(250) NULL,
-  id_colonia_fiscalia NVARCHAR(50) NULL,
-  colonia_fiscalia_nombre NVARCHAR(250) NULL,
-  id_codigo_postal INT NOT NULL,
-  coordenada_x DECIMAL(10,6) NOT NULL,
-  coordenada_y DECIMAL(10,6) NOT NULL,
-  domicilio_hechos NVARCHAR(MAX) NULL,
-  id_usuario_registro INT NOT NULL,
-  fecha_registro DATETIME2(0) NOT NULL DEFAULT SYSDATETIME(),
-  id_carga BIGINT NOT NULL,
-  activo BIT NOT NULL DEFAULT 1,
-  CONSTRAINT [pk_delito] PRIMARY KEY (id_delito),
-  CONSTRAINT [fk_delito_carpeta]
-    FOREIGN KEY (id_carpeta_investigacion)
-    REFERENCES carpeta_investigacion (id_carpeta_investigacion),
-  CONSTRAINT [fk_delito_forma_accion]
-    FOREIGN KEY (id_forma_accion)
-    REFERENCES catalogo_forma_accion (id_forma_accion),
-  CONSTRAINT [fk_delito_instrumento]
-    FOREIGN KEY (id_instrumento_comision)
-    REFERENCES catalogo_instrumento_comision (id_instrumento_comision),
-  CONSTRAINT [fk_delito_grado_consumacion]
-    FOREIGN KEY (id_grado_consumacion)
-    REFERENCES catalogo_grado_consumacion (id_grado_consumacion),
-  CONSTRAINT [fk_delito_modalidad]
-    FOREIGN KEY (id_modalidad_delito)
-    REFERENCES catalogo_modalidad_delito (id_modalidad_delito),
-  CONSTRAINT [fk_delito_entidad_federativa]
-    FOREIGN KEY (id_entidad_federativa)
-    REFERENCES catalogo_entidad_federativa (id_entidad_federativa),
-  CONSTRAINT [fk_delito_municipio]
-    FOREIGN KEY (id_municipio)
-    REFERENCES catalogo_municipio (id_municipio),
-  CONSTRAINT [fk_delito_codigo_postal]
-    FOREIGN KEY (id_codigo_postal)
-    REFERENCES catalogo_codigo_postal (id_codigo_postal),
-  CONSTRAINT [fk_delito_usuario_registro]
-    FOREIGN KEY (id_usuario_registro)
-    REFERENCES usuario (id_usuario),
-  CONSTRAINT [fk_delito_carga]
-    FOREIGN KEY (id_carga)
-    REFERENCES carga (id_carga)
+CREATE TABLE delito (
+    id_delito BIGINT IDENTITY(1,1) NOT NULL,
+    id_carpeta_investigacion BIGINT NOT NULL,
+
+    identificador_delito_fiscalia VARCHAR(50) NOT NULL,
+    delito_fiscalia VARCHAR(250) NOT NULL,
+    modalidad_delito_fiscalia VARCHAR(250) NULL,
+
+    id_forma_accion TINYINT NOT NULL,
+    fecha_hechos DATETIME NOT NULL,
+    id_instrumento_comision TINYINT NOT NULL,
+    id_grado_consumacion TINYINT NOT NULL,
+    id_modalidad_delito INT NOT NULL,
+
+    id_entidad_federativa TINYINT NOT NULL,
+    id_municipio INT NOT NULL,
+
+    id_localidad_fiscalia VARCHAR(250) NULL,
+    localidad_fiscalia_nombre VARCHAR(250) NULL,
+    id_colonia_fiscalia VARCHAR(250) NULL,
+    colonia_fiscalia_nombre VARCHAR(250) NULL,
+
+    id_codigo_postal INT NULL,
+
+    coordenada_x DECIMAL(10,6) NOT NULL,
+    coordenada_y DECIMAL(10,6) NOT NULL,
+    domicilio_hechos VARCHAR(MAX) NULL,
+
+    id_usuario_registro INT NOT NULL,
+    fecha_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    id_carga BIGINT NOT NULL,
+    activo BIT NOT NULL DEFAULT 1,
+
+    CONSTRAINT pk_delito
+        PRIMARY KEY (id_delito),
+
+    CONSTRAINT fk_delito_carpeta_investigacion
+        FOREIGN KEY (id_carpeta_investigacion)
+        REFERENCES carpeta_investigacion(id_carpeta_investigacion),
+
+    CONSTRAINT fk_delito_forma_accion
+        FOREIGN KEY (id_forma_accion)
+        REFERENCES catalogo_forma_accion(id_forma_accion),
+
+    CONSTRAINT fk_delito_instrumento_comision
+        FOREIGN KEY (id_instrumento_comision)
+        REFERENCES catalogo_instrumento_comision(id_instrumento_comision),
+
+    CONSTRAINT fk_delito_grado_consumacion
+        FOREIGN KEY (id_grado_consumacion)
+        REFERENCES catalogo_grado_consumacion(id_grado_consumacion),
+
+    CONSTRAINT fk_delito_modalidad_delito
+        FOREIGN KEY (id_modalidad_delito)
+        REFERENCES catalogo_modalidad_delito(id_modalidad_delito),
+
+    CONSTRAINT fk_delito_entidad_federativa
+        FOREIGN KEY (id_entidad_federativa)
+        REFERENCES catalogo_entidad_federativa(id_entidad_federativa),
+
+    CONSTRAINT fk_delito_municipio
+        FOREIGN KEY (id_municipio)
+        REFERENCES catalogo_municipio(id_municipio),
+
+    CONSTRAINT fk_delito_codigo_postal
+        FOREIGN KEY (id_codigo_postal)
+        REFERENCES catalogo_codigo_postal(id_codigo_postal),
+
+    CONSTRAINT fk_delito_usuario_registro
+        FOREIGN KEY (id_usuario_registro)
+        REFERENCES usuario(id_usuario),
+
+    CONSTRAINT fk_delito_carga
+        FOREIGN KEY (id_carga)
+        REFERENCES carga(id_carga)
 );
 GO
 
-CREATE TABLE [delito_historico] (
-  id_delito_historico BIGINT NOT NULL IDENTITY(1,1),
-  id_delito BIGINT NOT NULL,
-  id_carpeta_investigacion BIGINT NOT NULL,
-  identificador_delito_fiscalia NVARCHAR(50) NOT NULL,
-  delito_fiscalia NVARCHAR(150) NOT NULL,
-  modalidad_delito_fiscalia NVARCHAR(150) NULL,
-  id_forma_accion TINYINT NOT NULL,
-  fecha_hechos DATETIME2(0) NOT NULL,
-  id_instrumento_comision TINYINT NOT NULL,
-  id_grado_consumacion TINYINT NOT NULL,
-  id_modalidad_delito INT NOT NULL,
-  id_entidad_federativa TINYINT NOT NULL,
-  id_municipio INT NOT NULL,
-  id_localidad_fiscalia NVARCHAR(50) NULL,
-  localidad_fiscalia_nombre NVARCHAR(250) NULL,
-  id_colonia_fiscalia NVARCHAR(50) NULL,
-  colonia_fiscalia_nombre NVARCHAR(250) NULL,
-  id_codigo_postal INT NOT NULL,
-  coordenada_x DECIMAL(10,6) NOT NULL,
-  coordenada_y DECIMAL(10,6) NOT NULL,
-  domicilio_hechos NVARCHAR(MAX) NULL,
-  id_usuario_registro INT NOT NULL,
-  fecha_registro DATETIME2(0) NOT NULL,
-  id_carga BIGINT NOT NULL,
-  id_usuario_modificacion INT NULL,
-  id_carga_nueva BIGINT NOT NULL,
-  fecha_modificacion DATETIME2(0) NOT NULL DEFAULT SYSDATETIME(),
-  activo BIT NOT NULL DEFAULT 1,
-  CONSTRAINT [pk_delito_historico] PRIMARY KEY (id_delito_historico),
-  CONSTRAINT [fk_delito_historico_delito]
-    FOREIGN KEY (id_delito)
-    REFERENCES delito (id_delito),
-  CONSTRAINT [fk_delito_historico_carpeta]
-    FOREIGN KEY (id_carpeta_investigacion)
-    REFERENCES carpeta_investigacion (id_carpeta_investigacion),
-  CONSTRAINT [fk_delito_historico_forma_accion]
-    FOREIGN KEY (id_forma_accion)
-    REFERENCES catalogo_forma_accion (id_forma_accion),
-  CONSTRAINT [fk_delito_historico_instrumento]
-    FOREIGN KEY (id_instrumento_comision)
-    REFERENCES catalogo_instrumento_comision (id_instrumento_comision),
-  CONSTRAINT [fk_delito_historico_grado_consumacion]
-    FOREIGN KEY (id_grado_consumacion)
-    REFERENCES catalogo_grado_consumacion (id_grado_consumacion),
-  CONSTRAINT [fk_delito_historico_modalidad]
-    FOREIGN KEY (id_modalidad_delito)
-    REFERENCES catalogo_modalidad_delito (id_modalidad_delito),
-  CONSTRAINT [fk_delito_historico_entidad_federativa]
-    FOREIGN KEY (id_entidad_federativa)
-    REFERENCES catalogo_entidad_federativa (id_entidad_federativa),
-  CONSTRAINT [fk_delito_historico_municipio]
-    FOREIGN KEY (id_municipio)
-    REFERENCES catalogo_municipio (id_municipio),
-  CONSTRAINT [fk_delito_historico_codigo_postal]
-    FOREIGN KEY (id_codigo_postal)
-    REFERENCES catalogo_codigo_postal (id_codigo_postal),
-  CONSTRAINT [fk_delito_historico_usuario_registro]
-    FOREIGN KEY (id_usuario_registro)
-    REFERENCES usuario (id_usuario),
-  CONSTRAINT [fk_delito_historico_carga]
-    FOREIGN KEY (id_carga)
-    REFERENCES carga (id_carga),
-  CONSTRAINT [fk_delito_historico_usuario_modificacion]
-    FOREIGN KEY (id_usuario_modificacion)
-    REFERENCES usuario (id_usuario),
-  CONSTRAINT [fk_delito_historico_carga_nueva]
-    FOREIGN KEY (id_carga_nueva)
-    REFERENCES carga (id_carga)
+CREATE TABLE delito_historico (
+    id_delito_historico BIGINT IDENTITY(1,1) NOT NULL,
+    id_delito BIGINT NOT NULL,
+    id_carpeta_investigacion BIGINT NOT NULL,
+
+    identificador_delito_fiscalia VARCHAR(50) NOT NULL,
+    delito_fiscalia VARCHAR(250) NOT NULL,
+    modalidad_delito_fiscalia VARCHAR(250) NULL,
+
+    id_forma_accion TINYINT NOT NULL,
+    fecha_hechos DATETIME NOT NULL,
+    id_instrumento_comision TINYINT NOT NULL,
+    id_grado_consumacion TINYINT NOT NULL,
+    id_modalidad_delito INT NOT NULL,
+
+    id_entidad_federativa TINYINT NOT NULL,
+    id_municipio INT NOT NULL,
+
+    id_localidad_fiscalia VARCHAR(250) NULL,
+    localidad_fiscalia_nombre VARCHAR(250) NULL,
+    id_colonia_fiscalia VARCHAR(250) NULL,
+    colonia_fiscalia_nombre VARCHAR(250) NULL,
+
+    id_codigo_postal INT NULL,
+
+    coordenada_x DECIMAL(10,6) NOT NULL,
+    coordenada_y DECIMAL(10,6) NOT NULL,
+    domicilio_hechos VARCHAR(MAX) NULL,
+
+    id_usuario_registro INT NOT NULL,
+    fecha_registro DATETIME NOT NULL,
+    id_carga BIGINT NOT NULL,
+
+    id_usuario_modificacion INT NULL,
+    id_carga_nueva BIGINT NOT NULL,
+    fecha_modificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    activo BIT NOT NULL DEFAULT 1,
+
+    CONSTRAINT pk_delito_historico
+        PRIMARY KEY (id_delito_historico),
+
+    CONSTRAINT fk_delito_historico_delito
+        FOREIGN KEY (id_delito)
+        REFERENCES delito(id_delito),
+
+    CONSTRAINT fk_delito_historico_carpeta_investigacion
+        FOREIGN KEY (id_carpeta_investigacion)
+        REFERENCES carpeta_investigacion(id_carpeta_investigacion),
+
+    CONSTRAINT fk_delito_historico_forma_accion
+        FOREIGN KEY (id_forma_accion)
+        REFERENCES catalogo_forma_accion(id_forma_accion),
+
+    CONSTRAINT fk_delito_historico_instrumento_comision
+        FOREIGN KEY (id_instrumento_comision)
+        REFERENCES catalogo_instrumento_comision(id_instrumento_comision),
+
+    CONSTRAINT fk_delito_historico_grado_consumacion
+        FOREIGN KEY (id_grado_consumacion)
+        REFERENCES catalogo_grado_consumacion(id_grado_consumacion),
+
+    CONSTRAINT fk_delito_historico_modalidad_delito
+        FOREIGN KEY (id_modalidad_delito)
+        REFERENCES catalogo_modalidad_delito(id_modalidad_delito),
+
+    CONSTRAINT fk_delito_historico_entidad_federativa
+        FOREIGN KEY (id_entidad_federativa)
+        REFERENCES catalogo_entidad_federativa(id_entidad_federativa),
+
+    CONSTRAINT fk_delito_historico_municipio
+        FOREIGN KEY (id_municipio)
+        REFERENCES catalogo_municipio(id_municipio),
+
+    CONSTRAINT fk_delito_historico_codigo_postal
+        FOREIGN KEY (id_codigo_postal)
+        REFERENCES catalogo_codigo_postal(id_codigo_postal),
+
+    CONSTRAINT fk_delito_historico_usuario_registro
+        FOREIGN KEY (id_usuario_registro)
+        REFERENCES usuario(id_usuario),
+
+    CONSTRAINT fk_delito_historico_carga
+        FOREIGN KEY (id_carga)
+        REFERENCES carga(id_carga),
+
+    CONSTRAINT fk_delito_historico_usuario_modificacion
+        FOREIGN KEY (id_usuario_modificacion)
+        REFERENCES usuario(id_usuario),
+
+    CONSTRAINT fk_delito_historico_carga_nueva
+        FOREIGN KEY (id_carga_nueva)
+        REFERENCES carga(id_carga)
 );
 GO
 
