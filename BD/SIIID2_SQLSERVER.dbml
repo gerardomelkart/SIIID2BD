@@ -254,34 +254,35 @@ Table carga {
   id_carga bigint [pk, increment]
 
   id_usuario_carga int [not null, ref: > usuario.id_usuario]
+  id_entidad_federativa tinyint [ref: > catalogo_entidad_federativa.id_entidad_federativa]
+
   codigo_referencia varchar(50) [not null, unique]
 
   mes_corte tinyint [not null]
   anio_corte smallint [not null]
-  fecha_carga datetime [not null, default: `CURRENT_TIMESTAMP`]
+  fecha_carga datetime [not null, default: `SYSDATETIME()`]
 
   total_carpetas_investigacion int [not null]
   total_delitos int [not null]
   total_victimas int [not null]
 
   estado varchar(30) [not null, default: 'VALIDADO_PENDIENTE']
-  fecha_validacion datetime [not null, default: `CURRENT_TIMESTAMP`]
+  fecha_validacion datetime [not null, default: `SYSDATETIME()`]
   fecha_confirmacion datetime
   fecha_expiracion datetime
   id_usuario_confirmacion int [ref: > usuario.id_usuario]
-  mensaje_error text
+  mensaje_error varchar(max)
 
-  activo boolean [not null, default: true]
+  activo bit [not null, default: 1]
 
   indexes {
     (codigo_referencia) [unique, name: 'uk_carga_codigo_referencia']
     (id_usuario_carga) [name: 'idx_carga_usuario_carga']
     (id_usuario_confirmacion) [name: 'idx_carga_usuario_confirmacion']
-    (codigo_referencia) [name: 'idx_carga_codigo_referencia']
     (estado) [name: 'idx_carga_estado']
+    (id_entidad_federativa, mes_corte, anio_corte, estado, activo) [name: 'idx_carga_entidad_periodo_estado']
   }
 }
-
 Table carga_tmp_carpeta {
   id_carga_tmp_carpeta bigint [pk, increment]
   id_carga bigint [not null, ref: > carga.id_carga]

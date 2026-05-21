@@ -385,33 +385,68 @@ CREATE TABLE [usuario] (
 );
 GO
 
-CREATE TABLE [carga] (
-  id_carga BIGINT NOT NULL IDENTITY(1,1),
-  id_usuario_carga INT NOT NULL,
-  codigo_referencia NVARCHAR(50) NOT NULL,
-  mes_corte TINYINT NOT NULL,
-  anio_corte SMALLINT NOT NULL,
-  fecha_carga DATETIME2(0) NOT NULL DEFAULT SYSDATETIME(),
-  total_carpetas_investigacion INT NOT NULL,
-  total_delitos INT NOT NULL,
-  total_victimas INT NOT NULL,
-  estado NVARCHAR(30) NOT NULL DEFAULT 'VALIDADO_PENDIENTE',
-  fecha_validacion DATETIME2(0) NOT NULL DEFAULT SYSDATETIME(),
-  fecha_confirmacion DATETIME2(0) NULL,
-  fecha_expiracion DATETIME2(0) NULL,
-  id_usuario_confirmacion INT NULL,
-  mensaje_error NVARCHAR(MAX) NULL,
-  activo BIT NOT NULL DEFAULT 1,
-  CONSTRAINT [pk_carga] PRIMARY KEY (id_carga),
-  CONSTRAINT [uk_carga_codigo_referencia] UNIQUE (codigo_referencia),
-  CONSTRAINT [fk_carga_usuario_carga]
-  FOREIGN KEY (id_usuario_carga)
-  REFERENCES usuario(id_usuario),
-  CONSTRAINT [fk_carga_usuario_confirmacion]
-  FOREIGN KEY (id_usuario_confirmacion)
-  REFERENCES usuario(id_usuario)
+CREATE TABLE carga (
+    id_carga BIGINT IDENTITY(1,1) NOT NULL,
+    id_usuario_carga INT NOT NULL,
+    id_entidad_federativa TINYINT NULL,
+
+    codigo_referencia VARCHAR(50) NOT NULL,
+
+    mes_corte TINYINT NOT NULL,
+    anio_corte SMALLINT NOT NULL,
+    fecha_carga DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
+
+    total_carpetas_investigacion INT NOT NULL,
+    total_delitos INT NOT NULL,
+    total_victimas INT NOT NULL,
+
+    estado VARCHAR(30) NOT NULL DEFAULT 'VALIDADO_PENDIENTE',
+    fecha_validacion DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
+    fecha_confirmacion DATETIME2 NULL,
+    fecha_expiracion DATETIME2 NULL,
+    id_usuario_confirmacion INT NULL,
+    mensaje_error VARCHAR(MAX) NULL,
+
+    activo BIT NOT NULL DEFAULT 1,
+
+    CONSTRAINT pk_carga
+        PRIMARY KEY (id_carga),
+
+    CONSTRAINT uk_carga_codigo_referencia
+        UNIQUE (codigo_referencia),
+
+    CONSTRAINT fk_carga_usuario_carga
+        FOREIGN KEY (id_usuario_carga)
+        REFERENCES usuario(id_usuario),
+
+    CONSTRAINT fk_carga_usuario_confirmacion
+        FOREIGN KEY (id_usuario_confirmacion)
+        REFERENCES usuario(id_usuario),
+
+    CONSTRAINT fk_carga_entidad_federativa
+        FOREIGN KEY (id_entidad_federativa)
+        REFERENCES catalogo_entidad_federativa(id_entidad_federativa)
+);
+
+CREATE INDEX idx_carga_usuario_carga
+ON carga (id_usuario_carga);
+
+CREATE INDEX idx_carga_usuario_confirmacion
+ON carga (id_usuario_confirmacion);
+
+CREATE INDEX idx_carga_estado
+ON carga (estado);
+
+CREATE INDEX idx_carga_entidad_periodo_estado
+ON carga (
+    id_entidad_federativa,
+    mes_corte,
+    anio_corte,
+    estado,
+    activo
 );
 GO
+
 
 CREATE TABLE [carga_tmp_carpeta] (
   id_carga_tmp_carpeta BIGINT NOT NULL IDENTITY(1,1),
