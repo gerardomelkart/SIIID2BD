@@ -6174,3 +6174,8 @@ INSERT INTO catalogo_delito_sabana (id_delito_sabana, id_modalidad_delito, id_gr
 (5976,83,3,8,3,'Tortura','Tortura','Tortura','7.13','7.13');
 
 GO
+
+
+UPDATE roles SET rol = 'SUPER_USUARIO' WHERE id_rol = 1;
+UPDATE roles SET rol = 'ENLACE_ESTATAL' WHERE id_rol = 2;
+UPDATE roles SET rol = 'CONSULTA' WHERE id_rol = 3;
