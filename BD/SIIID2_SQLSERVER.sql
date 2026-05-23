@@ -389,44 +389,64 @@ CREATE TABLE carga (
     id_carga BIGINT IDENTITY(1,1) NOT NULL,
     id_usuario_carga INT NOT NULL,
     id_entidad_federativa TINYINT NULL,
-
-    codigo_referencia VARCHAR(50) NOT NULL,
-
+    codigo_referencia NVARCHAR(50) NOT NULL,
+    tipo_carga NVARCHAR(20) NOT NULL
+        CONSTRAINT DF_carga_tipo_carga DEFAULT 'CARGA_INICIAL',
     mes_corte TINYINT NOT NULL,
     anio_corte SMALLINT NOT NULL,
-    fecha_carga DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
-
+    fecha_carga DATETIME2 NOT NULL
+        CONSTRAINT DF_carga_fecha_carga DEFAULT SYSDATETIME(),
     total_carpetas_investigacion INT NOT NULL,
     total_delitos INT NOT NULL,
     total_victimas INT NOT NULL,
-
-    estado VARCHAR(30) NOT NULL DEFAULT 'VALIDADO_PENDIENTE',
-    fecha_validacion DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
+    estado NVARCHAR(30) NOT NULL
+        CONSTRAINT DF_carga_estado DEFAULT 'VALIDADO_PENDIENTE',
+    fecha_validacion DATETIME2 NOT NULL
+        CONSTRAINT DF_carga_fecha_validacion DEFAULT SYSDATETIME(),
     fecha_confirmacion DATETIME2 NULL,
     fecha_expiracion DATETIME2 NULL,
     id_usuario_confirmacion INT NULL,
-    mensaje_error VARCHAR(MAX) NULL,
+    mensaje_error NVARCHAR(MAX) NULL,
+    activo BIT NOT NULL
+        CONSTRAINT DF_carga_activo DEFAULT 1,
 
-    activo BIT NOT NULL DEFAULT 1,
+    CONSTRAINT PK_carga PRIMARY KEY (id_carga),
 
-    CONSTRAINT pk_carga
-        PRIMARY KEY (id_carga),
-
-    CONSTRAINT uk_carga_codigo_referencia
-        UNIQUE (codigo_referencia),
-
-    CONSTRAINT fk_carga_usuario_carga
+    CONSTRAINT FK_carga_usuario_carga
         FOREIGN KEY (id_usuario_carga)
         REFERENCES usuario(id_usuario),
 
-    CONSTRAINT fk_carga_usuario_confirmacion
+    CONSTRAINT FK_carga_usuario_confirmacion
         FOREIGN KEY (id_usuario_confirmacion)
         REFERENCES usuario(id_usuario),
 
-    CONSTRAINT fk_carga_entidad_federativa
+    CONSTRAINT FK_carga_entidad_federativa
         FOREIGN KEY (id_entidad_federativa)
-        REFERENCES catalogo_entidad_federativa(id_entidad_federativa)
+        REFERENCES catalogo_entidad_federativa(id_entidad_federativa),
+
+    CONSTRAINT UQ_carga_codigo_referencia
+        UNIQUE (codigo_referencia),
+
+    CONSTRAINT CK_carga_tipo_carga
+        CHECK (tipo_carga IN ('CARGA_INICIAL', 'ACTUALIZACION'))
 );
+GO
+
+CREATE INDEX idx_carga_usuario_carga
+ON carga(id_usuario_carga);
+GO
+
+CREATE INDEX idx_carga_usuario_confirmacion
+ON carga(id_usuario_confirmacion);
+GO
+
+CREATE INDEX idx_carga_estado
+ON carga(estado);
+GO
+
+CREATE INDEX idx_carga_entidad_periodo_estado
+ON carga(id_entidad_federativa, mes_corte, anio_corte, estado, activo);
+GO
 
 CREATE INDEX idx_carga_usuario_carga
 ON carga (id_usuario_carga);
@@ -558,31 +578,50 @@ CREATE TABLE [carpeta_investigacion] (
 );
 GO
 
-CREATE TABLE [carpeta_investigacion_historico] (
-  id_carpeta_investigacion_historico BIGINT NOT NULL IDENTITY(1,1),
-  id_carpeta_investigacion BIGINT NOT NULL,
-  identificador_carpeta_fiscalia NVARCHAR(250) NOT NULL,
-  nomenclatura_carpeta_fiscalia NVARCHAR(250) NOT NULL,
-  fecha_inicio DATETIME2(0) NOT NULL,
-  resumen_hechos NVARCHAR(MAX) NULL,
-  id_usuario_registro INT NOT NULL,
-  fecha_registro DATETIME2(0) NOT NULL,
-  id_carga BIGINT NOT NULL,
-  id_usuario_modificacion INT NULL,
-  id_carga_nueva BIGINT NOT NULL,
-  fecha_modificacion DATETIME2(0) NOT NULL DEFAULT SYSDATETIME(),
-  activo BIT NOT NULL DEFAULT 1,
-  CONSTRAINT [pk_carpeta_investigacion_historico] PRIMARY KEY (id_carpeta_investigacion_historico),
-  CONSTRAINT [fk_carpeta_investigacion_historico_carpeta]
-    FOREIGN KEY (id_carpeta_investigacion) REFERENCES carpeta_investigacion (id_carpeta_investigacion),
-  CONSTRAINT [fk_carpeta_investigacion_historico_usuario_registro]
-    FOREIGN KEY (id_usuario_registro) REFERENCES usuario (id_usuario),
-  CONSTRAINT [fk_carpeta_investigacion_historico_carga]
-    FOREIGN KEY (id_carga) REFERENCES carga (id_carga),
-  CONSTRAINT [fk_carpeta_investigacion_historico_usuario_modificacion]
-    FOREIGN KEY (id_usuario_modificacion) REFERENCES usuario (id_usuario),
-  CONSTRAINT [fk_carpeta_investigacion_historico_carga_nueva]
-    FOREIGN KEY (id_carga_nueva) REFERENCES carga (id_carga)
+CREATE TABLE carpeta_investigacion_historico (
+    id_carpeta_investigacion_historico BIGINT IDENTITY(1,1) NOT NULL,
+    id_carpeta_investigacion BIGINT NOT NULL,
+    identificador_carpeta_fiscalia NVARCHAR(250) NOT NULL,
+    nomenclatura_carpeta_fiscalia NVARCHAR(250) NOT NULL,
+    fecha_inicio DATETIME2 NOT NULL,
+    resumen_hechos NVARCHAR(MAX) NULL,
+    id_usuario_registro INT NOT NULL,
+    fecha_registro DATETIME2 NOT NULL,
+    id_carga BIGINT NOT NULL,
+    id_usuario_modificacion INT NULL,
+    id_carga_nueva BIGINT NOT NULL,
+    tipo_movimiento NVARCHAR(20) NOT NULL
+        CONSTRAINT DF_carpeta_investigacion_historico_tipo_movimiento DEFAULT 'MODIFICADO',
+    fecha_modificacion DATETIME2 NOT NULL
+        CONSTRAINT DF_carpeta_investigacion_historico_fecha_modificacion DEFAULT SYSDATETIME(),
+    activo BIT NOT NULL
+        CONSTRAINT DF_carpeta_investigacion_historico_activo DEFAULT 1,
+
+    CONSTRAINT PK_carpeta_investigacion_historico
+        PRIMARY KEY (id_carpeta_investigacion_historico),
+
+    CONSTRAINT FK_carpeta_investigacion_historico_carpeta
+        FOREIGN KEY (id_carpeta_investigacion)
+        REFERENCES carpeta_investigacion(id_carpeta_investigacion),
+
+    CONSTRAINT FK_carpeta_investigacion_historico_usuario_registro
+        FOREIGN KEY (id_usuario_registro)
+        REFERENCES usuario(id_usuario),
+
+    CONSTRAINT FK_carpeta_investigacion_historico_usuario_modificacion
+        FOREIGN KEY (id_usuario_modificacion)
+        REFERENCES usuario(id_usuario),
+
+    CONSTRAINT FK_carpeta_investigacion_historico_carga
+        FOREIGN KEY (id_carga)
+        REFERENCES carga(id_carga),
+
+    CONSTRAINT FK_carpeta_investigacion_historico_carga_nueva
+        FOREIGN KEY (id_carga_nueva)
+        REFERENCES carga(id_carga),
+
+    CONSTRAINT CK_carpeta_investigacion_historico_tipo_movimiento
+        CHECK (tipo_movimiento IN ('MODIFICADO', 'ELIMINADO'))
 );
 GO
 
@@ -668,94 +707,93 @@ CREATE TABLE delito_historico (
     id_delito_historico BIGINT IDENTITY(1,1) NOT NULL,
     id_delito BIGINT NOT NULL,
     id_carpeta_investigacion BIGINT NOT NULL,
-
-    identificador_delito_fiscalia VARCHAR(50) NOT NULL,
+    identificador_delito_fiscalia NVARCHAR(50) NOT NULL,
     delito_fiscalia VARCHAR(250) NOT NULL,
     modalidad_delito_fiscalia VARCHAR(250) NULL,
-
     id_forma_accion TINYINT NOT NULL,
-    fecha_hechos DATETIME NOT NULL,
+    fecha_hechos DATETIME2 NOT NULL,
     id_instrumento_comision TINYINT NOT NULL,
     id_grado_consumacion TINYINT NOT NULL,
     id_modalidad_delito INT NOT NULL,
-
     id_entidad_federativa TINYINT NOT NULL,
     id_municipio INT NOT NULL,
-
-    id_localidad_fiscalia VARCHAR(250) NULL,
-    localidad_fiscalia_nombre VARCHAR(250) NULL,
-    id_colonia_fiscalia VARCHAR(250) NULL,
-    colonia_fiscalia_nombre VARCHAR(250) NULL,
-
+    id_localidad_fiscalia NVARCHAR(50) NULL,
+    localidad_fiscalia_nombre NVARCHAR(250) NULL,
+    id_colonia_fiscalia NVARCHAR(50) NULL,
+    colonia_fiscalia_nombre NVARCHAR(250) NULL,
     id_codigo_postal INT NULL,
-
     coordenada_x DECIMAL(10,6) NOT NULL,
     coordenada_y DECIMAL(10,6) NOT NULL,
-    domicilio_hechos VARCHAR(MAX) NULL,
-
+    domicilio_hechos NVARCHAR(MAX) NULL,
     id_usuario_registro INT NOT NULL,
-    fecha_registro DATETIME NOT NULL,
+    fecha_registro DATETIME2 NOT NULL,
     id_carga BIGINT NOT NULL,
-
     id_usuario_modificacion INT NULL,
     id_carga_nueva BIGINT NOT NULL,
-    fecha_modificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    activo BIT NOT NULL DEFAULT 1,
+    tipo_movimiento NVARCHAR(20) NOT NULL
+        CONSTRAINT DF_delito_historico_tipo_movimiento DEFAULT 'MODIFICADO',
+    fecha_modificacion DATETIME2 NOT NULL
+        CONSTRAINT DF_delito_historico_fecha_modificacion DEFAULT SYSDATETIME(),
+    activo BIT NOT NULL
+        CONSTRAINT DF_delito_historico_activo DEFAULT 1,
 
-    CONSTRAINT pk_delito_historico
+    CONSTRAINT PK_delito_historico
         PRIMARY KEY (id_delito_historico),
 
-    CONSTRAINT fk_delito_historico_delito
+    CONSTRAINT FK_delito_historico_delito
         FOREIGN KEY (id_delito)
         REFERENCES delito(id_delito),
 
-    CONSTRAINT fk_delito_historico_carpeta_investigacion
+    CONSTRAINT FK_delito_historico_carpeta
         FOREIGN KEY (id_carpeta_investigacion)
         REFERENCES carpeta_investigacion(id_carpeta_investigacion),
 
-    CONSTRAINT fk_delito_historico_forma_accion
+    CONSTRAINT FK_delito_historico_forma_accion
         FOREIGN KEY (id_forma_accion)
         REFERENCES catalogo_forma_accion(id_forma_accion),
 
-    CONSTRAINT fk_delito_historico_instrumento_comision
+    CONSTRAINT FK_delito_historico_instrumento_comision
         FOREIGN KEY (id_instrumento_comision)
         REFERENCES catalogo_instrumento_comision(id_instrumento_comision),
 
-    CONSTRAINT fk_delito_historico_grado_consumacion
+    CONSTRAINT FK_delito_historico_grado_consumacion
         FOREIGN KEY (id_grado_consumacion)
         REFERENCES catalogo_grado_consumacion(id_grado_consumacion),
 
-    CONSTRAINT fk_delito_historico_modalidad_delito
+    CONSTRAINT FK_delito_historico_modalidad_delito
         FOREIGN KEY (id_modalidad_delito)
         REFERENCES catalogo_modalidad_delito(id_modalidad_delito),
 
-    CONSTRAINT fk_delito_historico_entidad_federativa
+    CONSTRAINT FK_delito_historico_entidad_federativa
         FOREIGN KEY (id_entidad_federativa)
         REFERENCES catalogo_entidad_federativa(id_entidad_federativa),
 
-    CONSTRAINT fk_delito_historico_municipio
+    CONSTRAINT FK_delito_historico_municipio
         FOREIGN KEY (id_municipio)
         REFERENCES catalogo_municipio(id_municipio),
 
-    CONSTRAINT fk_delito_historico_codigo_postal
+    CONSTRAINT FK_delito_historico_codigo_postal
         FOREIGN KEY (id_codigo_postal)
         REFERENCES catalogo_codigo_postal(id_codigo_postal),
 
-    CONSTRAINT fk_delito_historico_usuario_registro
+    CONSTRAINT FK_delito_historico_usuario_registro
         FOREIGN KEY (id_usuario_registro)
         REFERENCES usuario(id_usuario),
 
-    CONSTRAINT fk_delito_historico_carga
-        FOREIGN KEY (id_carga)
-        REFERENCES carga(id_carga),
-
-    CONSTRAINT fk_delito_historico_usuario_modificacion
+    CONSTRAINT FK_delito_historico_usuario_modificacion
         FOREIGN KEY (id_usuario_modificacion)
         REFERENCES usuario(id_usuario),
 
-    CONSTRAINT fk_delito_historico_carga_nueva
+    CONSTRAINT FK_delito_historico_carga
+        FOREIGN KEY (id_carga)
+        REFERENCES carga(id_carga),
+
+    CONSTRAINT FK_delito_historico_carga_nueva
         FOREIGN KEY (id_carga_nueva)
-        REFERENCES carga(id_carga)
+        REFERENCES carga(id_carga),
+
+    CONSTRAINT CK_delito_historico_tipo_movimiento
+        CHECK (tipo_movimiento IN ('MODIFICADO', 'ELIMINADO'))
 );
 GO
 
@@ -800,54 +838,89 @@ CREATE TABLE [victima] (
 );
 GO
 
-CREATE TABLE [victima_historico] (
-  id_victima_historico BIGINT NOT NULL IDENTITY(1,1),
-  id_victima BIGINT NOT NULL,
-  id_delito BIGINT NOT NULL,
-  identificador_victima_fiscalia NVARCHAR(50) NOT NULL,
-  id_tipo_victima TINYINT NOT NULL,
-  id_tipo_victima_moral TINYINT NULL,
-  id_sexo TINYINT NULL,
-  id_genero TINYINT NULL,
-  id_nacionalidad INT NULL,
-  id_pertenece_poblacion_indigena TINYINT NULL,
-  id_presenta_discapacidad TINYINT NULL,
-  fecha_nacimiento DATE NULL,
-  edad TINYINT NULL,
-  id_usuario_registro INT NOT NULL,
-  fecha_registro DATETIME2(0) NOT NULL,
-  id_carga BIGINT NOT NULL,
-  id_usuario_modificacion INT NULL,
-  id_carga_nueva BIGINT NOT NULL,
-  fecha_modificacion DATETIME2(0) NOT NULL DEFAULT SYSDATETIME(),
-  activo BIT NOT NULL DEFAULT 1,
-  CONSTRAINT [pk_victima_historico] PRIMARY KEY (id_victima_historico),
-  CONSTRAINT [fk_victima_historico_victima]
-    FOREIGN KEY (id_victima) REFERENCES victima (id_victima),
-  CONSTRAINT [fk_victima_historico_delito]
-    FOREIGN KEY (id_delito) REFERENCES delito (id_delito),
-  CONSTRAINT [fk_victima_historico_tipo_victima]
-    FOREIGN KEY (id_tipo_victima) REFERENCES catalogo_tipo_victima (id_tipo_victima),
-  CONSTRAINT [fk_victima_historico_tipo_victima_moral]
-    FOREIGN KEY (id_tipo_victima_moral) REFERENCES catalogo_tipo_victima_moral (id_tipo_victima_moral),
-  CONSTRAINT [fk_victima_historico_sexo]
-    FOREIGN KEY (id_sexo) REFERENCES catalogo_sexo (id_sexo),
-  CONSTRAINT [fk_victima_historico_genero]
-    FOREIGN KEY (id_genero) REFERENCES catalogo_genero (id_genero),
-  CONSTRAINT [fk_victima_historico_nacionalidad]
-    FOREIGN KEY (id_nacionalidad) REFERENCES catalogo_nacionalidad (id_nacionalidad),
-  CONSTRAINT [fk_victima_historico_poblacion_indigena]
-    FOREIGN KEY (id_pertenece_poblacion_indigena) REFERENCES catalogo_pertenece_poblacion_indigena (id_pertenece_poblacion_indigena),
-  CONSTRAINT [fk_victima_historico_discapacidad]
-    FOREIGN KEY (id_presenta_discapacidad) REFERENCES catalogo_presenta_discapacidad (id_presenta_discapacidad),
-  CONSTRAINT [fk_victima_historico_usuario_registro]
-    FOREIGN KEY (id_usuario_registro) REFERENCES usuario (id_usuario),
-  CONSTRAINT [fk_victima_historico_carga]
-    FOREIGN KEY (id_carga) REFERENCES carga (id_carga),
-  CONSTRAINT [fk_victima_historico_usuario_modificacion]
-    FOREIGN KEY (id_usuario_modificacion) REFERENCES usuario (id_usuario),
-  CONSTRAINT [fk_victima_historico_carga_nueva]
-    FOREIGN KEY (id_carga_nueva) REFERENCES carga (id_carga)
+CREATE TABLE victima_historico (
+    id_victima_historico BIGINT IDENTITY(1,1) NOT NULL,
+    id_victima BIGINT NOT NULL,
+    id_delito BIGINT NOT NULL,
+    identificador_victima_fiscalia NVARCHAR(50) NOT NULL,
+    id_tipo_victima TINYINT NOT NULL,
+    id_tipo_victima_moral TINYINT NULL,
+    id_sexo TINYINT NULL,
+    id_genero TINYINT NULL,
+    id_nacionalidad INT NULL,
+    id_pertenece_poblacion_indigena TINYINT NULL,
+    id_presenta_discapacidad TINYINT NULL,
+    fecha_nacimiento DATE NULL,
+    edad TINYINT NULL,
+    id_usuario_registro INT NOT NULL,
+    fecha_registro DATETIME2 NOT NULL,
+    id_carga BIGINT NOT NULL,
+    id_usuario_modificacion INT NULL,
+    id_carga_nueva BIGINT NOT NULL,
+    tipo_movimiento NVARCHAR(20) NOT NULL
+        CONSTRAINT DF_victima_historico_tipo_movimiento DEFAULT 'MODIFICADO',
+    fecha_modificacion DATETIME2 NOT NULL
+        CONSTRAINT DF_victima_historico_fecha_modificacion DEFAULT SYSDATETIME(),
+    activo BIT NOT NULL
+        CONSTRAINT DF_victima_historico_activo DEFAULT 1,
+
+    CONSTRAINT PK_victima_historico
+        PRIMARY KEY (id_victima_historico),
+
+    CONSTRAINT FK_victima_historico_victima
+        FOREIGN KEY (id_victima)
+        REFERENCES victima(id_victima),
+
+    CONSTRAINT FK_victima_historico_delito
+        FOREIGN KEY (id_delito)
+        REFERENCES delito(id_delito),
+
+    CONSTRAINT FK_victima_historico_tipo_victima
+        FOREIGN KEY (id_tipo_victima)
+        REFERENCES catalogo_tipo_victima(id_tipo_victima),
+
+    CONSTRAINT FK_victima_historico_tipo_victima_moral
+        FOREIGN KEY (id_tipo_victima_moral)
+        REFERENCES catalogo_tipo_victima_moral(id_tipo_victima_moral),
+
+    CONSTRAINT FK_victima_historico_sexo
+        FOREIGN KEY (id_sexo)
+        REFERENCES catalogo_sexo(id_sexo),
+
+    CONSTRAINT FK_victima_historico_genero
+        FOREIGN KEY (id_genero)
+        REFERENCES catalogo_genero(id_genero),
+
+    CONSTRAINT FK_victima_historico_nacionalidad
+        FOREIGN KEY (id_nacionalidad)
+        REFERENCES catalogo_nacionalidad(id_nacionalidad),
+
+    CONSTRAINT FK_victima_historico_poblacion_indigena
+        FOREIGN KEY (id_pertenece_poblacion_indigena)
+        REFERENCES catalogo_pertenece_poblacion_indigena(id_pertenece_poblacion_indigena),
+
+    CONSTRAINT FK_victima_historico_discapacidad
+        FOREIGN KEY (id_presenta_discapacidad)
+        REFERENCES catalogo_presenta_discapacidad(id_presenta_discapacidad),
+
+    CONSTRAINT FK_victima_historico_usuario_registro
+        FOREIGN KEY (id_usuario_registro)
+        REFERENCES usuario(id_usuario),
+
+    CONSTRAINT FK_victima_historico_usuario_modificacion
+        FOREIGN KEY (id_usuario_modificacion)
+        REFERENCES usuario(id_usuario),
+
+    CONSTRAINT FK_victima_historico_carga
+        FOREIGN KEY (id_carga)
+        REFERENCES carga(id_carga),
+
+    CONSTRAINT FK_victima_historico_carga_nueva
+        FOREIGN KEY (id_carga_nueva)
+        REFERENCES carga(id_carga),
+
+    CONSTRAINT CK_victima_historico_tipo_movimiento
+        CHECK (tipo_movimiento IN ('MODIFICADO', 'ELIMINADO'))
 );
 GO
 

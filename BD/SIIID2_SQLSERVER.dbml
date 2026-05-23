@@ -257,6 +257,7 @@ Table carga {
   id_entidad_federativa tinyint [ref: > catalogo_entidad_federativa.id_entidad_federativa]
 
   codigo_referencia varchar(50) [not null, unique]
+  tipo_carga varchar(20) [not null, default: 'CARGA_INICIAL']
 
   mes_corte tinyint [not null]
   anio_corte smallint [not null]
@@ -283,6 +284,7 @@ Table carga {
     (id_entidad_federativa, mes_corte, anio_corte, estado, activo) [name: 'idx_carga_entidad_periodo_estado']
   }
 }
+
 Table carga_tmp_carpeta {
   id_carga_tmp_carpeta bigint [pk, increment]
   id_carga bigint [not null, ref: > carga.id_carga]
@@ -392,16 +394,21 @@ Table carpeta_investigacion {
 Table carpeta_investigacion_historico {
   id_carpeta_investigacion_historico bigint [pk, increment]
   id_carpeta_investigacion bigint [not null, ref: > carpeta_investigacion.id_carpeta_investigacion]
+
   identificador_carpeta_fiscalia varchar(250) [not null]
   nomenclatura_carpeta_fiscalia varchar(250) [not null]
   fecha_inicio datetime [not null]
   resumen_hechos text
+
   id_usuario_registro int [not null, ref: > usuario.id_usuario]
   fecha_registro datetime [not null]
   id_carga bigint [not null, ref: > carga.id_carga]
+
   id_usuario_modificacion int [ref: > usuario.id_usuario]
   id_carga_nueva bigint [not null, ref: > carga.id_carga]
+  tipo_movimiento varchar(20) [not null, default: 'MODIFICADO']
   fecha_modificacion datetime [not null, default: `CURRENT_TIMESTAMP`]
+
   activo boolean [not null, default: true]
 }
 
@@ -475,7 +482,9 @@ Table delito_historico {
 
   id_usuario_modificacion int [ref: > usuario.id_usuario]
   id_carga_nueva bigint [not null, ref: > carga.id_carga]
+  tipo_movimiento varchar(20) [not null, default: 'MODIFICADO']
   fecha_modificacion datetime [not null, default: `CURRENT_TIMESTAMP`]
+
   activo boolean [not null, default: true]
 }
 
@@ -502,7 +511,9 @@ Table victima_historico {
   id_victima_historico bigint [pk, increment]
   id_victima bigint [not null, ref: > victima.id_victima]
   id_delito bigint [not null, ref: > delito.id_delito]
+
   identificador_victima_fiscalia varchar(50) [not null]
+
   id_tipo_victima tinyint [not null, ref: > catalogo_tipo_victima.id_tipo_victima]
   id_tipo_victima_moral tinyint [ref: > catalogo_tipo_victima_moral.id_tipo_victima_moral]
   id_sexo tinyint [ref: > catalogo_sexo.id_sexo]
@@ -510,13 +521,18 @@ Table victima_historico {
   id_nacionalidad int [ref: > catalogo_nacionalidad.id_nacionalidad]
   id_pertenece_poblacion_indigena tinyint [ref: > catalogo_pertenece_poblacion_indigena.id_pertenece_poblacion_indigena]
   id_presenta_discapacidad tinyint [ref: > catalogo_presenta_discapacidad.id_presenta_discapacidad]
+
   fecha_nacimiento date
   edad tinyint
+
   id_usuario_registro int [not null, ref: > usuario.id_usuario]
   fecha_registro datetime [not null]
   id_carga bigint [not null, ref: > carga.id_carga]
+
   id_usuario_modificacion int [ref: > usuario.id_usuario]
   id_carga_nueva bigint [not null, ref: > carga.id_carga]
+  tipo_movimiento varchar(20) [not null, default: 'MODIFICADO']
   fecha_modificacion datetime [not null, default: `CURRENT_TIMESTAMP`]
+
   activo boolean [not null, default: true]
 }
