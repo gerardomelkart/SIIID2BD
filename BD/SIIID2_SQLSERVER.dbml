@@ -267,7 +267,7 @@ Table carga {
   total_delitos int [not null]
   total_victimas int [not null]
 
-  estado varchar(30) [not null, default: 'VALIDADO_PENDIENTE']
+  estado varchar(50) [not null, default: 'VALIDADO_PENDIENTE']
   fecha_validacion datetime [not null, default: `SYSDATETIME()`]
   fecha_confirmacion datetime
   fecha_expiracion datetime

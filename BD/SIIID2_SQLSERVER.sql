@@ -399,7 +399,7 @@ CREATE TABLE carga (
     total_carpetas_investigacion INT NOT NULL,
     total_delitos INT NOT NULL,
     total_victimas INT NOT NULL,
-    estado NVARCHAR(30) NOT NULL
+    estado NVARCHAR(50) NOT NULL
         CONSTRAINT DF_carga_estado DEFAULT 'VALIDADO_PENDIENTE',
     fecha_validacion DATETIME2 NOT NULL
         CONSTRAINT DF_carga_fecha_validacion DEFAULT SYSDATETIME(),
