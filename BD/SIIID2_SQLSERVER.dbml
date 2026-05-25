@@ -436,8 +436,8 @@ Table delito {
 
   id_codigo_postal int [ref: > catalogo_codigo_postal.id_codigo_postal]
 
-  coordenada_x decimal(10,6) [not null]
-  coordenada_y decimal(10,6) [not null]
+  coordenada_x decimal(10,6)
+  coordenada_y decimal(10,6)
   domicilio_hechos text
 
   id_usuario_registro int [not null, ref: > usuario.id_usuario]
@@ -472,8 +472,8 @@ Table delito_historico {
 
   id_codigo_postal int [ref: > catalogo_codigo_postal.id_codigo_postal]
 
-  coordenada_x decimal(10,6) [not null]
-  coordenada_y decimal(10,6) [not null]
+  coordenada_x decimal(10,6)
+  coordenada_y decimal(10,6)
   domicilio_hechos text
 
   id_usuario_registro int [not null, ref: > usuario.id_usuario]

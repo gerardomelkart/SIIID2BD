@@ -649,8 +649,8 @@ CREATE TABLE delito (
 
     id_codigo_postal INT NULL,
 
-    coordenada_x DECIMAL(10,6) NOT NULL,
-    coordenada_y DECIMAL(10,6) NOT NULL,
+    coordenada_x DECIMAL(10,6) NULL,
+    coordenada_y DECIMAL(10,6) NULL,
     domicilio_hechos VARCHAR(MAX) NULL,
 
     id_usuario_registro INT NOT NULL,
@@ -722,8 +722,8 @@ CREATE TABLE delito_historico (
     id_colonia_fiscalia NVARCHAR(50) NULL,
     colonia_fiscalia_nombre NVARCHAR(250) NULL,
     id_codigo_postal INT NULL,
-    coordenada_x DECIMAL(10,6) NOT NULL,
-    coordenada_y DECIMAL(10,6) NOT NULL,
+    coordenada_x DECIMAL(10,6) NULL,
+    coordenada_y DECIMAL(10,6) NULL,
     domicilio_hechos NVARCHAR(MAX) NULL,
     id_usuario_registro INT NOT NULL,
     fecha_registro DATETIME2 NOT NULL,
