@@ -296,7 +296,7 @@ Table carga_tmp_carpeta {
   hra_de_ini varchar(50)
   rmen_de_hchos text
 
-  estado varchar(30) [not null, default: 'PENDIENTE']
+  estado varchar(50) [not null, default: 'PENDIENTE']
   fecha_procesamiento datetime
   activo boolean [not null, default: true]
 
@@ -333,7 +333,7 @@ Table carga_tmp_delito {
   coord_y varchar(50)
   dom_hchos text
 
-  estado varchar(30) [not null, default: 'PENDIENTE']
+  estado varchar(50) [not null, default: 'PENDIENTE']
   fecha_procesamiento datetime
   activo boolean [not null, default: true]
 
@@ -361,7 +361,7 @@ Table carga_tmp_victima {
   edad varchar(50)
   nacional varchar(50)
 
-  estado varchar(30) [not null, default: 'PENDIENTE']
+  estado varchar(50) [not null, default: 'PENDIENTE']
   fecha_procesamiento datetime
   activo boolean [not null, default: true]
 
