@@ -17,12 +17,6 @@ GO
 USE [siiid2];
 GO
 
-IF DB_ID(N'siiid2') IS NULL CREATE DATABASE [siiid2];
-
-GO
-USE [siiid2];
-GO
-
 CREATE TABLE [roles] (
   id_rol INT NOT NULL IDENTITY(1,1),
   rol NVARCHAR(50) NOT NULL,
@@ -431,42 +425,6 @@ CREATE TABLE carga (
         CHECK (tipo_carga IN ('CARGA_INICIAL', 'ACTUALIZACION'))
 );
 GO
-
-CREATE INDEX idx_carga_usuario_carga
-ON carga(id_usuario_carga);
-GO
-
-CREATE INDEX idx_carga_usuario_confirmacion
-ON carga(id_usuario_confirmacion);
-GO
-
-CREATE INDEX idx_carga_estado
-ON carga(estado);
-GO
-
-CREATE INDEX idx_carga_entidad_periodo_estado
-ON carga(id_entidad_federativa, mes_corte, anio_corte, estado, activo);
-GO
-
-CREATE INDEX idx_carga_usuario_carga
-ON carga (id_usuario_carga);
-
-CREATE INDEX idx_carga_usuario_confirmacion
-ON carga (id_usuario_confirmacion);
-
-CREATE INDEX idx_carga_estado
-ON carga (estado);
-
-CREATE INDEX idx_carga_entidad_periodo_estado
-ON carga (
-    id_entidad_federativa,
-    mes_corte,
-    anio_corte,
-    estado,
-    activo
-);
-GO
-
 
 CREATE TABLE [carga_tmp_carpeta] (
   id_carga_tmp_carpeta BIGINT NOT NULL IDENTITY(1,1),
@@ -934,8 +892,8 @@ CREATE INDEX [idx_sabana_clave2] ON [catalogo_delito_sabana] (clave2_sabana);
 CREATE INDEX [idx_sabana_clave3] ON [catalogo_delito_sabana] (clave3_sabana);
 CREATE INDEX [idx_carga_usuario_carga] ON [carga] (id_usuario_carga);
 CREATE INDEX [idx_carga_usuario_confirmacion] ON [carga] (id_usuario_confirmacion);
-CREATE INDEX [idx_carga_codigo_referencia] ON [carga] (codigo_referencia);
 CREATE INDEX [idx_carga_estado] ON [carga] (estado);
+CREATE INDEX [idx_carga_entidad_periodo_estado] ON [carga] (id_entidad_federativa, mes_corte, anio_corte, estado, activo);
 CREATE INDEX [idx_carga_tmp_carpeta_id_carga] ON [carga_tmp_carpeta] (id_carga);
 CREATE INDEX [idx_carga_tmp_delito_id_carga] ON [carga_tmp_delito] (id_carga);
 CREATE INDEX [idx_carga_tmp_delito_id_ci_id_delito] ON [carga_tmp_delito] (id_carga, id_ci, id_delito);
@@ -964,3 +922,4 @@ CREATE INDEX [idx_delito_historico_usuario_registro] ON [delito_historico] (id_u
 CREATE INDEX [idx_delito_historico_carga] ON [delito_historico] (id_carga);
 CREATE INDEX [idx_delito_historico_usuario_modificacion] ON [delito_historico] (id_usuario_modificacion);
 CREATE INDEX [idx_delito_historico_carga_nueva] ON [delito_historico] (id_carga_nueva);
+GO
