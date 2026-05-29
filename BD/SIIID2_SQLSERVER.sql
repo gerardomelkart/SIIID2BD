@@ -923,3 +923,203 @@ CREATE INDEX [idx_delito_historico_carga] ON [delito_historico] (id_carga);
 CREATE INDEX [idx_delito_historico_usuario_modificacion] ON [delito_historico] (id_usuario_modificacion);
 CREATE INDEX [idx_delito_historico_carga_nueva] ON [delito_historico] (id_carga_nueva);
 GO
+
+
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.indexes
+    WHERE name = 'IX_carga_codigo_tipo_estado_activo'
+      AND object_id = OBJECT_ID('carga')
+)
+BEGIN
+    CREATE INDEX IX_carga_codigo_tipo_estado_activo
+    ON carga(codigo_referencia, tipo_carga, estado, activo)
+    INCLUDE (id_carga, id_entidad_federativa, mes_corte, anio_corte, fecha_confirmacion, fecha_expiracion);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.indexes
+    WHERE name = 'IX_carga_periodo_estado_activo'
+      AND object_id = OBJECT_ID('carga')
+)
+BEGIN
+    CREATE INDEX IX_carga_periodo_estado_activo
+    ON carga(id_entidad_federativa, mes_corte, anio_corte, estado, activo)
+    INCLUDE (id_carga, tipo_carga, codigo_referencia, fecha_confirmacion);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.indexes
+    WHERE name = 'IX_tmp_carpeta_carga_activo_idci'
+      AND object_id = OBJECT_ID('carga_tmp_carpeta')
+)
+BEGIN
+    CREATE INDEX IX_tmp_carpeta_carga_activo_idci
+    ON carga_tmp_carpeta(id_carga, activo, id_ci)
+    INCLUDE (ntra_ci, fha_de_ini, hra_de_ini, rmen_de_hchos);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.indexes
+    WHERE name = 'IX_tmp_delito_carga_activo_llave'
+      AND object_id = OBJECT_ID('carga_tmp_delito')
+)
+BEGIN
+    CREATE INDEX IX_tmp_delito_carga_activo_llave
+    ON carga_tmp_delito(id_carga, activo, id_ci, id_delito)
+    INCLUDE (
+        dto,
+        moda_dto,
+        forma_acc,
+        fha_de_hchos,
+        hra_de_hchos,
+        emto_com_dto,
+        grdo_cons,
+        clasf_de_dto,
+        id_ent_hchos,
+        id_mun_hchos,
+        id_loc_hchos,
+        nom_loc_hchos,
+        id_col_hchos,
+        nom_col_hchos,
+        cp,
+        coord_x,
+        coord_y,
+        dom_hchos
+    );
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.indexes
+    WHERE name = 'IX_tmp_victima_carga_activo_llave'
+      AND object_id = OBJECT_ID('carga_tmp_victima')
+)
+BEGIN
+    CREATE INDEX IX_tmp_victima_carga_activo_llave
+    ON carga_tmp_victima(id_carga, activo, id_ci, id_delito, id_vicf)
+    INCLUDE (
+        id_tv,
+        id_tpm,
+        sexo,
+        genero,
+        nacional,
+        pob,
+        disc,
+        fha_nac,
+        edad
+    );
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.indexes
+    WHERE name = 'IX_carpeta_carga_activo_identificador'
+      AND object_id = OBJECT_ID('carpeta_investigacion')
+)
+BEGIN
+    CREATE INDEX IX_carpeta_carga_activo_identificador
+    ON carpeta_investigacion(id_carga, activo, identificador_carpeta_fiscalia)
+    INCLUDE (
+        id_carpeta_investigacion,
+        nomenclatura_carpeta_fiscalia,
+        fecha_inicio,
+        resumen_hechos
+    );
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.indexes
+    WHERE name = 'IX_carpeta_identificador_activo_carga'
+      AND object_id = OBJECT_ID('carpeta_investigacion')
+)
+BEGIN
+    CREATE INDEX IX_carpeta_identificador_activo_carga
+    ON carpeta_investigacion(identificador_carpeta_fiscalia, activo, id_carga)
+    INCLUDE (id_carpeta_investigacion, fecha_inicio, nomenclatura_carpeta_fiscalia);
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.indexes
+    WHERE name = 'IX_delito_carga_activo_carpeta_identificador'
+      AND object_id = OBJECT_ID('delito')
+)
+BEGIN
+    CREATE INDEX IX_delito_carga_activo_carpeta_identificador
+    ON delito(id_carga, activo, id_carpeta_investigacion, identificador_delito_fiscalia)
+    INCLUDE (
+        id_delito,
+        delito_fiscalia,
+        modalidad_delito_fiscalia,
+        id_forma_accion,
+        fecha_hechos,
+        id_instrumento_comision,
+        id_grado_consumacion,
+        id_modalidad_delito,
+        id_entidad_federativa,
+        id_municipio,
+        id_localidad_fiscalia,
+        localidad_fiscalia_nombre,
+        id_colonia_fiscalia,
+        colonia_fiscalia_nombre,
+        id_codigo_postal,
+        coordenada_x,
+        coordenada_y,
+        domicilio_hechos
+    );
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.indexes
+    WHERE name = 'IX_delito_id_activo_carga'
+      AND object_id = OBJECT_ID('delito')
+)
+BEGIN
+    CREATE INDEX IX_delito_id_activo_carga
+    ON delito(id_delito, activo, id_carga)
+    INCLUDE (
+        id_carpeta_investigacion,
+        identificador_delito_fiscalia,
+        id_modalidad_delito
+    );
+END;
+GO
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.indexes
+    WHERE name = 'IX_victima_carga_activo_delito_identificador'
+      AND object_id = OBJECT_ID('victima')
+)
+BEGIN
+    CREATE INDEX IX_victima_carga_activo_delito_identificador
+    ON victima(id_carga, activo, id_delito, identificador_victima_fiscalia)
+    INCLUDE (
+        id_victima,
+        id_tipo_victima,
+        id_tipo_victima_moral,
+        id_sexo,
+        id_genero,
+        id_nacionalidad,
+        id_pertenece_poblacion_indigena,
+        id_presenta_discapacidad,
+        fecha_nacimiento,
+        edad
+    );
+END;
+GO
