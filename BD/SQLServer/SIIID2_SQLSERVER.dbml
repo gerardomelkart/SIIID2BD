@@ -1,5 +1,96 @@
+// DBML generado estrictamente desde el script SQL Server proporcionado
+// No modifica el script SQL; solo interpreta CREATE TABLE, FKs, UNIQUE e índices.
+
+Table roles {
+  id_rol int [pk, not null, increment]
+  rol varchar(50) [not null]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (rol) [unique, name: 'uk_roles_rol']
+  }
+}
+
+Table catalogo_asentamiento {
+  id_asentamiento int [pk, not null]
+  descripcion varchar(100) [not null]
+  activo boolean [not null, default: 1]
+}
+
+Table catalogo_oficina {
+  id_oficina int [pk, not null]
+  clave varchar(50) [not null]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (clave) [unique, name: 'uk_catalogo_oficina_clave']
+  }
+}
+
+Table catalogo_tipo_asentamiento {
+  id_tipo_asentamiento tinyint [pk, not null]
+  clave varchar(5) [not null]
+  descripcion varchar(50) [not null]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (clave) [unique, name: 'uk_catalogo_tipo_asentamiento_clave']
+  }
+}
+
+Table catalogo_tipo_zona {
+  id_tipo_zona tinyint [pk, not null]
+  descripcion varchar(15) [not null]
+  activo boolean [not null, default: 1]
+}
+
+Table catalogo_ciudad {
+  id_ciudad int [pk, not null]
+  clave varchar(5) [not null]
+  descripcion varchar(50) [not null]
+  activo boolean [not null, default: 1]
+}
+
+Table catalogo_entidad_federativa {
+  id_entidad_federativa tinyint [pk, not null]
+  clave varchar(3) [not null]
+  nombre varchar(50) [not null]
+  siglas varchar(10) [not null]
+  siglas_renapo varchar(10) [not null]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (clave) [unique, name: 'uk_catalogo_entidad_federativa_clave']
+  }
+}
+
+Table catalogo_municipio {
+  id_municipio int [pk, not null]
+  id_entidad_federativa tinyint [not null, ref: > catalogo_entidad_federativa.id_entidad_federativa]
+  clave varchar(5) [not null]
+  nombre varchar(150) [not null]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (id_entidad_federativa, clave) [unique, name: 'uk_catalogo_municipio_entidad_clave']
+  }
+}
+
+Table catalogo_localidad {
+  id_localidad int [pk, not null]
+  id_municipio int [not null, ref: > catalogo_municipio.id_municipio]
+  clave varchar(5) [not null]
+  nombre varchar(150) [not null]
+  id_tipo_zona tinyint [not null, ref: > catalogo_tipo_zona.id_tipo_zona]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (id_municipio) [name: 'idx_catalogo_localidad_id_municipio']
+  }
+}
+
 Table catalogo_codigo_postal {
-  id_codigo_postal int [pk]
+  id_codigo_postal int [pk, not null]
   codigo_postal varchar(5) [not null]
   clave_asentamiento_cp_consecutivo varchar(5)
   id_asentamiento int [not null, ref: > catalogo_asentamiento.id_asentamiento]
@@ -8,50 +99,91 @@ Table catalogo_codigo_postal {
   id_municipio int [not null, ref: > catalogo_municipio.id_municipio]
   id_tipo_zona tinyint [ref: > catalogo_tipo_zona.id_tipo_zona]
   id_ciudad int [ref: > catalogo_ciudad.id_ciudad]
-  activo boolean [not null, default: true]
+  activo boolean [not null, default: 1]
 }
 
 Table catalogo_bien_juridico {
-  id_bien_juridico int [pk]
-  clave1 varchar(10) [not null, unique]
+  id_bien_juridico int [pk, not null]
+  clave1 varchar(10) [not null]
   bien_juridico varchar(200) [not null]
-  activo boolean [not null, default: true]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (clave1) [unique, name: 'uk_catalogo_bien_juridico_clave1']
+  }
 }
 
 Table catalogo_delito {
-  id_delito int [pk]
+  id_delito int [pk, not null]
   id_bien_juridico int [not null, ref: > catalogo_bien_juridico.id_bien_juridico]
   clave2 varchar(10) [not null]
   delito varchar(200) [not null]
-  activo boolean [not null, default: true]
+  activo boolean [not null, default: 1]
 }
 
 Table catalogo_subtipo_delito {
-  id_subtipo_delito int [pk]
+  id_subtipo_delito int [pk, not null]
   id_delito int [not null, ref: > catalogo_delito.id_delito]
   clave3 varchar(20) [not null]
   subtipo_delito varchar(200) [not null]
-  activo boolean [not null, default: true]
+  activo boolean [not null, default: 1]
+}
+
+Table catalogo_admite_tentativa {
+  id_admite_tentativa tinyint [pk, not null]
+  clave tinyint [not null]
+  descripcion varchar(100) [not null]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (clave) [unique, name: 'uk_catalogo_admite_tentativa_clave']
+  }
 }
 
 Table catalogo_modalidad_delito {
-  id_modalidad_delito int [pk]
+  id_modalidad_delito int [pk, not null]
   id_subtipo_delito int [not null, ref: > catalogo_subtipo_delito.id_subtipo_delito]
   clave4 varchar(20) [not null]
   modalidad_delito varchar(250) [not null]
   id_admite_tentativa tinyint [not null, ref: > catalogo_admite_tentativa.id_admite_tentativa]
-  activo boolean [not null, default: true]
+  activo boolean [not null, default: 1]
 }
 
-Table catalogo_admite_tentativa {
-  id_admite_tentativa tinyint [pk]
-  clave tinyint [not null, unique]
-  descripcion varchar(100) [not null]
-  activo boolean [not null, default: true]
+Table catalogo_grado_consumacion {
+  id_grado_consumacion tinyint [pk, not null]
+  clave tinyint [not null]
+  descripcion varchar(50) [not null]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (clave) [unique, name: 'uk_catalogo_grado_consumacion_clave']
+  }
+}
+
+Table catalogo_forma_accion {
+  id_forma_accion tinyint [pk, not null]
+  clave tinyint [not null]
+  descripcion varchar(50) [not null]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (clave) [unique, name: 'uk_catalogo_forma_accion_clave']
+  }
+}
+
+Table catalogo_instrumento_comision {
+  id_instrumento_comision tinyint [pk, not null]
+  clave tinyint [not null]
+  descripcion varchar(50) [not null]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (clave) [unique, name: 'uk_catalogo_instrumento_comision_clave']
+  }
 }
 
 Table catalogo_delito_sabana {
-  id_delito_sabana int [pk]
+  id_delito_sabana int [pk, not null]
   id_modalidad_delito int [not null, ref: > catalogo_modalidad_delito.id_modalidad_delito]
   id_grado_consumacion tinyint [not null, ref: > catalogo_grado_consumacion.id_grado_consumacion]
   id_instrumento_comision tinyint [not null, ref: > catalogo_instrumento_comision.id_instrumento_comision]
@@ -61,244 +193,184 @@ Table catalogo_delito_sabana {
   modalidad_delito_sabana varchar(250) [not null]
   clave2_sabana varchar(20) [not null]
   clave3_sabana varchar(20) [not null]
-  activo boolean [not null, default: true]
+  activo boolean [not null, default: 1]
+
   indexes {
+    (id_modalidad_delito, id_grado_consumacion, id_instrumento_comision, id_forma_accion, clave2_sabana, clave3_sabana) [unique, name: 'uk_sabana_combinacion']
     (id_modalidad_delito) [name: 'idx_sabana_modalidad']
     (id_grado_consumacion) [name: 'idx_sabana_grado']
     (id_instrumento_comision) [name: 'idx_sabana_instrumento']
     (id_forma_accion) [name: 'idx_sabana_forma']
     (clave2_sabana) [name: 'idx_sabana_clave2']
     (clave3_sabana) [name: 'idx_sabana_clave3']
-
-    (id_modalidad_delito, id_grado_consumacion, id_instrumento_comision, id_forma_accion, clave2_sabana, clave3_sabana) [unique, name: 'uk_sabana_combinacion']
   }
-}
-
-Table catalogo_asentamiento {
-  id_asentamiento int [pk]
-  descripcion varchar(100) [not null]
-  activo boolean [not null, default: true]
-}
-
-Table catalogo_oficina {
-  id_oficina int [pk]
-  clave varchar(50) [not null, unique]
-  activo boolean [not null, default: true]
-}
-
-Table catalogo_ciudad {
-  id_ciudad int [pk]
-  clave varchar(5) [not null]
-  descripcion varchar(50) [not null]
-  activo boolean [not null, default: true]
-}
-
-Table catalogo_tipo_asentamiento {
-  id_tipo_asentamiento tinyint [pk]
-  clave varchar(5) [not null, unique]
-  descripcion varchar(50) [not null]
-  activo boolean [not null, default: true]
-}
-
-Table catalogo_entidad_federativa {
-  id_entidad_federativa tinyint [pk]
-  clave varchar(3) [not null, unique]
-  nombre varchar(50) [not null]
-  siglas varchar(10) [not null]
-  siglas_renapo varchar(10) [not null]
-  activo boolean [not null, default: true]
-}
-
-Table catalogo_municipio {
-  id_municipio int [pk]
-  id_entidad_federativa tinyint [not null, ref: > catalogo_entidad_federativa.id_entidad_federativa]
-  clave varchar(5) [not null]
-  nombre varchar(150) [not null]
-  activo boolean [not null, default: true]
-
-  indexes {
-    (id_entidad_federativa, clave) [unique]
-  }
-}
-
-Table catalogo_localidad {
-  id_localidad int [pk]
-  id_municipio int [not null, ref: > catalogo_municipio.id_municipio]
-  clave varchar(5) [not null]
-  nombre varchar(150) [not null]
-  id_tipo_zona tinyint [not null, ref: > catalogo_tipo_zona.id_tipo_zona]
-  activo boolean [not null, default: true]
-
-  Indexes {
-    (id_municipio) [name: 'idx_catalogo_localidad_id_municipio']
-  }
-}
-
-Table catalogo_tipo_zona {
-  id_tipo_zona tinyint [pk]
-  descripcion varchar(15) [not null]
-  activo boolean [not null, default: true]
 }
 
 Table catalogo_tipo_expediente {
-  id_tipo_expediente tinyint [pk]
-  clave varchar(5) [not null, unique]
+  id_tipo_expediente tinyint [pk, not null]
+  clave varchar(5) [not null]
   descripcion varchar(25) [not null]
-  activo boolean [not null, default: true]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (clave) [unique, name: 'uk_catalogo_tipo_expediente_clave']
+  }
 }
 
 Table catalogo_tipo_relacion {
-  id_tipo_relacion tinyint [pk]
-  clave varchar(5) [not null, unique]
-  descripcion varchar(25) [not null]
-  activo boolean [not null, default: true]
+  id_tipo_relacion tinyint [pk, not null]
+  clave varchar(5) [not null]
+  descripcion varchar(50) [not null]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (clave) [unique, name: 'uk_catalogo_tipo_relacion_clave']
+  }
 }
 
 Table catalogo_nacionalidad {
-  id_nacionalidad int [pk]
-  clave varchar(5) [not null, unique]
+  id_nacionalidad int [pk, not null]
+  clave varchar(5) [not null]
   descripcion varchar(50) [not null]
-  activo boolean [not null, default: true]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (clave) [unique, name: 'uk_catalogo_nacionalidad_clave']
+  }
 }
 
 Table catalogo_genero {
-  id_genero tinyint [pk]
-  clave tinyint [not null, unique]
+  id_genero tinyint [pk, not null]
+  clave tinyint [not null]
   descripcion varchar(50) [not null]
-  activo boolean [not null, default: true]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (clave) [unique, name: 'uk_catalogo_genero_clave']
+  }
 }
 
 Table catalogo_sexo {
-  id_sexo tinyint [pk]
-  clave tinyint [not null, unique]
+  id_sexo tinyint [pk, not null]
+  clave tinyint [not null]
   descripcion varchar(50) [not null]
-  activo boolean [not null, default: true]
-}
+  activo boolean [not null, default: 1]
 
-Table catalogo_grado_consumacion {
-  id_grado_consumacion tinyint [pk]
-  clave tinyint [not null, unique]
-  descripcion varchar(50) [not null]
-  activo boolean [not null, default: true]
+  indexes {
+    (clave) [unique, name: 'uk_catalogo_sexo_clave']
+  }
 }
 
 Table catalogo_pertenece_poblacion_indigena {
-  id_pertenece_poblacion_indigena tinyint [pk]
-  clave tinyint [not null, unique]
+  id_pertenece_poblacion_indigena tinyint [pk, not null]
+  clave tinyint [not null]
   descripcion varchar(50) [not null]
-  activo boolean [not null, default: true]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (clave) [unique, name: 'uk_catalogo_pertenece_poblacion_indigena_clave']
+  }
 }
 
 Table catalogo_presenta_discapacidad {
-  id_presenta_discapacidad tinyint [pk]
-  clave tinyint [not null, unique]
+  id_presenta_discapacidad tinyint [pk, not null]
+  clave tinyint [not null]
   descripcion varchar(50) [not null]
-  activo boolean [not null, default: true]
-}
+  activo boolean [not null, default: 1]
 
-Table catalogo_forma_accion {
-  id_forma_accion tinyint [pk]
-  clave tinyint [not null, unique]
-  descripcion varchar(50) [not null]
-  activo boolean [not null, default: true]
+  indexes {
+    (clave) [unique, name: 'uk_catalogo_presenta_discapacidad_clave']
+  }
 }
 
 Table catalogo_tipo_victima {
-  id_tipo_victima tinyint [pk]
-  clave tinyint [not null, unique]
+  id_tipo_victima tinyint [pk, not null]
+  clave tinyint [not null]
   descripcion varchar(50) [not null]
-  activo boolean [not null, default: true]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (clave) [unique, name: 'uk_catalogo_tipo_victima_clave']
+  }
 }
 
 Table catalogo_tipo_victima_moral {
-  id_tipo_victima_moral tinyint [pk]
-  clave tinyint [not null, unique]
+  id_tipo_victima_moral tinyint [pk, not null]
+  clave tinyint [not null]
   descripcion varchar(50) [not null]
-  activo boolean [not null, default: true]
-}
+  activo boolean [not null, default: 1]
 
-Table catalogo_instrumento_comision {
-  id_instrumento_comision tinyint [pk]
-  clave tinyint [not null, unique]
-  descripcion varchar(50) [not null]
-  activo boolean [not null, default: true]
-}
-
-Table roles {
-  id_rol int [pk]
-  rol varchar(50) [not null, unique]
-  activo boolean [not null, default: true]
+  indexes {
+    (clave) [unique, name: 'uk_catalogo_tipo_victima_moral_clave']
+  }
 }
 
 Table usuario {
-  id_usuario int [pk, increment]
-  usuario varchar(50) [not null, unique]
+  id_usuario int [pk, not null, increment]
+  usuario varchar(50) [not null]
   password varchar(255) [not null]
   nombre varchar(50) [not null]
   primer_apellido varchar(50) [not null]
   segundo_apellido varchar(50)
-  correo_electronico varchar(100) [not null, unique]
-  rfc varchar(13) [not null, unique]
-  curp varchar(18) [not null, unique]
+  correo_electronico varchar(100) [not null]
+  rfc varchar(13) [not null]
+  curp varchar(18) [not null]
   telefono_contacto varchar(15)
   id_entidad_federativa tinyint [ref: > catalogo_entidad_federativa.id_entidad_federativa]
-  fecha_alta datetime [not null, default: `CURRENT_TIMESTAMP`]
-  fecha_modificacion datetime [not null, default: `CURRENT_TIMESTAMP`]
+  fecha_alta datetime [not null, default: `SYSDATETIME()`]
+  fecha_modificacion datetime [not null, default: `SYSDATETIME()`]
   id_usuario_alta int [ref: > usuario.id_usuario]
   id_usuario_modificacion int [ref: > usuario.id_usuario]
   id_rol int [not null, ref: > roles.id_rol]
-  activo boolean [not null, default: true]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (usuario) [unique, name: 'uk_usuario_usuario']
+    (correo_electronico) [unique, name: 'uk_usuario_correo']
+    (rfc) [unique, name: 'uk_usuario_rfc']
+    (curp) [unique, name: 'uk_usuario_curp']
+  }
 }
 
 Table carga {
-  id_carga bigint [pk, increment]
-
+  id_carga bigint [pk, not null, increment]
   id_usuario_carga int [not null, ref: > usuario.id_usuario]
-  id_entidad_federativa tinyint [ref: > catalogo_entidad_federativa.id_entidad_federativa]
-
-  codigo_referencia varchar(50) [not null, unique]
-  tipo_carga varchar(20) [not null, default: 'CARGA_INICIAL']
-
+  codigo_referencia varchar(50) [not null]
   mes_corte tinyint [not null]
   anio_corte smallint [not null]
   fecha_carga datetime [not null, default: `SYSDATETIME()`]
-
   total_carpetas_investigacion int [not null]
   total_delitos int [not null]
   total_victimas int [not null]
-
-  estado varchar(50) [not null, default: 'VALIDADO_PENDIENTE']
+  estado varchar(30) [not null, default: 'VALIDADO_PENDIENTE']
   fecha_validacion datetime [not null, default: `SYSDATETIME()`]
   fecha_confirmacion datetime
   fecha_expiracion datetime
   id_usuario_confirmacion int [ref: > usuario.id_usuario]
-  mensaje_error varchar(max)
-
-  activo bit [not null, default: 1]
+  mensaje_error text
+  activo boolean [not null, default: 1]
 
   indexes {
     (codigo_referencia) [unique, name: 'uk_carga_codigo_referencia']
     (id_usuario_carga) [name: 'idx_carga_usuario_carga']
     (id_usuario_confirmacion) [name: 'idx_carga_usuario_confirmacion']
+    (codigo_referencia) [name: 'idx_carga_codigo_referencia']
     (estado) [name: 'idx_carga_estado']
-    (id_entidad_federativa, mes_corte, anio_corte, estado, activo) [name: 'idx_carga_entidad_periodo_estado']
   }
 }
 
 Table carga_tmp_carpeta {
-  id_carga_tmp_carpeta bigint [pk, increment]
+  id_carga_tmp_carpeta bigint [pk, not null, increment]
   id_carga bigint [not null, ref: > carga.id_carga]
   numero_fila int [not null]
-
   id_ci varchar(250) [not null]
   ntra_ci varchar(250) [not null]
   fha_de_ini varchar(50) [not null]
   hra_de_ini varchar(50)
   rmen_de_hchos text
-
-  estado varchar(50) [not null, default: 'PENDIENTE']
+  estado varchar(30) [not null, default: 'PENDIENTE']
   fecha_procesamiento datetime
-  activo boolean [not null, default: true]
+  activo boolean [not null, default: 1]
 
   indexes {
     (id_carga) [name: 'idx_carga_tmp_carpeta_id_carga']
@@ -306,10 +378,9 @@ Table carga_tmp_carpeta {
 }
 
 Table carga_tmp_delito {
-  id_carga_tmp_delito bigint [pk, increment]
+  id_carga_tmp_delito bigint [pk, not null, increment]
   id_carga bigint [not null, ref: > carga.id_carga]
   numero_fila int [not null]
-
   id_ci varchar(250) [not null]
   id_delito varchar(50) [not null]
   dto text [not null]
@@ -320,7 +391,6 @@ Table carga_tmp_delito {
   emto_com_dto varchar(50) [not null]
   grdo_cons varchar(50) [not null]
   clasf_de_dto varchar(100) [not null]
-
   id_ent_hchos varchar(50) [not null]
   id_mun_hchos varchar(50) [not null]
   id_loc_hchos varchar(50)
@@ -328,14 +398,12 @@ Table carga_tmp_delito {
   id_col_hchos varchar(50)
   nom_col_hchos varchar(250)
   cp varchar(20)
-
   coord_x varchar(50)
   coord_y varchar(50)
   dom_hchos text
-
-  estado varchar(50) [not null, default: 'PENDIENTE']
+  estado varchar(30) [not null, default: 'PENDIENTE']
   fecha_procesamiento datetime
-  activo boolean [not null, default: true]
+  activo boolean [not null, default: 1]
 
   indexes {
     (id_carga) [name: 'idx_carga_tmp_delito_id_carga']
@@ -344,10 +412,9 @@ Table carga_tmp_delito {
 }
 
 Table carga_tmp_victima {
-  id_carga_tmp_victima bigint [pk, increment]
+  id_carga_tmp_victima bigint [pk, not null, increment]
   id_carga bigint [not null, ref: > carga.id_carga]
   numero_fila int [not null]
-
   id_ci varchar(250) [not null]
   id_delito varchar(50) [not null]
   id_vicf varchar(50) [not null]
@@ -360,10 +427,9 @@ Table carga_tmp_victima {
   fha_nac varchar(50)
   edad varchar(50)
   nacional varchar(50)
-
-  estado varchar(50) [not null, default: 'PENDIENTE']
+  estado varchar(30) [not null, default: 'PENDIENTE']
   fecha_procesamiento datetime
-  activo boolean [not null, default: true]
+  activo boolean [not null, default: 1]
 
   indexes {
     (id_carga) [name: 'idx_carga_tmp_victima_id_carga']
@@ -372,124 +438,134 @@ Table carga_tmp_victima {
 }
 
 Table habilita_carga_modificacion {
-  id_habilita_carga_modificacion int [pk, increment]
-  habilita_carga boolean [not null, default: false]
-  habilita_modificacion boolean [not null, default: false]
-  id_usuario int [not null, unique, ref: > usuario.id_usuario]
-  activo boolean [not null, default: true]
+  id_habilita_carga_modificacion int [pk, not null, increment]
+  habilita_carga boolean [not null, default: 0]
+  habilita_modificacion boolean [not null, default: 0]
+  id_usuario int [not null, ref: > usuario.id_usuario]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (id_usuario) [unique, name: 'uk_habilita_carga_modificacion_usuario']
+  }
 }
 
 Table carpeta_investigacion {
-  id_carpeta_investigacion bigint [pk, increment]
+  id_carpeta_investigacion bigint [pk, not null, increment]
   identificador_carpeta_fiscalia varchar(250) [not null]
   nomenclatura_carpeta_fiscalia varchar(250) [not null]
   fecha_inicio datetime [not null]
   resumen_hechos text
   id_usuario_registro int [not null, ref: > usuario.id_usuario]
-  fecha_registro datetime [not null, default: `CURRENT_TIMESTAMP`]
+  fecha_registro datetime [not null, default: `SYSDATETIME()`]
   id_carga bigint [not null, ref: > carga.id_carga]
-  activo boolean [not null, default: true]
+  activo boolean [not null, default: 1]
 }
 
 Table carpeta_investigacion_historico {
-  id_carpeta_investigacion_historico bigint [pk, increment]
+  id_carpeta_investigacion_historico bigint [pk, not null, increment]
   id_carpeta_investigacion bigint [not null, ref: > carpeta_investigacion.id_carpeta_investigacion]
-
   identificador_carpeta_fiscalia varchar(250) [not null]
   nomenclatura_carpeta_fiscalia varchar(250) [not null]
   fecha_inicio datetime [not null]
   resumen_hechos text
-
   id_usuario_registro int [not null, ref: > usuario.id_usuario]
   fecha_registro datetime [not null]
   id_carga bigint [not null, ref: > carga.id_carga]
-
   id_usuario_modificacion int [ref: > usuario.id_usuario]
   id_carga_nueva bigint [not null, ref: > carga.id_carga]
-  tipo_movimiento varchar(20) [not null, default: 'MODIFICADO']
-  fecha_modificacion datetime [not null, default: `CURRENT_TIMESTAMP`]
-
-  activo boolean [not null, default: true]
+  fecha_modificacion datetime [not null, default: `SYSDATETIME()`]
+  activo boolean [not null, default: 1]
 }
 
 Table delito {
-  id_delito bigint [pk, increment]
+  id_delito bigint [pk, not null, increment]
   id_carpeta_investigacion bigint [not null, ref: > carpeta_investigacion.id_carpeta_investigacion]
-
   identificador_delito_fiscalia varchar(50) [not null]
-  delito_fiscalia varchar(250) [not null]
-  modalidad_delito_fiscalia varchar(250)
-
+  delito_fiscalia varchar(150) [not null]
+  modalidad_delito_fiscalia varchar(150)
   id_forma_accion tinyint [not null, ref: > catalogo_forma_accion.id_forma_accion]
   fecha_hechos datetime [not null]
   id_instrumento_comision tinyint [not null, ref: > catalogo_instrumento_comision.id_instrumento_comision]
   id_grado_consumacion tinyint [not null, ref: > catalogo_grado_consumacion.id_grado_consumacion]
   id_modalidad_delito int [not null, ref: > catalogo_modalidad_delito.id_modalidad_delito]
-
   id_entidad_federativa tinyint [not null, ref: > catalogo_entidad_federativa.id_entidad_federativa]
   id_municipio int [not null, ref: > catalogo_municipio.id_municipio]
-
-  id_localidad_fiscalia varchar(250)
+  id_localidad_fiscalia varchar(50)
   localidad_fiscalia_nombre varchar(250)
-  id_colonia_fiscalia varchar(250)
+  id_colonia_fiscalia varchar(50)
   colonia_fiscalia_nombre varchar(250)
-
-  id_codigo_postal int [ref: > catalogo_codigo_postal.id_codigo_postal]
-
-  coordenada_x decimal(10,6)
-  coordenada_y decimal(10,6)
+  id_codigo_postal int [not null, ref: > catalogo_codigo_postal.id_codigo_postal]
+  coordenada_x decimal(10,6) [not null]
+  coordenada_y decimal(10,6) [not null]
   domicilio_hechos text
-
   id_usuario_registro int [not null, ref: > usuario.id_usuario]
-  fecha_registro datetime [not null, default: `CURRENT_TIMESTAMP`]
+  fecha_registro datetime [not null, default: `SYSDATETIME()`]
   id_carga bigint [not null, ref: > carga.id_carga]
-  activo boolean [not null, default: true]
+  activo boolean [not null, default: 1]
+
+  indexes {
+    (id_carpeta_investigacion) [name: 'idx_delito_carpeta']
+    (id_forma_accion) [name: 'idx_delito_forma_accion']
+    (id_instrumento_comision) [name: 'idx_delito_instrumento']
+    (id_grado_consumacion) [name: 'idx_delito_grado_consumacion']
+    (id_modalidad_delito) [name: 'idx_delito_modalidad']
+    (id_entidad_federativa) [name: 'idx_delito_entidad_federativa']
+    (id_municipio) [name: 'idx_delito_municipio']
+    (id_codigo_postal) [name: 'idx_delito_codigo_postal']
+    (id_usuario_registro) [name: 'idx_delito_usuario_registro']
+    (id_carga) [name: 'idx_delito_carga']
+  }
 }
 
-
 Table delito_historico {
-  id_delito_historico bigint [pk, increment]
+  id_delito_historico bigint [pk, not null, increment]
   id_delito bigint [not null, ref: > delito.id_delito]
   id_carpeta_investigacion bigint [not null, ref: > carpeta_investigacion.id_carpeta_investigacion]
-
   identificador_delito_fiscalia varchar(50) [not null]
-  delito_fiscalia varchar(250) [not null]
-  modalidad_delito_fiscalia varchar(250)
-
+  delito_fiscalia varchar(150) [not null]
+  modalidad_delito_fiscalia varchar(150)
   id_forma_accion tinyint [not null, ref: > catalogo_forma_accion.id_forma_accion]
   fecha_hechos datetime [not null]
   id_instrumento_comision tinyint [not null, ref: > catalogo_instrumento_comision.id_instrumento_comision]
   id_grado_consumacion tinyint [not null, ref: > catalogo_grado_consumacion.id_grado_consumacion]
   id_modalidad_delito int [not null, ref: > catalogo_modalidad_delito.id_modalidad_delito]
-
   id_entidad_federativa tinyint [not null, ref: > catalogo_entidad_federativa.id_entidad_federativa]
   id_municipio int [not null, ref: > catalogo_municipio.id_municipio]
-
-  id_localidad_fiscalia varchar(250)
+  id_localidad_fiscalia varchar(50)
   localidad_fiscalia_nombre varchar(250)
-  id_colonia_fiscalia varchar(250)
+  id_colonia_fiscalia varchar(50)
   colonia_fiscalia_nombre varchar(250)
-
-  id_codigo_postal int [ref: > catalogo_codigo_postal.id_codigo_postal]
-
-  coordenada_x decimal(10,6)
-  coordenada_y decimal(10,6)
+  id_codigo_postal int [not null, ref: > catalogo_codigo_postal.id_codigo_postal]
+  coordenada_x decimal(10,6) [not null]
+  coordenada_y decimal(10,6) [not null]
   domicilio_hechos text
-
   id_usuario_registro int [not null, ref: > usuario.id_usuario]
   fecha_registro datetime [not null]
   id_carga bigint [not null, ref: > carga.id_carga]
-
   id_usuario_modificacion int [ref: > usuario.id_usuario]
   id_carga_nueva bigint [not null, ref: > carga.id_carga]
-  tipo_movimiento varchar(20) [not null, default: 'MODIFICADO']
-  fecha_modificacion datetime [not null, default: `CURRENT_TIMESTAMP`]
+  fecha_modificacion datetime [not null, default: `SYSDATETIME()`]
+  activo boolean [not null, default: 1]
 
-  activo boolean [not null, default: true]
+  indexes {
+    (id_delito) [name: 'idx_delito_historico_delito']
+    (id_carpeta_investigacion) [name: 'idx_delito_historico_carpeta']
+    (id_forma_accion) [name: 'idx_delito_historico_forma_accion']
+    (id_instrumento_comision) [name: 'idx_delito_historico_instrumento']
+    (id_grado_consumacion) [name: 'idx_delito_historico_grado_consumacion']
+    (id_modalidad_delito) [name: 'idx_delito_historico_modalidad']
+    (id_entidad_federativa) [name: 'idx_delito_historico_entidad_federativa']
+    (id_municipio) [name: 'idx_delito_historico_municipio']
+    (id_codigo_postal) [name: 'idx_delito_historico_codigo_postal']
+    (id_usuario_registro) [name: 'idx_delito_historico_usuario_registro']
+    (id_carga) [name: 'idx_delito_historico_carga']
+    (id_usuario_modificacion) [name: 'idx_delito_historico_usuario_modificacion']
+    (id_carga_nueva) [name: 'idx_delito_historico_carga_nueva']
+  }
 }
 
 Table victima {
-  id_victima bigint [pk, increment]
+  id_victima bigint [pk, not null, increment]
   id_delito bigint [not null, ref: > delito.id_delito]
   identificador_victima_fiscalia varchar(50) [not null]
   id_tipo_victima tinyint [not null, ref: > catalogo_tipo_victima.id_tipo_victima]
@@ -502,18 +578,16 @@ Table victima {
   fecha_nacimiento date
   edad tinyint
   id_usuario_registro int [not null, ref: > usuario.id_usuario]
-  fecha_registro datetime [not null, default: `CURRENT_TIMESTAMP`]
+  fecha_registro datetime [not null, default: `SYSDATETIME()`]
   id_carga bigint [not null, ref: > carga.id_carga]
-  activo boolean [not null, default: true]
+  activo boolean [not null, default: 1]
 }
 
 Table victima_historico {
-  id_victima_historico bigint [pk, increment]
+  id_victima_historico bigint [pk, not null, increment]
   id_victima bigint [not null, ref: > victima.id_victima]
   id_delito bigint [not null, ref: > delito.id_delito]
-
   identificador_victima_fiscalia varchar(50) [not null]
-
   id_tipo_victima tinyint [not null, ref: > catalogo_tipo_victima.id_tipo_victima]
   id_tipo_victima_moral tinyint [ref: > catalogo_tipo_victima_moral.id_tipo_victima_moral]
   id_sexo tinyint [ref: > catalogo_sexo.id_sexo]
@@ -521,18 +595,13 @@ Table victima_historico {
   id_nacionalidad int [ref: > catalogo_nacionalidad.id_nacionalidad]
   id_pertenece_poblacion_indigena tinyint [ref: > catalogo_pertenece_poblacion_indigena.id_pertenece_poblacion_indigena]
   id_presenta_discapacidad tinyint [ref: > catalogo_presenta_discapacidad.id_presenta_discapacidad]
-
   fecha_nacimiento date
   edad tinyint
-
   id_usuario_registro int [not null, ref: > usuario.id_usuario]
   fecha_registro datetime [not null]
   id_carga bigint [not null, ref: > carga.id_carga]
-
   id_usuario_modificacion int [ref: > usuario.id_usuario]
   id_carga_nueva bigint [not null, ref: > carga.id_carga]
-  tipo_movimiento varchar(20) [not null, default: 'MODIFICADO']
-  fecha_modificacion datetime [not null, default: `CURRENT_TIMESTAMP`]
-
-  activo boolean [not null, default: true]
+  fecha_modificacion datetime [not null, default: `SYSDATETIME()`]
+  activo boolean [not null, default: 1]
 }
