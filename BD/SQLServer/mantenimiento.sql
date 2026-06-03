@@ -1,0 +1,39 @@
+BEGIN TRANSACTION;
+
+DELETE t
+FROM carga_tmp_victima t
+INNER JOIN carga c
+    ON c.id_carga = t.id_carga
+WHERE c.estado NOT IN (
+    'VALIDADO_PENDIENTE',
+    'VALIDADO_PENDIENTE_ACTUALIZACION'
+);
+
+DELETE t
+FROM carga_tmp_delito t
+INNER JOIN carga c
+    ON c.id_carga = t.id_carga
+WHERE c.estado NOT IN (
+    'VALIDADO_PENDIENTE',
+    'VALIDADO_PENDIENTE_ACTUALIZACION'
+);
+
+DELETE t
+FROM carga_tmp_carpeta t
+INNER JOIN carga c
+    ON c.id_carga = t.id_carga
+WHERE c.estado NOT IN (
+    'VALIDADO_PENDIENTE',
+    'VALIDADO_PENDIENTE_ACTUALIZACION'
+);
+
+COMMIT;
+
+UPDATE STATISTICS carga_tmp_carpeta WITH FULLSCAN;
+UPDATE STATISTICS carga_tmp_delito WITH FULLSCAN;
+UPDATE STATISTICS carga_tmp_victima WITH FULLSCAN;
+
+UPDATE STATISTICS carga WITH FULLSCAN;
+UPDATE STATISTICS carpeta_investigacion WITH FULLSCAN;
+UPDATE STATISTICS delito WITH FULLSCAN;
+UPDATE STATISTICS victima WITH FULLSCAN;
