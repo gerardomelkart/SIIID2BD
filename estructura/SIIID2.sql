@@ -587,12 +587,12 @@ CREATE TABLE delito (
     id_delito BIGINT IDENTITY(1,1) NOT NULL,
     id_carpeta_investigacion BIGINT NOT NULL,
 
-    identificador_delito_fiscalia VARCHAR(50) NOT NULL,
-    delito_fiscalia VARCHAR(250) NOT NULL,
-    modalidad_delito_fiscalia VARCHAR(250) NULL,
+    identificador_delito_fiscalia NVARCHAR(50) NOT NULL,
+    delito_fiscalia NVARCHAR(250) NOT NULL,
+    modalidad_delito_fiscalia NVARCHAR(250) NULL,
 
     id_forma_accion TINYINT NOT NULL,
-    fecha_hechos DATETIME NOT NULL,
+    fecha_hechos DATETIME2(0) NOT NULL,
     id_instrumento_comision TINYINT NOT NULL,
     id_grado_consumacion TINYINT NOT NULL,
     id_modalidad_delito INT NOT NULL,
@@ -600,19 +600,19 @@ CREATE TABLE delito (
     id_entidad_federativa TINYINT NOT NULL,
     id_municipio INT NOT NULL,
 
-    id_localidad_fiscalia VARCHAR(250) NULL,
-    localidad_fiscalia_nombre VARCHAR(250) NULL,
-    id_colonia_fiscalia VARCHAR(250) NULL,
-    colonia_fiscalia_nombre VARCHAR(250) NULL,
+    id_localidad_fiscalia NVARCHAR(250) NULL,
+    localidad_fiscalia_nombre NVARCHAR(250) NULL,
+    id_colonia_fiscalia NVARCHAR(250) NULL,
+    colonia_fiscalia_nombre NVARCHAR(250) NULL,
 
     id_codigo_postal INT NULL,
 
     coordenada_x DECIMAL(10,6) NULL,
     coordenada_y DECIMAL(10,6) NULL,
-    domicilio_hechos VARCHAR(MAX) NULL,
+    domicilio_hechos NVARCHAR(MAX) NULL,
 
     id_usuario_registro INT NOT NULL,
-    fecha_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_registro DATETIME2(0) NOT NULL DEFAULT SYSDATETIME(),
     id_carga BIGINT NOT NULL,
     activo BIT NOT NULL DEFAULT 1,
 
@@ -665,33 +665,44 @@ CREATE TABLE delito_historico (
     id_delito_historico BIGINT IDENTITY(1,1) NOT NULL,
     id_delito BIGINT NOT NULL,
     id_carpeta_investigacion BIGINT NOT NULL,
+
     identificador_delito_fiscalia NVARCHAR(50) NOT NULL,
-    delito_fiscalia VARCHAR(250) NOT NULL,
-    modalidad_delito_fiscalia VARCHAR(250) NULL,
+    delito_fiscalia NVARCHAR(250) NOT NULL,
+    modalidad_delito_fiscalia NVARCHAR(250) NULL,
+
     id_forma_accion TINYINT NOT NULL,
-    fecha_hechos DATETIME2 NOT NULL,
+    fecha_hechos DATETIME2(0) NOT NULL,
     id_instrumento_comision TINYINT NOT NULL,
     id_grado_consumacion TINYINT NOT NULL,
     id_modalidad_delito INT NOT NULL,
+
     id_entidad_federativa TINYINT NOT NULL,
     id_municipio INT NOT NULL,
-    id_localidad_fiscalia NVARCHAR(50) NULL,
+
+    id_localidad_fiscalia NVARCHAR(250) NULL,
     localidad_fiscalia_nombre NVARCHAR(250) NULL,
-    id_colonia_fiscalia NVARCHAR(50) NULL,
+    id_colonia_fiscalia NVARCHAR(250) NULL,
     colonia_fiscalia_nombre NVARCHAR(250) NULL,
+
     id_codigo_postal INT NULL,
+
     coordenada_x DECIMAL(10,6) NULL,
     coordenada_y DECIMAL(10,6) NULL,
     domicilio_hechos NVARCHAR(MAX) NULL,
+
     id_usuario_registro INT NOT NULL,
-    fecha_registro DATETIME2 NOT NULL,
+    fecha_registro DATETIME2(0) NOT NULL,
+
     id_carga BIGINT NOT NULL,
     id_usuario_modificacion INT NULL,
     id_carga_nueva BIGINT NOT NULL,
+
     tipo_movimiento NVARCHAR(20) NOT NULL
         CONSTRAINT DF_delito_historico_tipo_movimiento DEFAULT 'MODIFICADO',
-    fecha_modificacion DATETIME2 NOT NULL
+
+    fecha_modificacion DATETIME2(0) NOT NULL
         CONSTRAINT DF_delito_historico_fecha_modificacion DEFAULT SYSDATETIME(),
+
     activo BIT NOT NULL
         CONSTRAINT DF_delito_historico_activo DEFAULT 1,
 
