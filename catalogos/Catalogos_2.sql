@@ -2576,7 +2576,7 @@ INSERT INTO catalogo_municipio (id_municipio, id_entidad_federativa, clave, nomb
 GO
 
 INSERT INTO usuario (usuario, password, nombre, primer_apellido, correo_electronico, rfc, curp, id_rol) VALUES
-('superadmin', 'admin123', 'Super', 'Usuario', 'superadmin@sistema.local', 'XAXX010101000', 'XAXX010101HDFXXX00', 1);
+('superadminn', '$2a$12$Y3dRqOO8akY6P0oHwWWPVeG3ssv4BlgxN1709DaGiafSa.aBcFShq', 'Super', 'Usuario', 'superadmin@sistema.local', 'XAXX010101000', 'XAXX010101HDFXXX00', 1);
 
 GO
 
