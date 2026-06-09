@@ -481,8 +481,8 @@ Table delito {
   id_delito bigint [pk, not null, increment]
   id_carpeta_investigacion bigint [not null, ref: > carpeta_investigacion.id_carpeta_investigacion]
   identificador_delito_fiscalia varchar(50) [not null]
-  delito_fiscalia varchar(150) [not null]
-  modalidad_delito_fiscalia varchar(150)
+  delito_fiscalia varchar(2000) [not null]
+  modalidad_delito_fiscalia varchar(2000)
   id_forma_accion tinyint [not null, ref: > catalogo_forma_accion.id_forma_accion]
   fecha_hechos datetime [not null]
   id_instrumento_comision tinyint [not null, ref: > catalogo_instrumento_comision.id_instrumento_comision]
@@ -522,8 +522,8 @@ Table delito_historico {
   id_delito bigint [not null, ref: > delito.id_delito]
   id_carpeta_investigacion bigint [not null, ref: > carpeta_investigacion.id_carpeta_investigacion]
   identificador_delito_fiscalia varchar(50) [not null]
-  delito_fiscalia varchar(150) [not null]
-  modalidad_delito_fiscalia varchar(150)
+  delito_fiscalia varchar(2000) [not null]
+  modalidad_delito_fiscalia varchar(2000)
   id_forma_accion tinyint [not null, ref: > catalogo_forma_accion.id_forma_accion]
   fecha_hechos datetime [not null]
   id_instrumento_comision tinyint [not null, ref: > catalogo_instrumento_comision.id_instrumento_comision]

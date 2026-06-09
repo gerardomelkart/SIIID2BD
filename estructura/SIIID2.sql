@@ -588,8 +588,8 @@ CREATE TABLE delito (
     id_carpeta_investigacion BIGINT NOT NULL,
 
     identificador_delito_fiscalia NVARCHAR(50) NOT NULL,
-    delito_fiscalia NVARCHAR(250) NOT NULL,
-    modalidad_delito_fiscalia NVARCHAR(250) NULL,
+    delito_fiscalia NVARCHAR(2000) NOT NULL,
+    modalidad_delito_fiscalia NVARCHAR(2000) NULL,
 
     id_forma_accion TINYINT NOT NULL,
     fecha_hechos DATETIME2(0) NOT NULL,
@@ -667,8 +667,8 @@ CREATE TABLE delito_historico (
     id_carpeta_investigacion BIGINT NOT NULL,
 
     identificador_delito_fiscalia NVARCHAR(50) NOT NULL,
-    delito_fiscalia NVARCHAR(250) NOT NULL,
-    modalidad_delito_fiscalia NVARCHAR(250) NULL,
+    delito_fiscalia NVARCHAR(2000) NOT NULL,
+    modalidad_delito_fiscalia NVARCHAR(2000) NULL,
 
     id_forma_accion TINYINT NOT NULL,
     fecha_hechos DATETIME2(0) NOT NULL,
