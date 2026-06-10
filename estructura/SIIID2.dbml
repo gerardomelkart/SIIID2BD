@@ -382,11 +382,11 @@ Table carga_tmp_delito {
   id_carga bigint [not null, ref: > carga.id_carga]
   numero_fila int [not null]
   id_ci varchar(250) [not null]
-  id_delito varchar(50) [not null]
+  id_delito varchar(250) [not null]
   dto text [not null]
   moda_dto text
   forma_acc varchar(50) [not null]
-  fha_de_hchos varchar(50) [not null]
+  fha_de_hchos varchar(50) [null]
   hra_de_hchos varchar(50)
   emto_com_dto varchar(50) [not null]
   grdo_cons varchar(50) [not null]
@@ -416,7 +416,7 @@ Table carga_tmp_victima {
   id_carga bigint [not null, ref: > carga.id_carga]
   numero_fila int [not null]
   id_ci varchar(250) [not null]
-  id_delito varchar(50) [not null]
+  id_delito varchar(250) [not null]
   id_vicf varchar(50) [not null]
   id_tv varchar(50) [not null]
   id_tpm varchar(50)
@@ -484,7 +484,7 @@ Table delito {
   delito_fiscalia varchar(2000) [not null]
   modalidad_delito_fiscalia varchar(2000)
   id_forma_accion tinyint [not null, ref: > catalogo_forma_accion.id_forma_accion]
-  fecha_hechos datetime [not null]
+  fecha_hechos datetime [null]
   id_instrumento_comision tinyint [not null, ref: > catalogo_instrumento_comision.id_instrumento_comision]
   id_grado_consumacion tinyint [not null, ref: > catalogo_grado_consumacion.id_grado_consumacion]
   id_modalidad_delito int [not null, ref: > catalogo_modalidad_delito.id_modalidad_delito]
@@ -525,7 +525,7 @@ Table delito_historico {
   delito_fiscalia varchar(2000) [not null]
   modalidad_delito_fiscalia varchar(2000)
   id_forma_accion tinyint [not null, ref: > catalogo_forma_accion.id_forma_accion]
-  fecha_hechos datetime [not null]
+  fecha_hechos datetime [null]
   id_instrumento_comision tinyint [not null, ref: > catalogo_instrumento_comision.id_instrumento_comision]
   id_grado_consumacion tinyint [not null, ref: > catalogo_grado_consumacion.id_grado_consumacion]
   id_modalidad_delito int [not null, ref: > catalogo_modalidad_delito.id_modalidad_delito]
