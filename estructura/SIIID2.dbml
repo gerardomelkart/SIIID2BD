@@ -417,7 +417,7 @@ Table carga_tmp_victima {
   numero_fila int [not null]
   id_ci varchar(250) [not null]
   id_delito varchar(250) [not null]
-  id_vicf varchar(50) [not null]
+  id_vicf varchar(250) [not null]
   id_tv varchar(50) [not null]
   id_tpm varchar(50)
   sexo varchar(50)
@@ -490,9 +490,9 @@ Table delito {
   id_modalidad_delito int [not null, ref: > catalogo_modalidad_delito.id_modalidad_delito]
   id_entidad_federativa tinyint [not null, ref: > catalogo_entidad_federativa.id_entidad_federativa]
   id_municipio int [not null, ref: > catalogo_municipio.id_municipio]
-  id_localidad_fiscalia varchar(50)
+  id_localidad_fiscalia varchar(250)
   localidad_fiscalia_nombre varchar(250)
-  id_colonia_fiscalia varchar(50)
+  id_colonia_fiscalia varchar(250)
   colonia_fiscalia_nombre varchar(250)
   id_codigo_postal int [not null, ref: > catalogo_codigo_postal.id_codigo_postal]
   coordenada_x decimal(10,6) [not null]
@@ -531,9 +531,9 @@ Table delito_historico {
   id_modalidad_delito int [not null, ref: > catalogo_modalidad_delito.id_modalidad_delito]
   id_entidad_federativa tinyint [not null, ref: > catalogo_entidad_federativa.id_entidad_federativa]
   id_municipio int [not null, ref: > catalogo_municipio.id_municipio]
-  id_localidad_fiscalia varchar(50)
+  id_localidad_fiscalia varchar(250)
   localidad_fiscalia_nombre varchar(250)
-  id_colonia_fiscalia varchar(50)
+  id_colonia_fiscalia varchar(250)
   colonia_fiscalia_nombre varchar(250)
   id_codigo_postal int [not null, ref: > catalogo_codigo_postal.id_codigo_postal]
   coordenada_x decimal(10,6) [not null]
@@ -567,7 +567,7 @@ Table delito_historico {
 Table victima {
   id_victima bigint [pk, not null, increment]
   id_delito bigint [not null, ref: > delito.id_delito]
-  identificador_victima_fiscalia varchar(50) [not null]
+  identificador_victima_fiscalia varchar(250) [not null]
   id_tipo_victima tinyint [not null, ref: > catalogo_tipo_victima.id_tipo_victima]
   id_tipo_victima_moral tinyint [ref: > catalogo_tipo_victima_moral.id_tipo_victima_moral]
   id_sexo tinyint [ref: > catalogo_sexo.id_sexo]
@@ -587,7 +587,7 @@ Table victima_historico {
   id_victima_historico bigint [pk, not null, increment]
   id_victima bigint [not null, ref: > victima.id_victima]
   id_delito bigint [not null, ref: > delito.id_delito]
-  identificador_victima_fiscalia varchar(50) [not null]
+  identificador_victima_fiscalia varchar(250) [not null]
   id_tipo_victima tinyint [not null, ref: > catalogo_tipo_victima.id_tipo_victima]
   id_tipo_victima_moral tinyint [ref: > catalogo_tipo_victima_moral.id_tipo_victima_moral]
   id_sexo tinyint [ref: > catalogo_sexo.id_sexo]
