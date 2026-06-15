@@ -323,6 +323,7 @@ Table usuario {
   id_usuario_modificacion int [ref: > usuario.id_usuario]
   id_rol int [not null, ref: > roles.id_rol]
   activo boolean [not null, default: 1]
+  requiere_cambio_password boolean [not null, default: 1]
 
   indexes {
     (usuario) [unique, name: 'uk_usuario_usuario']

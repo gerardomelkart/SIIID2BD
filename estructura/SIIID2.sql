@@ -363,6 +363,8 @@ CREATE TABLE [usuario] (
   id_usuario_modificacion INT NULL,
   id_rol INT NOT NULL,
   activo BIT NOT NULL DEFAULT 1,
+  requiere_cambio_password BIT NOT NULL
+  CONSTRAINT df_usuario_requiere_cambio_password DEFAULT 1,
   CONSTRAINT [pk_usuario] PRIMARY KEY (id_usuario),
   CONSTRAINT [uk_usuario_usuario] UNIQUE (usuario),
   CONSTRAINT [uk_usuario_correo] UNIQUE (correo_electronico),
