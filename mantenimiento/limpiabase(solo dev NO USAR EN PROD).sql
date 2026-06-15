@@ -5,112 +5,105 @@ SET NOCOUNT ON;
 SET XACT_ABORT ON;
 
 DECLARE @EjecutarLimpieza bit = 0;
--- 0 = solo muestra conteos y hace ROLLBACK
--- 1 = limpia y hace COMMIT
+-- 0 = simulación con ROLLBACK
+-- 1 = ejecuta limpieza con COMMIT
 
 BEGIN TRY
     BEGIN TRANSACTION;
 
-    PRINT '==============================';
-    PRINT 'CONTEOS ANTES DE LIMPIAR';
-    PRINT '==============================';
+    PRINT 'CONTEOS ANTES';
 
-    SELECT 'carga' AS tabla, COUNT(1) AS total FROM carga
-    UNION ALL SELECT 'carga_tmp_carpeta', COUNT(1) FROM carga_tmp_carpeta
-    UNION ALL SELECT 'carga_tmp_delito', COUNT(1) FROM carga_tmp_delito
-    UNION ALL SELECT 'carga_tmp_victima', COUNT(1) FROM carga_tmp_victima
-    UNION ALL SELECT 'carpeta_investigacion', COUNT(1) FROM carpeta_investigacion
-    UNION ALL SELECT 'delito', COUNT(1) FROM delito
-    UNION ALL SELECT 'victima', COUNT(1) FROM victima
-    UNION ALL SELECT 'carpeta_investigacion_historico', COUNT(1) FROM carpeta_investigacion_historico
-    UNION ALL SELECT 'delito_historico', COUNT(1) FROM delito_historico
-    UNION ALL SELECT 'victima_historico', COUNT(1) FROM victima_historico;
+    SELECT 'carga' tabla, COUNT(*) total FROM carga
+    UNION ALL SELECT 'carga_tmp_carpeta', COUNT(*) FROM carga_tmp_carpeta
+    UNION ALL SELECT 'carga_tmp_delito', COUNT(*) FROM carga_tmp_delito
+    UNION ALL SELECT 'carga_tmp_victima', COUNT(*) FROM carga_tmp_victima
+    UNION ALL SELECT 'carpeta_investigacion', COUNT(*) FROM carpeta_investigacion
+    UNION ALL SELECT 'delito', COUNT(*) FROM delito
+    UNION ALL SELECT 'victima', COUNT(*) FROM victima
+    UNION ALL SELECT 'carpeta_investigacion_historico', COUNT(*) FROM carpeta_investigacion_historico
+    UNION ALL SELECT 'delito_historico', COUNT(*) FROM delito_historico
+    UNION ALL SELECT 'victima_historico', COUNT(*) FROM victima_historico
+    UNION ALL SELECT 'habilita_carga_modificacion', COUNT(*) FROM habilita_carga_modificacion
+    UNION ALL SELECT 'usuario', COUNT(*) FROM usuario;
 
-    PRINT '==============================';
-    PRINT 'LIMPIANDO DATOS OPERATIVOS';
-    PRINT '==============================';
-
-    -- 1. Históricos primero, porque pueden referenciar tablas finales.
+    -- 1. Tablas que dependen de usuario/carga.
     DELETE FROM victima_historico;
     DELETE FROM delito_historico;
     DELETE FROM carpeta_investigacion_historico;
 
-    -- 2. Tablas finales en orden hijo -> padre.
     DELETE FROM victima;
     DELETE FROM delito;
     DELETE FROM carpeta_investigacion;
 
-    -- 3. Temporales/staging.
     DELETE FROM carga_tmp_victima;
     DELETE FROM carga_tmp_delito;
     DELETE FROM carga_tmp_carpeta;
 
-    -- 4. Cabecera de carga al final.
     DELETE FROM carga;
 
-    PRINT '==============================';
-    PRINT 'RESETEANDO IDENTITIES';
-    PRINT '==============================';
+    -- 2. Configuración por usuario: conservar solo superusuario id 1.
+    DELETE FROM habilita_carga_modificacion
+    WHERE id_usuario <> 1;
 
-    IF EXISTS (SELECT 1 FROM sys.identity_columns WHERE object_id = OBJECT_ID('victima_historico'))
-        DBCC CHECKIDENT ('victima_historico', RESEED, 0);
+    DELETE FROM usuario
+    WHERE id_usuario <> 1;
 
-    IF EXISTS (SELECT 1 FROM sys.identity_columns WHERE object_id = OBJECT_ID('delito_historico'))
-        DBCC CHECKIDENT ('delito_historico', RESEED, 0);
+    -- 3. Asegurar que superusuario quede activo.
+    UPDATE usuario
+    SET activo = 1
+    WHERE id_usuario = 1;
 
-    IF EXISTS (SELECT 1 FROM sys.identity_columns WHERE object_id = OBJECT_ID('carpeta_investigacion_historico'))
-        DBCC CHECKIDENT ('carpeta_investigacion_historico', RESEED, 0);
+    UPDATE habilita_carga_modificacion
+    SET habilita_carga = 1,
+        habilita_modificacion = 1,
+        activo = 1
+    WHERE id_usuario = 1;
 
-    IF EXISTS (SELECT 1 FROM sys.identity_columns WHERE object_id = OBJECT_ID('victima'))
-        DBCC CHECKIDENT ('victima', RESEED, 0);
+    -- 4. Resetear identities operativas.
+    DBCC CHECKIDENT ('victima_historico', RESEED, 0);
+    DBCC CHECKIDENT ('delito_historico', RESEED, 0);
+    DBCC CHECKIDENT ('carpeta_investigacion_historico', RESEED, 0);
 
-    IF EXISTS (SELECT 1 FROM sys.identity_columns WHERE object_id = OBJECT_ID('delito'))
-        DBCC CHECKIDENT ('delito', RESEED, 0);
+    DBCC CHECKIDENT ('victima', RESEED, 0);
+    DBCC CHECKIDENT ('delito', RESEED, 0);
+    DBCC CHECKIDENT ('carpeta_investigacion', RESEED, 0);
 
-    IF EXISTS (SELECT 1 FROM sys.identity_columns WHERE object_id = OBJECT_ID('carpeta_investigacion'))
-        DBCC CHECKIDENT ('carpeta_investigacion', RESEED, 0);
+    DBCC CHECKIDENT ('carga_tmp_victima', RESEED, 0);
+    DBCC CHECKIDENT ('carga_tmp_delito', RESEED, 0);
+    DBCC CHECKIDENT ('carga_tmp_carpeta', RESEED, 0);
 
-    IF EXISTS (SELECT 1 FROM sys.identity_columns WHERE object_id = OBJECT_ID('carga_tmp_victima'))
-        DBCC CHECKIDENT ('carga_tmp_victima', RESEED, 0);
+    DBCC CHECKIDENT ('carga', RESEED, 0);
 
-    IF EXISTS (SELECT 1 FROM sys.identity_columns WHERE object_id = OBJECT_ID('carga_tmp_delito'))
-        DBCC CHECKIDENT ('carga_tmp_delito', RESEED, 0);
+    -- No reseed de usuario si conservas id_usuario = 1.
 
-    IF EXISTS (SELECT 1 FROM sys.identity_columns WHERE object_id = OBJECT_ID('carga_tmp_carpeta'))
-        DBCC CHECKIDENT ('carga_tmp_carpeta', RESEED, 0);
+    PRINT 'CONTEOS DESPUES';
 
-    IF EXISTS (SELECT 1 FROM sys.identity_columns WHERE object_id = OBJECT_ID('carga'))
-        DBCC CHECKIDENT ('carga', RESEED, 0);
-
-    PRINT '==============================';
-    PRINT 'CONTEOS DESPUES DE LIMPIAR';
-    PRINT '==============================';
-
-    SELECT 'carga' AS tabla, COUNT(1) AS total FROM carga
-    UNION ALL SELECT 'carga_tmp_carpeta', COUNT(1) FROM carga_tmp_carpeta
-    UNION ALL SELECT 'carga_tmp_delito', COUNT(1) FROM carga_tmp_delito
-    UNION ALL SELECT 'carga_tmp_victima', COUNT(1) FROM carga_tmp_victima
-    UNION ALL SELECT 'carpeta_investigacion', COUNT(1) FROM carpeta_investigacion
-    UNION ALL SELECT 'delito', COUNT(1) FROM delito
-    UNION ALL SELECT 'victima', COUNT(1) FROM victima
-    UNION ALL SELECT 'carpeta_investigacion_historico', COUNT(1) FROM carpeta_investigacion_historico
-    UNION ALL SELECT 'delito_historico', COUNT(1) FROM delito_historico
-    UNION ALL SELECT 'victima_historico', COUNT(1) FROM victima_historico;
+    SELECT 'carga' tabla, COUNT(*) total FROM carga
+    UNION ALL SELECT 'carga_tmp_carpeta', COUNT(*) FROM carga_tmp_carpeta
+    UNION ALL SELECT 'carga_tmp_delito', COUNT(*) FROM carga_tmp_delito
+    UNION ALL SELECT 'carga_tmp_victima', COUNT(*) FROM carga_tmp_victima
+    UNION ALL SELECT 'carpeta_investigacion', COUNT(*) FROM carpeta_investigacion
+    UNION ALL SELECT 'delito', COUNT(*) FROM delito
+    UNION ALL SELECT 'victima', COUNT(*) FROM victima
+    UNION ALL SELECT 'carpeta_investigacion_historico', COUNT(*) FROM carpeta_investigacion_historico
+    UNION ALL SELECT 'delito_historico', COUNT(*) FROM delito_historico
+    UNION ALL SELECT 'victima_historico', COUNT(*) FROM victima_historico
+    UNION ALL SELECT 'habilita_carga_modificacion', COUNT(*) FROM habilita_carga_modificacion
+    UNION ALL SELECT 'usuario', COUNT(*) FROM usuario;
 
     IF @EjecutarLimpieza = 1
     BEGIN
-        COMMIT TRANSACTION;
-        PRINT 'LIMPIEZA CONFIRMADA CON COMMIT.';
+        COMMIT;
+        PRINT 'LIMPIEZA CONFIRMADA.';
     END
     ELSE
     BEGIN
-        ROLLBACK TRANSACTION;
-        PRINT 'SIMULACION TERMINADA. NO SE BORRO NADA. Cambia @EjecutarLimpieza = 1 para ejecutar.';
+        ROLLBACK;
+        PRINT 'SIMULACION. NO SE BORRO NADA.';
     END
 END TRY
 BEGIN CATCH
-    IF @@TRANCOUNT > 0
-        ROLLBACK TRANSACTION;
+    IF @@TRANCOUNT > 0 ROLLBACK;
 
     SELECT
         ERROR_NUMBER() AS numero_error,
