@@ -389,14 +389,14 @@ Table carga_tmp_delito {
   forma_acc varchar(50) [not null]
   fha_de_hchos varchar(50) [null]
   hra_de_hchos varchar(50)
-  emto_com_dto varchar(50) [not null]
-  grdo_cons varchar(50) [not null]
+  emto_com_dto varchar(150) [not null]
+  grdo_cons varchar(150) [not null]
   clasf_de_dto varchar(100) [not null]
-  id_ent_hchos varchar(50) [not null]
-  id_mun_hchos varchar(50) [not null]
-  id_loc_hchos varchar(50)
+  id_ent_hchos varchar(150) [not null]
+  id_mun_hchos varchar(150) [not null]
+  id_loc_hchos varchar(150)
   nom_loc_hchos varchar(250)
-  id_col_hchos varchar(50)
+  id_col_hchos varchar(150)
   nom_col_hchos varchar(250)
   cp varchar(20)
   coord_x varchar(50)
