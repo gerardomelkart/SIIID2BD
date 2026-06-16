@@ -92,7 +92,7 @@ Table catalogo_localidad {
 Table catalogo_codigo_postal {
   id_codigo_postal int [pk, not null]
   codigo_postal varchar(5) [not null]
-  clave_asentamiento_cp_consecutivo varchar(5)
+  clave_asentamiento_cp_consecutivo varchar(250)
   id_asentamiento int [not null, ref: > catalogo_asentamiento.id_asentamiento]
   id_oficina int [not null, ref: > catalogo_oficina.id_oficina]
   id_tipo_asentamiento tinyint [not null, ref: > catalogo_tipo_asentamiento.id_tipo_asentamiento]
@@ -398,7 +398,7 @@ Table carga_tmp_delito {
   nom_loc_hchos varchar(250)
   id_col_hchos varchar(150)
   nom_col_hchos varchar(250)
-  cp varchar(20)
+  cp varchar(250)
   coord_x varchar(50)
   coord_y varchar(50)
   dom_hchos text

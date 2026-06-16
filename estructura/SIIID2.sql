@@ -113,7 +113,7 @@ GO
 CREATE TABLE [catalogo_codigo_postal] (
   id_codigo_postal INT NOT NULL,
   codigo_postal NVARCHAR(5) NOT NULL,
-  clave_asentamiento_cp_consecutivo NVARCHAR(5) NULL,
+  clave_asentamiento_cp_consecutivo NVARCHAR(250) NULL,
   id_asentamiento INT NOT NULL,
   id_oficina INT NOT NULL,
   id_tipo_asentamiento TINYINT NOT NULL,
@@ -467,7 +467,7 @@ CREATE TABLE [carga_tmp_delito] (
   nom_loc_hchos NVARCHAR(250) NULL,
   id_col_hchos NVARCHAR(150) NULL,
   nom_col_hchos NVARCHAR(250) NULL,
-  cp NVARCHAR(20) NULL,
+  cp NVARCHAR(250) NULL,
   coord_x NVARCHAR(50) NULL,
   coord_y NVARCHAR(50) NULL,
   dom_hchos NVARCHAR(MAX) NULL,
