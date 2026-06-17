@@ -343,7 +343,7 @@ Table carga {
   total_carpetas_investigacion int [not null]
   total_delitos int [not null]
   total_victimas int [not null]
-  estado varchar(30) [not null, default: 'VALIDADO_PENDIENTE']
+  estado varchar(50) [not null, default: 'VALIDADO_PENDIENTE']
   fecha_validacion datetime [not null, default: `SYSDATETIME()`]
   fecha_confirmacion datetime
   fecha_expiracion datetime
@@ -369,7 +369,7 @@ Table carga_tmp_carpeta {
   fha_de_ini varchar(50) [not null]
   hra_de_ini varchar(50)
   rmen_de_hchos text
-  estado varchar(30) [not null, default: 'PENDIENTE']
+  estado varchar(50) [not null, default: 'PENDIENTE']
   fecha_procesamiento datetime
   activo boolean [not null, default: 1]
 
@@ -402,7 +402,7 @@ Table carga_tmp_delito {
   coord_x varchar(50)
   coord_y varchar(50)
   dom_hchos text
-  estado varchar(30) [not null, default: 'PENDIENTE']
+  estado varchar(50) [not null, default: 'PENDIENTE']
   fecha_procesamiento datetime
   activo boolean [not null, default: 1]
 
@@ -428,7 +428,7 @@ Table carga_tmp_victima {
   fha_nac varchar(50)
   edad varchar(50)
   nacional varchar(50)
-  estado varchar(30) [not null, default: 'PENDIENTE']
+  estado varchar(50) [not null, default: 'PENDIENTE']
   fecha_procesamiento datetime
   activo boolean [not null, default: 1]
 
