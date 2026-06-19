@@ -4,7 +4,7 @@ GO
 SET NOCOUNT ON;
 SET XACT_ABORT ON;
 
-DECLARE @EjecutarLimpieza bit = 0;
+DECLARE @EjecutarLimpieza BIT = 0;
 -- 0 = simulación con ROLLBACK
 -- 1 = ejecuta limpieza con COMMIT
 
@@ -13,97 +13,323 @@ BEGIN TRY
 
     PRINT 'CONTEOS ANTES';
 
-    SELECT 'carga' tabla, COUNT(*) total FROM carga
-    UNION ALL SELECT 'carga_tmp_carpeta', COUNT(*) FROM carga_tmp_carpeta
-    UNION ALL SELECT 'carga_tmp_delito', COUNT(*) FROM carga_tmp_delito
-    UNION ALL SELECT 'carga_tmp_victima', COUNT(*) FROM carga_tmp_victima
-    UNION ALL SELECT 'carpeta_investigacion', COUNT(*) FROM carpeta_investigacion
-    UNION ALL SELECT 'delito', COUNT(*) FROM delito
-    UNION ALL SELECT 'victima', COUNT(*) FROM victima
-    UNION ALL SELECT 'carpeta_investigacion_historico', COUNT(*) FROM carpeta_investigacion_historico
-    UNION ALL SELECT 'delito_historico', COUNT(*) FROM delito_historico
-    UNION ALL SELECT 'victima_historico', COUNT(*) FROM victima_historico
-    UNION ALL SELECT 'habilita_carga_modificacion', COUNT(*) FROM habilita_carga_modificacion
-    UNION ALL SELECT 'usuario', COUNT(*) FROM usuario;
+    SELECT 'carga' AS tabla, COUNT(*) AS total
+    FROM dbo.carga
 
-    -- 1. Tablas que dependen de usuario/carga.
-    DELETE FROM victima_historico;
-    DELETE FROM delito_historico;
-    DELETE FROM carpeta_investigacion_historico;
+    UNION ALL
+    SELECT 'carga_advertencia', COUNT(*)
+    FROM dbo.carga_advertencia
 
-    DELETE FROM victima;
-    DELETE FROM delito;
-    DELETE FROM carpeta_investigacion;
+    UNION ALL
+    SELECT 'carga_bitacora_estado', COUNT(*)
+    FROM dbo.carga_bitacora_estado
 
-    DELETE FROM carga_tmp_victima;
-    DELETE FROM carga_tmp_delito;
-    DELETE FROM carga_tmp_carpeta;
+    UNION ALL
+    SELECT 'carga_tmp_carpeta', COUNT(*)
+    FROM dbo.carga_tmp_carpeta
 
-    DELETE FROM carga;
+    UNION ALL
+    SELECT 'carga_tmp_delito', COUNT(*)
+    FROM dbo.carga_tmp_delito
 
-    -- 2. Configuración por usuario: conservar solo superusuario id 1.
-    DELETE FROM habilita_carga_modificacion
+    UNION ALL
+    SELECT 'carga_tmp_victima', COUNT(*)
+    FROM dbo.carga_tmp_victima
+
+    UNION ALL
+    SELECT 'carpeta_investigacion', COUNT(*)
+    FROM dbo.carpeta_investigacion
+
+    UNION ALL
+    SELECT 'delito', COUNT(*)
+    FROM dbo.delito
+
+    UNION ALL
+    SELECT 'victima', COUNT(*)
+    FROM dbo.victima
+
+    UNION ALL
+    SELECT 'carpeta_investigacion_historico', COUNT(*)
+    FROM dbo.carpeta_investigacion_historico
+
+    UNION ALL
+    SELECT 'delito_historico', COUNT(*)
+    FROM dbo.delito_historico
+
+    UNION ALL
+    SELECT 'victima_historico', COUNT(*)
+    FROM dbo.victima_historico
+
+    UNION ALL
+    SELECT 'habilita_carga_modificacion', COUNT(*)
+    FROM dbo.habilita_carga_modificacion
+
+    UNION ALL
+    SELECT 'usuario', COUNT(*)
+    FROM dbo.usuario;
+
+
+    -------------------------------------------------------------------------
+    -- 1. Auditoría y flujo administrativo
+    -------------------------------------------------------------------------
+
+    /*
+        Estas tablas dependen de carga y también pueden contener
+        referencias hacia usuario.
+
+        Deben limpiarse antes de eliminar cargas o usuarios.
+    */
+
+    DELETE FROM dbo.carga_bitacora_estado;
+    DELETE FROM dbo.carga_advertencia;
+
+
+    -------------------------------------------------------------------------
+    -- 2. Información histórica
+    -------------------------------------------------------------------------
+
+    DELETE FROM dbo.victima_historico;
+    DELETE FROM dbo.delito_historico;
+    DELETE FROM dbo.carpeta_investigacion_historico;
+
+
+    -------------------------------------------------------------------------
+    -- 3. Información final
+    -------------------------------------------------------------------------
+
+    DELETE FROM dbo.victima;
+    DELETE FROM dbo.delito;
+    DELETE FROM dbo.carpeta_investigacion;
+
+
+    -------------------------------------------------------------------------
+    -- 4. Staging de procesos de carga y actualización
+    -------------------------------------------------------------------------
+
+    DELETE FROM dbo.carga_tmp_victima;
+    DELETE FROM dbo.carga_tmp_delito;
+    DELETE FROM dbo.carga_tmp_carpeta;
+
+
+    -------------------------------------------------------------------------
+    -- 5. Procesos de carga
+    -------------------------------------------------------------------------
+
+    DELETE FROM dbo.carga;
+
+
+    -------------------------------------------------------------------------
+    -- 6. Configuración y usuarios
+    --    Conservar únicamente el superusuario id 1
+    -------------------------------------------------------------------------
+
+    DELETE FROM dbo.habilita_carga_modificacion
     WHERE id_usuario <> 1;
 
-    DELETE FROM usuario
+    /*
+        Limpiar referencias autorreferenciadas antes de eliminar usuarios.
+
+        Esto evita problemas si un usuario que será eliminado aparece como
+        usuario de alta o usuario de modificación de otro registro.
+    */
+
+    UPDATE dbo.usuario
+    SET id_usuario_alta = NULL
+    WHERE id_usuario_alta IS NOT NULL
+      AND id_usuario_alta <> 1;
+
+    UPDATE dbo.usuario
+    SET id_usuario_modificacion = NULL
+    WHERE id_usuario_modificacion IS NOT NULL
+      AND id_usuario_modificacion <> 1;
+
+    DELETE FROM dbo.usuario
     WHERE id_usuario <> 1;
 
-    -- 3. Asegurar que superusuario quede activo.
-    UPDATE usuario
+
+    -------------------------------------------------------------------------
+    -- 7. Asegurar configuración del superusuario
+    -------------------------------------------------------------------------
+
+    UPDATE dbo.usuario
     SET activo = 1
     WHERE id_usuario = 1;
 
-    UPDATE habilita_carga_modificacion
+    UPDATE dbo.habilita_carga_modificacion
     SET habilita_carga = 1,
         habilita_modificacion = 1,
         activo = 1
     WHERE id_usuario = 1;
 
-    -- 4. Resetear identities operativas.
-    DBCC CHECKIDENT ('victima_historico', RESEED, 0);
-    DBCC CHECKIDENT ('delito_historico', RESEED, 0);
-    DBCC CHECKIDENT ('carpeta_investigacion_historico', RESEED, 0);
 
-    DBCC CHECKIDENT ('victima', RESEED, 0);
-    DBCC CHECKIDENT ('delito', RESEED, 0);
-    DBCC CHECKIDENT ('carpeta_investigacion', RESEED, 0);
+    -------------------------------------------------------------------------
+    -- 8. Reiniciar identities operativas
+    -------------------------------------------------------------------------
 
-    DBCC CHECKIDENT ('carga_tmp_victima', RESEED, 0);
-    DBCC CHECKIDENT ('carga_tmp_delito', RESEED, 0);
-    DBCC CHECKIDENT ('carga_tmp_carpeta', RESEED, 0);
+    DBCC CHECKIDENT
+    (
+        N'dbo.carga_bitacora_estado',
+        RESEED,
+        0
+    );
 
-    DBCC CHECKIDENT ('carga', RESEED, 0);
+    DBCC CHECKIDENT
+    (
+        N'dbo.carga_advertencia',
+        RESEED,
+        0
+    );
 
-    -- No reseed de usuario si conservas id_usuario = 1.
+    DBCC CHECKIDENT
+    (
+        N'dbo.victima_historico',
+        RESEED,
+        0
+    );
+
+    DBCC CHECKIDENT
+    (
+        N'dbo.delito_historico',
+        RESEED,
+        0
+    );
+
+    DBCC CHECKIDENT
+    (
+        N'dbo.carpeta_investigacion_historico',
+        RESEED,
+        0
+    );
+
+    DBCC CHECKIDENT
+    (
+        N'dbo.victima',
+        RESEED,
+        0
+    );
+
+    DBCC CHECKIDENT
+    (
+        N'dbo.delito',
+        RESEED,
+        0
+    );
+
+    DBCC CHECKIDENT
+    (
+        N'dbo.carpeta_investigacion',
+        RESEED,
+        0
+    );
+
+    DBCC CHECKIDENT
+    (
+        N'dbo.carga_tmp_victima',
+        RESEED,
+        0
+    );
+
+    DBCC CHECKIDENT
+    (
+        N'dbo.carga_tmp_delito',
+        RESEED,
+        0
+    );
+
+    DBCC CHECKIDENT
+    (
+        N'dbo.carga_tmp_carpeta',
+        RESEED,
+        0
+    );
+
+    DBCC CHECKIDENT
+    (
+        N'dbo.carga',
+        RESEED,
+        0
+    );
+
+    /*
+        No se reinician los identities de usuario ni de
+        habilita_carga_modificacion porque se conserva información.
+    */
+
 
     PRINT 'CONTEOS DESPUES';
 
-    SELECT 'carga' tabla, COUNT(*) total FROM carga
-    UNION ALL SELECT 'carga_tmp_carpeta', COUNT(*) FROM carga_tmp_carpeta
-    UNION ALL SELECT 'carga_tmp_delito', COUNT(*) FROM carga_tmp_delito
-    UNION ALL SELECT 'carga_tmp_victima', COUNT(*) FROM carga_tmp_victima
-    UNION ALL SELECT 'carpeta_investigacion', COUNT(*) FROM carpeta_investigacion
-    UNION ALL SELECT 'delito', COUNT(*) FROM delito
-    UNION ALL SELECT 'victima', COUNT(*) FROM victima
-    UNION ALL SELECT 'carpeta_investigacion_historico', COUNT(*) FROM carpeta_investigacion_historico
-    UNION ALL SELECT 'delito_historico', COUNT(*) FROM delito_historico
-    UNION ALL SELECT 'victima_historico', COUNT(*) FROM victima_historico
-    UNION ALL SELECT 'habilita_carga_modificacion', COUNT(*) FROM habilita_carga_modificacion
-    UNION ALL SELECT 'usuario', COUNT(*) FROM usuario;
+    SELECT 'carga' AS tabla, COUNT(*) AS total
+    FROM dbo.carga
+
+    UNION ALL
+    SELECT 'carga_advertencia', COUNT(*)
+    FROM dbo.carga_advertencia
+
+    UNION ALL
+    SELECT 'carga_bitacora_estado', COUNT(*)
+    FROM dbo.carga_bitacora_estado
+
+    UNION ALL
+    SELECT 'carga_tmp_carpeta', COUNT(*)
+    FROM dbo.carga_tmp_carpeta
+
+    UNION ALL
+    SELECT 'carga_tmp_delito', COUNT(*)
+    FROM dbo.carga_tmp_delito
+
+    UNION ALL
+    SELECT 'carga_tmp_victima', COUNT(*)
+    FROM dbo.carga_tmp_victima
+
+    UNION ALL
+    SELECT 'carpeta_investigacion', COUNT(*)
+    FROM dbo.carpeta_investigacion
+
+    UNION ALL
+    SELECT 'delito', COUNT(*)
+    FROM dbo.delito
+
+    UNION ALL
+    SELECT 'victima', COUNT(*)
+    FROM dbo.victima
+
+    UNION ALL
+    SELECT 'carpeta_investigacion_historico', COUNT(*)
+    FROM dbo.carpeta_investigacion_historico
+
+    UNION ALL
+    SELECT 'delito_historico', COUNT(*)
+    FROM dbo.delito_historico
+
+    UNION ALL
+    SELECT 'victima_historico', COUNT(*)
+    FROM dbo.victima_historico
+
+    UNION ALL
+    SELECT 'habilita_carga_modificacion', COUNT(*)
+    FROM dbo.habilita_carga_modificacion
+
+    UNION ALL
+    SELECT 'usuario', COUNT(*)
+    FROM dbo.usuario;
+
 
     IF @EjecutarLimpieza = 1
     BEGIN
-        COMMIT;
-        PRINT 'LIMPIEZA CONFIRMADA.';
+        COMMIT TRANSACTION;
+
+        PRINT 'LIMPIEZA DE DESARROLLO CONFIRMADA.';
     END
     ELSE
     BEGIN
-        ROLLBACK;
+        ROLLBACK TRANSACTION;
+
         PRINT 'SIMULACION. NO SE BORRO NADA.';
-    END
+    END;
 END TRY
 BEGIN CATCH
-    IF @@TRANCOUNT > 0 ROLLBACK;
+    IF @@TRANCOUNT > 0
+        ROLLBACK TRANSACTION;
 
     SELECT
         ERROR_NUMBER() AS numero_error,
