@@ -69,6 +69,11 @@ BEGIN TRY
     INNER JOIN #CargasObjetivo co ON co.id_carga = c.id_carga
 
     UNION ALL
+    SELECT 'carga_bitacora_estado', COUNT(*)
+    FROM dbo.carga_bitacora_estado t
+    INNER JOIN #CargasObjetivo co ON co.id_carga = t.id_carga
+
+    UNION ALL
     SELECT 'carga_tmp_carpeta', COUNT(*)
     FROM dbo.carga_tmp_carpeta t
     INNER JOIN #CargasObjetivo co ON co.id_carga = t.id_carga
@@ -135,6 +140,13 @@ BEGIN TRY
 
     PRINT CONCAT('carga_advertencia borradas: ', @@ROWCOUNT);
 
+    DELETE t
+    FROM dbo.carga_bitacora_estado t
+    INNER JOIN #CargasObjetivo co
+        ON co.id_carga = t.id_carga;
+
+    PRINT CONCAT('carga_bitacora_estado borradas: ', @@ROWCOUNT);
+
     -- Auditoría de estados, si existe.
     IF OBJECT_ID('dbo.carga_estado_auditoria', 'U') IS NOT NULL
     BEGIN
@@ -189,6 +201,11 @@ BEGIN TRY
     SELECT 'carga' AS tabla, COUNT(*) AS total
     FROM dbo.carga c
     INNER JOIN #CargasObjetivo co ON co.id_carga = c.id_carga
+
+    UNION ALL
+    SELECT 'carga_bitacora_estado', COUNT(*)
+    FROM dbo.carga_bitacora_estado t
+    INNER JOIN #CargasObjetivo co ON co.id_carga = t.id_carga
 
     UNION ALL
     SELECT 'carga_tmp_carpeta', COUNT(*)
