@@ -336,6 +336,8 @@ DECLARE @ActualizarEstadisticas BIT = 0;
 
 IF @ActualizarEstadisticas = 1
 BEGIN
+    PRINT 'Actualizando estadísticas con FULLSCAN...';
+
     UPDATE STATISTICS dbo.carga_tmp_carpeta WITH FULLSCAN;
     UPDATE STATISTICS dbo.carga_tmp_delito WITH FULLSCAN;
     UPDATE STATISTICS dbo.carga_tmp_victima WITH FULLSCAN;
@@ -348,6 +350,8 @@ BEGIN
     UPDATE STATISTICS dbo.carpeta_investigacion_historico WITH FULLSCAN;
     UPDATE STATISTICS dbo.delito_historico WITH FULLSCAN;
     UPDATE STATISTICS dbo.victima_historico WITH FULLSCAN;
+
+    PRINT 'Estadísticas actualizadas correctamente.';
 END
 ELSE
 BEGIN
