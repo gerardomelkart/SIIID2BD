@@ -2,6 +2,11 @@ USE siiid2;
 GO
 
 SET NOCOUNT ON;
+
+DECLARE @EjecutarMantenimiento BIT = 0;
+-- 0 = simulación con ROLLBACK
+-- 1 = ejecuta mantenimiento con COMMIT
+
 SET XACT_ABORT ON;
 GO
 
@@ -171,9 +176,16 @@ BEGIN TRY
     SET @CarpetasEliminadas = @@ROWCOUNT;
 
 
-    COMMIT TRANSACTION;
-
-    PRINT 'Limpieza de staging terminada correctamente.';
+    IF @EjecutarMantenimiento = 1
+    BEGIN
+        COMMIT TRANSACTION;
+        PRINT 'MANTENIMIENTO CONFIRMADO. Limpieza de staging aplicada correctamente.';
+    END
+    ELSE
+    BEGIN
+        ROLLBACK TRANSACTION;
+        PRINT 'SIMULACION. NO SE BORRO NADA.';
+    END;
 
     SELECT
         'carga_tmp_carpeta' AS tabla,
@@ -310,6 +322,13 @@ FROM dbo.carga_tmp_victima tmp
 INNER JOIN dbo.carga c
     ON c.id_carga = tmp.id_carga;
 GO
+
+
+/*
+    OJO:
+    UPDATE STATISTICS WITH FULLSCAN puede tardar en tablas grandes.
+    Ejecutar fuera de horario operativo si la base ya tiene volumen real.
+*/
 
 
 UPDATE STATISTICS dbo.carga_tmp_carpeta WITH FULLSCAN;

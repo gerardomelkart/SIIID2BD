@@ -1,0 +1,22 @@
+# SQL Server / respaldos
+*.bak
+*.trn
+*.bacpac
+*.mdf
+*.ldf
+*.ndf
+
+# Dumps o paquetes pesados
+*.zip
+*.7z
+*.rar
+
+# Archivos temporales
+*.tmp
+*.log
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+.vs/
+.vscode/

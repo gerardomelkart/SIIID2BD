@@ -106,7 +106,28 @@ BEGIN TRY
     UNION ALL
     SELECT 'carpeta_investigacion', COUNT(*)
     FROM dbo.carpeta_investigacion t
-    INNER JOIN #CargasObjetivo co ON co.id_carga = t.id_carga;
+    INNER JOIN #CargasObjetivo co ON co.id_carga = t.id_carga
+
+    UNION ALL
+    SELECT 'victima_historico', COUNT(*)
+    FROM dbo.victima_historico t
+    INNER JOIN #CargasObjetivo co
+        ON co.id_carga = t.id_carga
+        OR co.id_carga = t.id_carga_nueva
+
+    UNION ALL
+    SELECT 'delito_historico', COUNT(*)
+    FROM dbo.delito_historico t
+    INNER JOIN #CargasObjetivo co
+        ON co.id_carga = t.id_carga
+        OR co.id_carga = t.id_carga_nueva
+
+    UNION ALL
+    SELECT 'carpeta_investigacion_historico', COUNT(*)
+    FROM dbo.carpeta_investigacion_historico t
+    INNER JOIN #CargasObjetivo co
+        ON co.id_carga = t.id_carga
+        OR co.id_carga = t.id_carga_nueva;
 
     PRINT '============================================================';
     PRINT 'BORRANDO HIJOS / TEMPORALES';
@@ -157,6 +178,34 @@ BEGIN TRY
 
         PRINT CONCAT('carga_estado_auditoria borradas: ', @@ROWCOUNT);
     END;
+
+        PRINT '============================================================';
+    PRINT 'BORRANDO HISTORICOS';
+    PRINT '============================================================';
+
+    DELETE t
+    FROM dbo.victima_historico t
+    INNER JOIN #CargasObjetivo co
+        ON co.id_carga = t.id_carga
+        OR co.id_carga = t.id_carga_nueva;
+
+    PRINT CONCAT('victima_historico borradas: ', @@ROWCOUNT);
+
+    DELETE t
+    FROM dbo.delito_historico t
+    INNER JOIN #CargasObjetivo co
+        ON co.id_carga = t.id_carga
+        OR co.id_carga = t.id_carga_nueva;
+
+    PRINT CONCAT('delito_historico borrados: ', @@ROWCOUNT);
+
+    DELETE t
+    FROM dbo.carpeta_investigacion_historico t
+    INNER JOIN #CargasObjetivo co
+        ON co.id_carga = t.id_carga
+        OR co.id_carga = t.id_carga_nueva;
+
+    PRINT CONCAT('carpeta_investigacion_historico borradas: ', @@ROWCOUNT);
 
     PRINT '============================================================';
     PRINT 'BORRANDO TABLAS FINALES';
@@ -240,7 +289,28 @@ BEGIN TRY
     UNION ALL
     SELECT 'carpeta_investigacion', COUNT(*)
     FROM dbo.carpeta_investigacion t
-    INNER JOIN #CargasObjetivo co ON co.id_carga = t.id_carga;
+    INNER JOIN #CargasObjetivo co ON co.id_carga = t.id_carga
+
+    UNION ALL
+    SELECT 'victima_historico', COUNT(*)
+    FROM dbo.victima_historico t
+    INNER JOIN #CargasObjetivo co
+        ON co.id_carga = t.id_carga
+        OR co.id_carga = t.id_carga_nueva
+
+    UNION ALL
+    SELECT 'delito_historico', COUNT(*)
+    FROM dbo.delito_historico t
+    INNER JOIN #CargasObjetivo co
+        ON co.id_carga = t.id_carga
+        OR co.id_carga = t.id_carga_nueva
+
+    UNION ALL
+    SELECT 'carpeta_investigacion_historico', COUNT(*)
+    FROM dbo.carpeta_investigacion_historico t
+    INNER JOIN #CargasObjetivo co
+        ON co.id_carga = t.id_carga
+        OR co.id_carga = t.id_carga_nueva;
 
     IF @EjecutarBorrado = 1
     BEGIN
