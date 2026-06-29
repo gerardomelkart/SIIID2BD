@@ -2,11 +2,6 @@ USE siiid2;
 GO
 
 SET NOCOUNT ON;
-
-DECLARE @EjecutarMantenimiento BIT = 0;
--- 0 = simulación con ROLLBACK
--- 1 = ejecuta mantenimiento con COMMIT
-
 SET XACT_ABORT ON;
 GO
 
@@ -116,6 +111,10 @@ INNER JOIN dbo.carga c
     ON c.id_carga = tmp.id_carga;
 GO
 
+
+DECLARE @EjecutarMantenimiento BIT = 0;
+-- 0 = simulación con ROLLBACK
+-- 1 = ejecuta mantenimiento con COMMIT
 
 DECLARE @VictimasEliminadas INT = 0;
 DECLARE @DelitosEliminados INT = 0;
@@ -331,16 +330,27 @@ GO
 */
 
 
-UPDATE STATISTICS dbo.carga_tmp_carpeta WITH FULLSCAN;
-UPDATE STATISTICS dbo.carga_tmp_delito WITH FULLSCAN;
-UPDATE STATISTICS dbo.carga_tmp_victima WITH FULLSCAN;
+DECLARE @ActualizarEstadisticas BIT = 0;
+-- 0 = no actualiza estadísticas
+-- 1 = actualiza estadísticas con FULLSCAN
 
-UPDATE STATISTICS dbo.carga WITH FULLSCAN;
-UPDATE STATISTICS dbo.carpeta_investigacion WITH FULLSCAN;
-UPDATE STATISTICS dbo.delito WITH FULLSCAN;
-UPDATE STATISTICS dbo.victima WITH FULLSCAN;
+IF @ActualizarEstadisticas = 1
+BEGIN
+    UPDATE STATISTICS dbo.carga_tmp_carpeta WITH FULLSCAN;
+    UPDATE STATISTICS dbo.carga_tmp_delito WITH FULLSCAN;
+    UPDATE STATISTICS dbo.carga_tmp_victima WITH FULLSCAN;
 
-UPDATE STATISTICS dbo.carpeta_investigacion_historico WITH FULLSCAN;
-UPDATE STATISTICS dbo.delito_historico WITH FULLSCAN;
-UPDATE STATISTICS dbo.victima_historico WITH FULLSCAN;
+    UPDATE STATISTICS dbo.carga WITH FULLSCAN;
+    UPDATE STATISTICS dbo.carpeta_investigacion WITH FULLSCAN;
+    UPDATE STATISTICS dbo.delito WITH FULLSCAN;
+    UPDATE STATISTICS dbo.victima WITH FULLSCAN;
+
+    UPDATE STATISTICS dbo.carpeta_investigacion_historico WITH FULLSCAN;
+    UPDATE STATISTICS dbo.delito_historico WITH FULLSCAN;
+    UPDATE STATISTICS dbo.victima_historico WITH FULLSCAN;
+END
+ELSE
+BEGIN
+    PRINT 'No se actualizaron estadísticas. @ActualizarEstadisticas = 0.';
+END;
 GO
