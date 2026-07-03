@@ -17,7 +17,8 @@ SELECT
             (
                 N'VALIDADO_PENDIENTE',
                 N'VALIDADO_PENDIENTE_ACTUALIZACION',
-                N'PENDIENTE_APROBACION'
+                N'PENDIENTE_APROBACION',
+                N'RECHAZADO_ADMIN'
             )
             THEN 1
             ELSE 0
@@ -30,7 +31,8 @@ SELECT
             (
                 N'VALIDADO_PENDIENTE',
                 N'VALIDADO_PENDIENTE_ACTUALIZACION',
-                N'PENDIENTE_APROBACION'
+                N'PENDIENTE_APROBACION',
+                N'RECHAZADO_ADMIN'
             )
             THEN 1
             ELSE 0
@@ -52,7 +54,8 @@ SELECT
             (
                 N'VALIDADO_PENDIENTE',
                 N'VALIDADO_PENDIENTE_ACTUALIZACION',
-                N'PENDIENTE_APROBACION'
+                N'PENDIENTE_APROBACION',
+                N'RECHAZADO_ADMIN'
             )
             THEN 1
             ELSE 0
@@ -65,7 +68,8 @@ SELECT
             (
                 N'VALIDADO_PENDIENTE',
                 N'VALIDADO_PENDIENTE_ACTUALIZACION',
-                N'PENDIENTE_APROBACION'
+                N'PENDIENTE_APROBACION',
+                N'RECHAZADO_ADMIN'
             )
             THEN 1
             ELSE 0
@@ -87,7 +91,8 @@ SELECT
             (
                 N'VALIDADO_PENDIENTE',
                 N'VALIDADO_PENDIENTE_ACTUALIZACION',
-                N'PENDIENTE_APROBACION'
+                N'PENDIENTE_APROBACION',
+                N'RECHAZADO_ADMIN'
             )
             THEN 1
             ELSE 0
@@ -100,7 +105,8 @@ SELECT
             (
                 N'VALIDADO_PENDIENTE',
                 N'VALIDADO_PENDIENTE_ACTUALIZACION',
-                N'PENDIENTE_APROBACION'
+                N'PENDIENTE_APROBACION',
+                N'RECHAZADO_ADMIN'
             )
             THEN 1
             ELSE 0
@@ -112,7 +118,7 @@ INNER JOIN dbo.carga c
 GO
 
 
-DECLARE @EjecutarMantenimiento BIT = 0;
+DECLARE @EjecutarMantenimiento BIT = 1;
 -- 0 = simulación con ROLLBACK
 -- 1 = ejecuta mantenimiento con COMMIT
 
@@ -125,12 +131,15 @@ BEGIN TRY
 
     /*
         Se elimina staging únicamente cuando la carga ya no necesita
-        una decisión del enlace estatal ni del administrador.
+        una decisión del enlace estatal ni del administrador y tampoco
+        corresponde a un rechazo administrativo que deba conservarse
+        para trazabilidad, reconstrucción de archivos e informe previo.
 
         Se deben conservar:
         - VALIDADO_PENDIENTE
         - VALIDADO_PENDIENTE_ACTUALIZACION
         - PENDIENTE_APROBACION
+        - RECHAZADO_ADMIN
     */
 
     DELETE tmp
@@ -141,7 +150,8 @@ BEGIN TRY
     (
         N'VALIDADO_PENDIENTE',
         N'VALIDADO_PENDIENTE_ACTUALIZACION',
-        N'PENDIENTE_APROBACION'
+        N'PENDIENTE_APROBACION',
+        N'RECHAZADO_ADMIN'
     );
 
     SET @VictimasEliminadas = @@ROWCOUNT;
@@ -155,7 +165,8 @@ BEGIN TRY
     (
         N'VALIDADO_PENDIENTE',
         N'VALIDADO_PENDIENTE_ACTUALIZACION',
-        N'PENDIENTE_APROBACION'
+        N'PENDIENTE_APROBACION',
+        N'RECHAZADO_ADMIN'
     );
 
     SET @DelitosEliminados = @@ROWCOUNT;
@@ -169,7 +180,8 @@ BEGIN TRY
     (
         N'VALIDADO_PENDIENTE',
         N'VALIDADO_PENDIENTE_ACTUALIZACION',
-        N'PENDIENTE_APROBACION'
+        N'PENDIENTE_APROBACION',
+        N'RECHAZADO_ADMIN'
     );
 
     SET @CarpetasEliminadas = @@ROWCOUNT;
@@ -228,7 +240,8 @@ SELECT
             (
                 N'VALIDADO_PENDIENTE',
                 N'VALIDADO_PENDIENTE_ACTUALIZACION',
-                N'PENDIENTE_APROBACION'
+                N'PENDIENTE_APROBACION',
+                N'RECHAZADO_ADMIN'
             )
             THEN 1
             ELSE 0
@@ -241,7 +254,8 @@ SELECT
             (
                 N'VALIDADO_PENDIENTE',
                 N'VALIDADO_PENDIENTE_ACTUALIZACION',
-                N'PENDIENTE_APROBACION'
+                N'PENDIENTE_APROBACION',
+                N'RECHAZADO_ADMIN'
             )
             THEN 1
             ELSE 0
@@ -263,7 +277,8 @@ SELECT
             (
                 N'VALIDADO_PENDIENTE',
                 N'VALIDADO_PENDIENTE_ACTUALIZACION',
-                N'PENDIENTE_APROBACION'
+                N'PENDIENTE_APROBACION',
+                N'RECHAZADO_ADMIN'
             )
             THEN 1
             ELSE 0
@@ -276,7 +291,8 @@ SELECT
             (
                 N'VALIDADO_PENDIENTE',
                 N'VALIDADO_PENDIENTE_ACTUALIZACION',
-                N'PENDIENTE_APROBACION'
+                N'PENDIENTE_APROBACION',
+                N'RECHAZADO_ADMIN'
             )
             THEN 1
             ELSE 0
@@ -298,7 +314,8 @@ SELECT
             (
                 N'VALIDADO_PENDIENTE',
                 N'VALIDADO_PENDIENTE_ACTUALIZACION',
-                N'PENDIENTE_APROBACION'
+                N'PENDIENTE_APROBACION',
+                N'RECHAZADO_ADMIN'
             )
             THEN 1
             ELSE 0
@@ -311,7 +328,8 @@ SELECT
             (
                 N'VALIDADO_PENDIENTE',
                 N'VALIDADO_PENDIENTE_ACTUALIZACION',
-                N'PENDIENTE_APROBACION'
+                N'PENDIENTE_APROBACION',
+                N'RECHAZADO_ADMIN'
             )
             THEN 1
             ELSE 0
@@ -330,7 +348,7 @@ GO
 */
 
 
-DECLARE @ActualizarEstadisticas BIT = 0;
+DECLARE @ActualizarEstadisticas BIT = 1;
 -- 0 = no actualiza estadísticas
 -- 1 = actualiza estadísticas con FULLSCAN
 
