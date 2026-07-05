@@ -67,7 +67,7 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    IF UPDATE(codigo_postal_fiscalia)
+    IF EXISTS (SELECT 1 FROM deleted) AND UPDATE(codigo_postal_fiscalia)
     BEGIN
         RETURN;
     END;
