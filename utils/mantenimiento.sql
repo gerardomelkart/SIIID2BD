@@ -240,7 +240,7 @@ LEFT JOIN #CargasStagingProtegidas protegida
         @EjecutarMantenimiento = 1
 */
 
-DECLARE @EjecutarMantenimiento BIT = 0;
+DECLARE @EjecutarMantenimiento BIT = 1;
 -- 0 = simulación con ROLLBACK
 -- 1 = ejecuta mantenimiento con COMMIT
 
@@ -426,7 +426,7 @@ GO
 */
 
 
-DECLARE @ActualizarEstadisticas BIT = 0;
+DECLARE @ActualizarEstadisticas BIT = 1;
 -- 0 = no actualiza estadísticas
 -- 1 = actualiza estadísticas con FULLSCAN
 
