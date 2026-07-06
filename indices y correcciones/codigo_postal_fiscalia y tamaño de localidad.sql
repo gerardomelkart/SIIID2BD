@@ -217,3 +217,107 @@ BEGIN
         ON cp.id_delito = de.id_delito;
 END;
 GO
+
+
+USE [siiid2];
+GO
+
+SET NOCOUNT ON;
+SET XACT_ABORT ON;
+GO
+
+BEGIN TRY
+    BEGIN TRANSACTION;
+
+    DECLARE @Objetivos TABLE
+    (
+        esquema SYSNAME NOT NULL,
+        tabla SYSNAME NOT NULL,
+        columna SYSNAME NOT NULL,
+        PRIMARY KEY (esquema, tabla, columna)
+    );
+
+    INSERT INTO @Objetivos (esquema, tabla, columna)
+    VALUES
+        (N'dbo', N'carga_tmp_delito', N'id_loc_hchos'),
+        (N'dbo', N'delito', N'id_localidad_fiscalia'),
+        (N'dbo', N'delito_historico', N'id_localidad_fiscalia');
+
+    IF EXISTS
+    (
+        SELECT 1
+        FROM @Objetivos o
+        LEFT JOIN sys.schemas s ON s.name = o.esquema
+        LEFT JOIN sys.tables t ON t.schema_id = s.schema_id AND t.name = o.tabla
+        LEFT JOIN sys.columns c ON c.object_id = t.object_id AND c.name = o.columna
+        WHERE c.object_id IS NULL
+    )
+    BEGIN
+        THROW 50001, 'No se encontraron todas las columnas requeridas para ampliar ID_LOC_HCHOS.', 1;
+    END;
+
+    IF EXISTS
+    (
+        SELECT 1
+        FROM @Objetivos o
+        INNER JOIN sys.schemas s ON s.name = o.esquema
+        INNER JOIN sys.tables t ON t.schema_id = s.schema_id AND t.name = o.tabla
+        INNER JOIN sys.columns c ON c.object_id = t.object_id AND c.name = o.columna
+        INNER JOIN sys.types ty ON ty.user_type_id = c.user_type_id
+        WHERE ty.name NOT IN (N'varchar', N'nvarchar')
+    )
+    BEGIN
+        THROW 50002, 'Una de las columnas requeridas no es VARCHAR ni NVARCHAR. Se cancela el cambio.', 1;
+    END;
+
+    DECLARE @Sql NVARCHAR(MAX) = N'';
+
+    SELECT @Sql = @Sql
+        + N'ALTER TABLE ' + QUOTENAME(s.name) + N'.' + QUOTENAME(t.name)
+        + N' ALTER COLUMN ' + QUOTENAME(c.name) + N' '
+        + CASE WHEN ty.name = N'nvarchar' THEN N'NVARCHAR(250)' ELSE N'VARCHAR(250)' END
+        + CASE WHEN c.is_nullable = 1 THEN N' NULL;' ELSE N' NOT NULL;' END
+        + CHAR(13) + CHAR(10)
+    FROM @Objetivos o
+    INNER JOIN sys.schemas s ON s.name = o.esquema
+    INNER JOIN sys.tables t ON t.schema_id = s.schema_id AND t.name = o.tabla
+    INNER JOIN sys.columns c ON c.object_id = t.object_id AND c.name = o.columna
+    INNER JOIN sys.types ty ON ty.user_type_id = c.user_type_id
+    WHERE
+        c.max_length <> -1
+        AND
+        CASE
+            WHEN ty.name = N'nvarchar' THEN c.max_length / 2
+            ELSE c.max_length
+        END < 250;
+
+    IF @Sql <> N''
+    BEGIN
+        EXEC sys.sp_executesql @Sql;
+    END;
+
+    COMMIT TRANSACTION;
+
+    SELECT
+        s.name AS esquema,
+        t.name AS tabla,
+        c.name AS columna,
+        ty.name AS tipo,
+        CASE
+            WHEN c.max_length = -1 THEN -1
+            WHEN ty.name = N'nvarchar' THEN c.max_length / 2
+            ELSE c.max_length
+        END AS longitud_caracteres,
+        c.is_nullable
+    FROM @Objetivos o
+    INNER JOIN sys.schemas s ON s.name = o.esquema
+    INNER JOIN sys.tables t ON t.schema_id = s.schema_id AND t.name = o.tabla
+    INNER JOIN sys.columns c ON c.object_id = t.object_id AND c.name = o.columna
+    INNER JOIN sys.types ty ON ty.user_type_id = c.user_type_id
+    ORDER BY t.name, c.name;
+END TRY
+BEGIN CATCH
+    IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;
+    THROW;
+END CATCH;
+GO
