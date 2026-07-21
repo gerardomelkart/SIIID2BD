@@ -2,7 +2,7 @@ USE siiid2;
 GO
 
 CREATE OR ALTER PROCEDURE dbo.usp_mantenimiento_semanal
-    @EjecutarMantenimiento BIT = 0,
+    @EjecutarMantenimiento BIT = 1,
     @ActualizarEstadisticas BIT = 1
 AS
 BEGIN

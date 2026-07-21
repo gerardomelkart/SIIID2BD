@@ -138,7 +138,7 @@ BEGIN TRY
         fecha_registro
     )
     SELECT
-        configuracion.id_semanal_carga,
+         configuracion.id_semanal_carga,
         md.id_modalidad_delito,
         configuracion.es_obligatorio,
         configuracion.conservar_entre_periodos,
