@@ -73,6 +73,11 @@ BEGIN TRY
     INNER JOIN #CargasObjetivo objetivo ON objetivo.id_semanal_carga = t.id_semanal_carga
 
     UNION ALL
+    SELECT N'semanal_carga_advertencia', COUNT_BIG(*)
+    FROM dbo.semanal_carga_advertencia t
+    INNER JOIN #CargasObjetivo objetivo ON objetivo.id_semanal_carga = t.id_semanal_carga
+
+    UNION ALL
     SELECT N'semanal_carga_delito_configurado', COUNT_BIG(*)
     FROM dbo.semanal_carga_delito_configurado t
     INNER JOIN #CargasObjetivo objetivo ON objetivo.id_semanal_carga = t.id_semanal_carga
@@ -225,6 +230,17 @@ BEGIN TRY
     PRINT CONCAT(N'semanal_carpeta_investigacion borradas: ', @@ROWCOUNT);
 
     PRINT N'============================================================';
+    PRINT N'BORRANDO ADVERTENCIAS DE LAS CARGAS';
+    PRINT N'============================================================';
+
+    DELETE t
+    FROM dbo.semanal_carga_advertencia t
+    INNER JOIN #CargasObjetivo objetivo ON objetivo.id_semanal_carga = t.id_semanal_carga;
+
+    PRINT CONCAT(N'semanal_carga_advertencia borradas: ', @@ROWCOUNT);
+
+
+    PRINT N'============================================================';
     PRINT N'BORRANDO CONFIGURACIÓN DE LAS CARGAS';
     PRINT N'============================================================';
 
@@ -250,6 +266,11 @@ BEGIN TRY
 
     SELECT N'semanal_carga' AS tabla, COUNT_BIG(*) AS total
     FROM dbo.semanal_carga t
+    INNER JOIN #CargasObjetivo objetivo ON objetivo.id_semanal_carga = t.id_semanal_carga
+
+    UNION ALL
+    SELECT N'semanal_carga_advertencia', COUNT_BIG(*)
+    FROM dbo.semanal_carga_advertencia t
     INNER JOIN #CargasObjetivo objetivo ON objetivo.id_semanal_carga = t.id_semanal_carga
 
     UNION ALL
