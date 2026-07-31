@@ -55,8 +55,6 @@ BEGIN TRY
             CONSTRAINT CK_semanal_carga_fechas_tramo CHECK
             (
                 fecha_inicio_tramo <= fecha_fin_tramo
-                AND fecha_inicio_tramo >= fecha_inicio_semana
-                AND fecha_fin_tramo <= fecha_fin_semana
                 AND MONTH(fecha_inicio_tramo) = mes_corte
                 AND MONTH(fecha_fin_tramo) = mes_corte
                 AND YEAR(fecha_inicio_tramo) = anio_corte
