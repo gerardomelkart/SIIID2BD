@@ -14,24 +14,31 @@ SET NOCOUNT ON;
 SET XACT_ABORT ON;
 GO
 
+IF OBJECT_ID(N'dbo.semanal_carga', N'U') IS NULL
+BEGIN
+    THROW 53200, 'No existe dbo.semanal_carga.', 1;
+END;
+GO
+
+IF OBJECT_ID(N'dbo.semanal_carga_bloque', N'U') IS NULL
+BEGIN
+    THROW 53201, 'No existe dbo.semanal_carga_bloque.', 1;
+END;
+GO
+
+/*
+    Este ALTER debe ir en un lote independiente.
+    Por eso hay un GO inmediatamente después.
+*/
+IF COL_LENGTH(N'dbo.semanal_carga_bloque', N'id_usuario_carga') IS NULL
+BEGIN
+    ALTER TABLE dbo.semanal_carga_bloque
+    ADD id_usuario_carga INT NULL;
+END;
+GO
+
 BEGIN TRY
     BEGIN TRANSACTION;
-
-    IF OBJECT_ID(N'dbo.semanal_carga', N'U') IS NULL
-    BEGIN
-        THROW 53200, 'No existe dbo.semanal_carga.', 1;
-    END;
-
-    IF OBJECT_ID(N'dbo.semanal_carga_bloque', N'U') IS NULL
-    BEGIN
-        THROW 53201, 'No existe dbo.semanal_carga_bloque.', 1;
-    END;
-
-    IF COL_LENGTH(N'dbo.semanal_carga_bloque', N'id_usuario_carga') IS NULL
-    BEGIN
-        ALTER TABLE dbo.semanal_carga_bloque
-        ADD id_usuario_carga INT NULL;
-    END;
 
     UPDATE bloque
     SET bloque.id_usuario_carga = carga.id_usuario_carga
@@ -234,32 +241,30 @@ END CATCH;
 GO
 
 SELECT
-    indice.name,
     tabla.name AS tabla,
+    indice.name AS indice,
     indice.is_unique,
     indice.has_filter,
-    indice.filter_definition,
-    STRING_AGG(columna.name, N', ') WITHIN GROUP (ORDER BY columnaIndice.key_ordinal) AS columnas
+    indice.filter_definition
 FROM sys.indexes indice
 INNER JOIN sys.tables tabla
     ON tabla.object_id = indice.object_id
-INNER JOIN sys.index_columns columnaIndice
-    ON columnaIndice.object_id = indice.object_id
-   AND columnaIndice.index_id = indice.index_id
-   AND columnaIndice.key_ordinal > 0
-INNER JOIN sys.columns columna
-    ON columna.object_id = columnaIndice.object_id
-   AND columna.column_id = columnaIndice.column_id
 WHERE indice.name IN
 (
     N'UX_semanal_carga_operacion_pendiente',
     N'UX_semanal_carga_bloque_pendiente'
 )
-GROUP BY
-    indice.name,
-    tabla.name,
-    indice.is_unique,
-    indice.has_filter,
-    indice.filter_definition
 ORDER BY tabla.name, indice.name;
+GO
+
+SELECT
+    columna.name,
+    tipo.name AS tipo,
+    columna.max_length,
+    columna.is_nullable
+FROM sys.columns columna
+INNER JOIN sys.types tipo
+    ON tipo.user_type_id = columna.user_type_id
+WHERE columna.object_id = OBJECT_ID(N'dbo.semanal_carga_bloque')
+  AND columna.name = N'id_usuario_carga';
 GO
