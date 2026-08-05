@@ -192,6 +192,3 @@ BEGIN
     DROP TABLE #CargasStagingProtegidas;
 END;
 GO
-
-
-EXEC dbo.usp_mantenimiento_semanal @EjecutarMantenimiento = 0, @ActualizarEstadisticas = 0;
