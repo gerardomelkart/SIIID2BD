@@ -577,7 +577,7 @@ Table victima {
   id_pertenece_poblacion_indigena tinyint [ref: > catalogo_pertenece_poblacion_indigena.id_pertenece_poblacion_indigena]
   id_presenta_discapacidad tinyint [ref: > catalogo_presenta_discapacidad.id_presenta_discapacidad]
   fecha_nacimiento date
-  edad tinyint
+  edad smallint
   id_usuario_registro int [not null, ref: > usuario.id_usuario]
   fecha_registro datetime [not null, default: `SYSDATETIME()`]
   id_carga bigint [not null, ref: > carga.id_carga]
@@ -597,7 +597,7 @@ Table victima_historico {
   id_pertenece_poblacion_indigena tinyint [ref: > catalogo_pertenece_poblacion_indigena.id_pertenece_poblacion_indigena]
   id_presenta_discapacidad tinyint [ref: > catalogo_presenta_discapacidad.id_presenta_discapacidad]
   fecha_nacimiento date
-  edad tinyint
+  edad smallint
   id_usuario_registro int [not null, ref: > usuario.id_usuario]
   fecha_registro datetime [not null]
   id_carga bigint [not null, ref: > carga.id_carga]
