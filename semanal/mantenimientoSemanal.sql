@@ -40,7 +40,7 @@ BEGIN
     SELECT sc.id_semanal_carga, N'CARGA_PENDIENTE'
     FROM dbo.semanal_carga sc
        WHERE sc.estado IN (N'VALIDADO_PENDIENTE', N'VALIDADO_PENDIENTE_ACTUALIZACION', N'PENDIENTE_APROBACION')
-      AND sc.activo = 1;f
+      AND sc.activo = 1;
 
     INSERT INTO #CargasStagingProtegidas (id_semanal_carga, motivo_proteccion)
     SELECT sc.id_semanal_carga, N'ULTIMO_RECHAZO_ADMIN_VIGENTE'
@@ -192,3 +192,6 @@ BEGIN
     DROP TABLE #CargasStagingProtegidas;
 END;
 GO
+
+
+EXEC dbo.usp_mantenimiento_semanal @EjecutarMantenimiento = 0, @ActualizarEstadisticas = 0;
