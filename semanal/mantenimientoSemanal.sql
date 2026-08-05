@@ -12,7 +12,18 @@ BEGIN
     DECLARE @CarpetasEliminadas INT = 0;
     DECLARE @MantenimientoConfirmado BIT = 0;
 
-    IF OBJECT_ID(N'dbo.semanal_carga', N'U') IS NULL OR OBJECT_ID(N'dbo.semanal_carga_tmp_carpeta', N'U') IS NULL OR OBJECT_ID(N'dbo.semanal_carga_tmp_delito', N'U') IS NULL OR OBJECT_ID(N'dbo.semanal_carga_tmp_victima', N'U') IS NULL
+        IF OBJECT_ID(N'dbo.semanal_carga', N'U') IS NULL
+       OR OBJECT_ID(N'dbo.semanal_carga_bloque', N'U') IS NULL
+       OR OBJECT_ID(N'dbo.semanal_carga_delito_configurado', N'U') IS NULL
+       OR OBJECT_ID(N'dbo.semanal_carga_tmp_carpeta', N'U') IS NULL
+       OR OBJECT_ID(N'dbo.semanal_carga_tmp_delito', N'U') IS NULL
+       OR OBJECT_ID(N'dbo.semanal_carga_tmp_victima', N'U') IS NULL
+       OR OBJECT_ID(N'dbo.semanal_carpeta_investigacion', N'U') IS NULL
+       OR OBJECT_ID(N'dbo.semanal_carpeta_investigacion_historico', N'U') IS NULL
+       OR OBJECT_ID(N'dbo.semanal_delito', N'U') IS NULL
+       OR OBJECT_ID(N'dbo.semanal_delito_historico', N'U') IS NULL
+       OR OBJECT_ID(N'dbo.semanal_victima', N'U') IS NULL
+       OR OBJECT_ID(N'dbo.semanal_victima_historico', N'U') IS NULL
     BEGIN
         THROW 50020, 'No está completa la estructura requerida por el mantenimiento semanal.', 1;
     END;
@@ -28,7 +39,8 @@ BEGIN
     INSERT INTO #CargasStagingProtegidas (id_semanal_carga, motivo_proteccion)
     SELECT sc.id_semanal_carga, N'CARGA_PENDIENTE'
     FROM dbo.semanal_carga sc
-    WHERE sc.estado IN (N'VALIDADO_PENDIENTE', N'VALIDADO_PENDIENTE_ACTUALIZACION', N'PENDIENTE_APROBACION');
+       WHERE sc.estado IN (N'VALIDADO_PENDIENTE', N'VALIDADO_PENDIENTE_ACTUALIZACION', N'PENDIENTE_APROBACION')
+      AND sc.activo = 1;f
 
     INSERT INTO #CargasStagingProtegidas (id_semanal_carga, motivo_proteccion)
     SELECT sc.id_semanal_carga, N'ULTIMO_RECHAZO_ADMIN_VIGENTE'
@@ -40,6 +52,7 @@ BEGIN
           SELECT 1
           FROM dbo.semanal_carga sc2
           WHERE ISNULL(sc2.id_entidad_federativa, 0) = ISNULL(sc.id_entidad_federativa, 0)
+            AND sc2.id_usuario_carga = sc.id_usuario_carga
             AND sc2.anio_semana = sc.anio_semana
             AND sc2.numero_semana = sc.numero_semana
             AND ISNULL(sc2.tipo_carga, N'') = ISNULL(sc.tipo_carga, N'')
@@ -134,6 +147,7 @@ BEGIN
         IF @MantenimientoConfirmado = 1 AND @ActualizarEstadisticas = 1
         BEGIN
             UPDATE STATISTICS dbo.semanal_carga;
+            UPDATE STATISTICS dbo.semanal_carga_bloque;
             UPDATE STATISTICS dbo.semanal_carga_tmp_carpeta;
             UPDATE STATISTICS dbo.semanal_carga_tmp_delito;
             UPDATE STATISTICS dbo.semanal_carga_tmp_victima;
