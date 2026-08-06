@@ -39,6 +39,8 @@ BEGIN TRY
             fecha_expiracion DATETIME2(0) NULL,
             id_usuario_confirmacion INT NULL,
             mensaje_error NVARCHAR(MAX) NULL,
+            rechazo_visto BIT NOT NULL CONSTRAINT DF_semanal_carga_rechazo_visto DEFAULT (1),
+            fecha_rechazo_visto DATETIME2(0) NULL,
             activo BIT NOT NULL CONSTRAINT DF_semanal_carga_activo DEFAULT (1),
             CONSTRAINT PK_semanal_carga PRIMARY KEY (id_semanal_carga),
             CONSTRAINT UQ_semanal_carga_codigo_referencia UNIQUE (codigo_referencia),

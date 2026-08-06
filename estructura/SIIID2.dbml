@@ -349,6 +349,8 @@ Table carga {
   fecha_expiracion datetime
   id_usuario_confirmacion int [ref: > usuario.id_usuario]
   mensaje_error text
+  rechazo_visto boolean [not null, default: 1]
+  fecha_rechazo_visto datetime
   activo boolean [not null, default: 1]
 
   indexes {

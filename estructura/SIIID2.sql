@@ -403,6 +403,8 @@ CREATE TABLE carga (
     fecha_expiracion DATETIME2 NULL,
     id_usuario_confirmacion INT NULL,
     mensaje_error NVARCHAR(MAX) NULL,
+    rechazo_visto BIT NOT NULL CONSTRAINT DF_carga_rechazo_visto DEFAULT 1,
+    fecha_rechazo_visto DATETIME2(0) NULL,
     activo BIT NOT NULL
         CONSTRAINT DF_carga_activo DEFAULT 1,
 
