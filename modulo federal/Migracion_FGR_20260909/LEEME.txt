@@ -1,0 +1,109 @@
+MIGRACION FGR — RESPALDO 09/09/2026
+
+EJECUCION EN WINDOWS / SQL SERVER MANAGEMENT STUDIO (SSMS)
+
+1. Extraer el ZIP en D:\CNI\MigracionFederal.
+   Deben quedar estos archivos:
+   D:\CNI\MigracionFederal\FGR_20260909\01_Migrar_FGR.sql
+   D:\CNI\MigracionFederal\FGR_20260909\02_Datos_FGR.sql
+   D:\CNI\MigracionFederal\FGR_20260909\03_Verificar_FGR.sql
+   D:\CNI\MigracionFederal\FGR_20260909\LEEME.txt
+
+2. En SSMS, conectarse al servidor SQL Server de produccion que contiene siiid2.
+   Abrir 01_Migrar_FGR.sql y activar Consulta > Modo SQLCMD.
+   No abrir ni ejecutar 02_Datos_FGR.sql por separado: el primero lo lee desde Windows.
+   No copiar estos scripts en la terminal Linux ni importarlos mediante mysql.
+
+3. Ejecutar TODO 01_Migrar_FGR.sql como viene, con:
+   :setvar Aplicar "0"
+   Esperar el mensaje VALIDACION CORRECTA en Mensajes.
+   Esta pasada carga tablas temporales en tempdb y comprueba el destino;
+   no inserta datos ni crea tablas permanentes en siiid2.
+   Muestra el servidor, el usuario FGRX26011400, los ocho periodos y sus conteos.
+   Si falla, detenerse y compartir el error; no omitir ninguna comprobacion.
+
+4. Con un respaldo actual del destino disponible, cambiar SOLO esta linea a:
+   :setvar Aplicar "1"
+   Ejecutar nuevamente TODO 01_Migrar_FGR.sql con Modo SQLCMD activo.
+   Al terminar correctamente mostrara MIGRACION CONFIRMADA.
+   No requiere instalar Python, mysql ni sqlcmd.exe. Usa la conexion actual de SSMS.
+   Las escrituras finales, el mapa y la bitacora se confirman en una sola transaccion.
+   Un error antes del COMMIT revierte todas esas escrituras.
+   SQL Server puede consumir valores IDENTITY aun si revierte; no se reutilizan IDs.
+   Si la conexion se corta al final, consultar 03_Verificar_FGR.sql antes de reintentar:
+   el servidor pudo haber confirmado aunque SSMS no alcanzara a mostrar el mensaje.
+
+5. Ejecutar 03_Verificar_FGR.sql en SSMS. Es de solo lectura y no requiere SQLCMD.
+   Resultado inmediato esperado:
+   CARGA = 8; CARPETA = 58523; DELITO = 58638; VICTIMA = 65366.
+   Pares historicos = 115. Victimas sin delito u otro envio = 0. Otro autor = 0.
+   Revisar en Federal Reporte de envios, Reporte de cargas y un plano confirmado.
+   Reconciliar los ocho cortes y descargar un envio de muestra.
+
+ALCANCE Y DECISION DEL USUARIO
+
+Se conservan los 115 pares de delitos con identificador repetido. No se eliminan,
+no se renombran y no se duplican victimas para completar reglas nuevas.
+Se importan todos los 58,523 registros de carpetas, 58,638 de delitos y 65,366
+victimas. Las relaciones se conservan mediante pk_ci y pk_del originales.
+Las claves autoincrementales de SQL Server son nuevas; los identificadores FGR
+permanecen iguales. Los conteos y relaciones se verifican antes del COMMIT.
+Los tres historicos estaban vacios: no se inventan versiones historicas.
+La migracion no invoca validadores de carga ni cambia reglas de la API o el front.
+Las nuevas cargas siguen pasando por las validaciones actuales.
+Una futura actualizacion de los cortes historicos seguira usando el flujo actual;
+este paquete no agrega excepciones de validacion a ese flujo.
+
+Solo se inserta en tablas Federal. No se modifica el usuario ni sus permisos.
+FGRX26011400 debe corresponder al usuario activo 68, nacional (entidad NULL).
+Los envios, carpetas, delitos y victimas se atribuyen a ese usuario.
+No se modifica mensual, semanal, repositorios, origen MariaDB ni archivos de publicacion.
+
+El respaldo de tbl_envios_aux no tiene filas. Los ocho envios se reconstruyen a
+partir de codigo_referencia, corte y conteos de los datos definitivos del legado.
+Quedan CARGA_INICIAL / CONFIRMADO para que formen parte de los reportes confirmados.
+Se mantiene fcha_insert en fecha_registro. La primera fcha_insert de cada envio
+se usa como fecha_carga y fecha_validacion reconstruidas. Esto se documenta en
+bitacora. fecha_confirmacion e id_usuario_confirmacion quedan NULL: no se inventa
+una aprobacion administrativa ni se atribuye a un superusuario.
+
+Se agrega UNA tabla de trazabilidad:
+dbo.federal_migracion_fgr_20260909_mapa
+Contiene 182,535 correspondencias (incluidos ocho envios), hash del respaldo,
+fecha de migracion y login ejecutor. No eliminarla. Para CARPETA/DELITO/VICTIMA,
+clave_origen es la PK original; para CARGA es codigo_referencia.
+La bitacora de cada envio registra el evento de migracion a la fecha real de ejecucion.
+
+CONVERSIONES NECESARIAS PARA EL ESQUEMA NUEVO
+
+Los catalogos se buscan por clave; no se supone que su ID sea igual al del legado.
+Municipio se resuelve por entidad + clave municipal. Una equivalencia requerida
+inexistente, inactiva o ambigua detiene la operacion: no se omiten filas.
+Los ceros del legado en catalogos opcionales de victimas representan ausencia de
+clave y se convierten en NULL. Se conserva edad 999 como 999; edad/fecha vacias
+se convierten en NULL. No se recalcula edad ni se corrigen reglas de negocio.
+Las fechas/horas se convierten desde ISO y las cadenas se insertan como Unicode.
+Codigo postal se conserva como texto; su FK puede quedar NULL si no hay equivalencia
+para ese municipio, igual que en el repositorio de carga Federal.
+Los nombres geograficos y otros campos que no tienen columna final propia permanecen
+en 02_Datos_FGR.sql y en el respaldo original; el modelo final usa sus catalogos.
+Los SQL no contienen los originales CSV/XLSX subidos al sistema viejo: no se crean
+archivos falsos en UltimosArchivosFederal. Esa carpeta debe trasladarse por separado
+si se requiere conservar las descargas de archivos originales.
+
+EVIDENCIA Y LIMITES DE PRUEBA
+
+Los 182,527 registros del SQL de datos se decodificaron y compararon campo por campo
+con el respaldo: iguales, incluidos acentos, comillas, espacios y saltos de linea.
+Se verificaron las columnas de insercion contra la estructura Federal actual.
+Se probaron mapas con identidades reordenadas: preservan las 65,366 relaciones de
+victimas, incluidas las 177 victimas vinculadas a los 115 pares.
+No hay un motor SQL Server disponible en el entorno donde se preparo el paquete.
+Por eso no se afirma que se haya ejecutado en SQL Server: la primera pasada en
+Modo Aplicar=0 verifica conversiones y catalogos reales, y Aplicar=1 comprueba
+todas las filas insertadas antes de confirmar la transaccion.
+
+API main: 0385c8f9339d35b7d45b58f8aa72116473a7f4f1
+BD main: 8244c4eebfac1903f2999a859d7fc848aea3fd72
+Fuente fgr_datos_20260909_181333.sql.gz SHA256:
+3bc3fac452b8f6d663ff2f2646579e4effd556799b3ea756415cd33d89dc04f2
