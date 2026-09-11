@@ -189,7 +189,11 @@ SELECT
     v.fecha_registro AS fcha_insert,
     c.codigo_referencia,
     CONVERT(NVARCHAR(2), c.mes_corte) AS mes_corte,
-    CONVERT(NVARCHAR(4), c.anio_corte) AS anio_corte
+    CONVERT(NVARCHAR(4), c.anio_corte) AS anio_corte,
+    v.nombre_vicfem AS nombre_vicfem,
+    v.primer_apellido_vicfem AS [1apellido_vicfem],
+    v.segundo_apellido_vicfem AS [2apellido_vicfem],
+    v.curp_vicfem AS curp_vicfem
 FROM dbo.victima v
 INNER JOIN dbo.delito d ON d.id_delito = v.id_delito AND d.activo = 1
 INNER JOIN dbo.carpeta_investigacion ci ON ci.id_carpeta_investigacion = d.id_carpeta_investigacion AND ci.activo = 1
@@ -352,7 +356,11 @@ SELECT
     COALESCE(CONVERT(NVARCHAR(25), v.edad), N'999') AS edad,
     CASE WHEN v.edad IS NULL THEN N'No especificado' WHEN v.edad BETWEEN 0 AND 120 THEN CONVERT(NVARCHAR(20), v.edad) ELSE NULL END AS d_edad,
     TRY_CONVERT(INT, nac.clave) AS nacional,
-    nac.descripcion AS d_nacional
+    nac.descripcion AS d_nacional,
+    v.nombre_vicfem AS nombre_vicfem,
+    v.primer_apellido_vicfem AS [1apellido_vicfem],
+    v.segundo_apellido_vicfem AS [2apellido_vicfem],
+    v.curp_vicfem AS curp_vicfem
 FROM dbo.carpeta_investigacion ci
 INNER JOIN dbo.delito d ON d.id_carpeta_investigacion = ci.id_carpeta_investigacion
 INNER JOIN dbo.victima v ON v.id_delito = d.id_delito
@@ -405,9 +413,9 @@ INSERT INTO @Esperado (objeto, columnas_esperadas)
 VALUES
     (N'tbl_carpetas', 11),
     (N'tbl_delitos', 29),
-    (N'tbl_victimas', 20),
+    (N'tbl_victimas', 24),
     (N'vw_listado_nominal_delitos', 42),
-    (N'vw_listado_nominal_victimas', 69);
+    (N'vw_listado_nominal_victimas', 73);
 
 SELECT
     e.objeto,
