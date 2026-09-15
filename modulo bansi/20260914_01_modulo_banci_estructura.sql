@@ -583,6 +583,8 @@ BEGIN TRY
         id_ci NVARCHAR(250) NULL,
         id_delito NVARCHAR(250) NULL,
         id_vicf NVARCHAR(250) NULL,
+        id_tv NVARCHAR(100) NULL,
+        id_tpm NVARCHAR(100) NULL,
         sexo NVARCHAR(100) NULL,
         genero NVARCHAR(100) NULL,
         pob NVARCHAR(100) NULL,
@@ -898,6 +900,8 @@ BEGIN TRY
         id_banci_delito BIGINT NOT NULL,
 
         id_vicf NVARCHAR(250) NOT NULL,
+        id_tv TINYINT NULL,
+        id_tpm TINYINT NULL,
 
         sexo TINYINT NULL,
         genero TINYINT NULL,

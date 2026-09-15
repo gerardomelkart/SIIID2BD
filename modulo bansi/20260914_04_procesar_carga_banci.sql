@@ -366,6 +366,8 @@ BEGIN
         id_ci = NULLIF(LTRIM(RTRIM(v.id_ci)), N''),
         id_delito = NULLIF(LTRIM(RTRIM(v.id_delito)), N''),
         id_vicf = NULLIF(LTRIM(RTRIM(v.id_vicf)), N''),
+        id_tv = TRY_CONVERT(TINYINT, NULLIF(LTRIM(RTRIM(v.id_tv)), N'')),
+        id_tpm = TRY_CONVERT(TINYINT, NULLIF(LTRIM(RTRIM(v.id_tpm)), N'')),
         sexo = TRY_CONVERT(TINYINT, NULLIF(LTRIM(RTRIM(v.sexo)), N'')),
         genero = TRY_CONVERT(TINYINT, NULLIF(LTRIM(RTRIM(v.genero)), N'')),
         pob = TRY_CONVERT(TINYINT, NULLIF(LTRIM(RTRIM(v.pob)), N'')),
