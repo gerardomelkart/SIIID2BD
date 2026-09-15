@@ -1,4 +1,4 @@
-USE [siiid2];
+﻿USE [siiid2];
 GO
 
 SET NOCOUNT ON;
@@ -82,6 +82,7 @@ VALUES
     (N'banci_catalogo_voluntaria'),
     (N'banci_catalogo_fue_delito'),
     (N'banci_carga'),
+    (N'banci_carga_bitacora_estado'),
     (N'banci_carga_archivo'),
     (N'banci_carga_observacion'),
     (N'banci_carga_tmp_carpeta'),
@@ -212,12 +213,7 @@ BEGIN TRY
        NÚMERO BANCI
        ============================================================ */
 
-    CREATE SEQUENCE dbo.seq_banci_no_banci
-        AS BIGINT
-        START WITH 1
-        INCREMENT BY 1
-        MINVALUE 1
-        NO CYCLE;
+    -- No_BANCI queda reservado para asignación posterior por SESNSP.
 
     /* ============================================================
        ENCABEZADO DE INGESTA
@@ -241,6 +237,11 @@ BEGIN TRY
 
         fecha_inicio_procesamiento DATETIME2(0) NULL,
         fecha_fin_procesamiento DATETIME2(0) NULL,
+
+        -- NULL = todavía no decide; 0 = rechazo; 1 = aceptación.
+        aceptada_usuario BIT NULL,
+        id_usuario_confirmacion INT NULL,
+        fecha_confirmacion DATETIME2(7) NULL,
 
         total_carpetas INT NOT NULL
             CONSTRAINT DF_banci_carga_total_carpetas DEFAULT (0),
@@ -284,6 +285,16 @@ BEGIN TRY
             FOREIGN KEY (id_usuario_carga)
             REFERENCES dbo.usuario(id_usuario),
 
+        CONSTRAINT FK_banci_carga_confirmacion_usuario
+            FOREIGN KEY (id_usuario_confirmacion) REFERENCES dbo.usuario(id_usuario),
+
+        CONSTRAINT CK_banci_carga_decision
+            CHECK
+            (
+                (aceptada_usuario IS NULL AND id_usuario_confirmacion IS NULL AND fecha_confirmacion IS NULL)
+                OR (aceptada_usuario IS NOT NULL AND id_usuario_confirmacion IS NOT NULL AND fecha_confirmacion IS NOT NULL)
+            ),
+
         CONSTRAINT FK_banci_carga_entidad
             FOREIGN KEY (id_entidad_federativa)
             REFERENCES dbo.catalogo_entidad_federativa(id_entidad_federativa),
@@ -308,6 +319,8 @@ BEGIN TRY
                     N'RECIBIDO',
                     N'VALIDANDO',
                     N'VALIDADO',
+                    N'VALIDADO_PENDIENTE',
+                    N'RECHAZADO_VALIDACION',
                     N'PROCESANDO',
                     N'PROCESADO',
                     N'PROCESADO_CON_ADVERTENCIAS',
@@ -332,6 +345,21 @@ BEGIN TRY
     /* ============================================================
        ARCHIVOS DE UNA INGESTA
        ============================================================ */
+
+    CREATE TABLE dbo.banci_carga_bitacora_estado
+    (
+        id_banci_carga_bitacora_estado BIGINT IDENTITY(1,1) NOT NULL,
+        id_banci_carga BIGINT NOT NULL,
+        estado_anterior NVARCHAR(40) NULL,
+        estado_nuevo NVARCHAR(40) NOT NULL,
+        id_usuario INT NOT NULL,
+        fecha DATETIME2(7) NOT NULL CONSTRAINT DF_banci_bitacora_fecha DEFAULT (SYSDATETIME()),
+        comentario NVARCHAR(1000) NULL,
+        CONSTRAINT PK_banci_carga_bitacora_estado PRIMARY KEY (id_banci_carga_bitacora_estado),
+        CONSTRAINT FK_banci_bitacora_carga FOREIGN KEY (id_banci_carga) REFERENCES dbo.banci_carga(id_banci_carga),
+        CONSTRAINT FK_banci_bitacora_usuario FOREIGN KEY (id_usuario) REFERENCES dbo.usuario(id_usuario)
+    );
+    CREATE INDEX IX_banci_bitacora_carga_fecha ON dbo.banci_carga_bitacora_estado(id_banci_carga, fecha, id_banci_carga_bitacora_estado);
 
     CREATE TABLE dbo.banci_carga_archivo
     (
@@ -899,9 +927,7 @@ BEGIN TRY
 
         nacional NVARCHAR(5) NULL,
 
-        no_banci BIGINT NOT NULL
-            CONSTRAINT DF_banci_victima_no_banci
-            DEFAULT (NEXT VALUE FOR dbo.seq_banci_no_banci),
+        no_banci BIGINT NULL,
 
         folio_fotovolante NVARCHAR(250) NULL,
         folio_rnpdno NVARCHAR(250) NULL,
@@ -954,9 +980,6 @@ BEGIN TRY
 
         CONSTRAINT PK_banci_victima
             PRIMARY KEY (id_banci_victima),
-
-        CONSTRAINT UQ_banci_victima_no_banci
-            UNIQUE (no_banci),
 
         CONSTRAINT UQ_banci_victima_delito_vicf
             UNIQUE
@@ -1238,6 +1261,9 @@ BEGIN TRY
             id_mun_hchos,
             activo
         );
+
+    CREATE UNIQUE INDEX UX_banci_victima_no_banci
+        ON dbo.banci_victima(no_banci) WHERE no_banci IS NOT NULL;
 
     CREATE INDEX IX_banci_victima_localizacion
         ON dbo.banci_victima

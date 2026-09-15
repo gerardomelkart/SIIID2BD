@@ -1,13 +1,14 @@
-USE [siiid2];
+﻿USE [siiid2];
 GO
-
 SET NOCOUNT ON;
 SET XACT_ABORT ON;
 GO
-
+-- Definiciones completas para instalaciones nuevas con el script 01 actualizado.
+-- En una base existente ejecutar únicamente el incremental 10, que ya incluye ambos SP.
 CREATE OR ALTER PROCEDURE dbo.sp_banci_procesar_carga
     @IdBanciCarga BIGINT,
-    @IdUsuario INT
+    @IdUsuario INT,
+    @EmitirResultado BIT = 1
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -29,14 +30,46 @@ BEGIN
 
     IF @IdEntidad IS NULL THROW 52200, 'No existe la carga BANCI indicada.', 1;
 
-    IF EXISTS
+    -- Sólo se integra dentro de la decisión atómica de sp_banci_confirmar_carga.
+    IF @@TRANCOUNT = 0 OR XACT_STATE() <> 1
+        THROW 52420, 'La integración BANCI requiere una transacción de confirmación activa.', 1;
+
+    DECLARE @Recurso NVARCHAR(255) = CONCAT(N'BANCI:ENTIDAD:', @IdEntidad);
+    IF ISNULL(APPLOCK_MODE(N'public', @Recurso, N'Transaction'), N'NoLock') <> N'Exclusive'
+        THROW 52421, 'La integración BANCI requiere el bloqueo de confirmación por entidad.', 1;
+
+    IF NOT EXISTS
     (
         SELECT 1
-        FROM dbo.banci_carga
+        FROM dbo.banci_carga WITH (UPDLOCK, HOLDLOCK)
         WHERE id_banci_carga = @IdBanciCarga
-          AND estado IN (N'PROCESADO', N'PROCESADO_CON_ADVERTENCIAS')
+          AND activo = 1
+          AND estado = N'PROCESANDO'
+          AND aceptada_usuario = 1
+          AND id_usuario_confirmacion = @IdUsuario
+          AND id_usuario_carga = @IdUsuario
+          AND fecha_confirmacion IS NOT NULL
     )
-        THROW 52201, 'La carga BANCI ya fue procesada.', 1;
+        THROW 52422, 'La carga BANCI no tiene una aceptación válida para integrar.', 1;
+
+    -- Verificar que el staging completo sigue disponible antes de tocar datos vivos.
+    IF EXISTS
+    (
+        SELECT 1 FROM dbo.banci_carga c
+        WHERE c.id_banci_carga = @IdBanciCarga
+          AND
+          (
+              c.total_errores <> 0 OR c.total_carpetas <= 0 OR c.total_delitos <= 0 OR c.total_victimas <= 0
+              OR EXISTS (SELECT 1 FROM dbo.banci_carga_tmp_carpeta t WHERE t.id_banci_carga = c.id_banci_carga AND t.activo = 1 AND t.estado <> N'PENDIENTE')
+              OR EXISTS (SELECT 1 FROM dbo.banci_carga_tmp_delito t WHERE t.id_banci_carga = c.id_banci_carga AND t.activo = 1 AND t.estado <> N'PENDIENTE')
+              OR EXISTS (SELECT 1 FROM dbo.banci_carga_tmp_victima t WHERE t.id_banci_carga = c.id_banci_carga AND t.activo = 1 AND t.estado <> N'PENDIENTE')
+              OR c.total_carpetas <> (SELECT COUNT_BIG(*) FROM dbo.banci_carga_tmp_carpeta t WHERE t.id_banci_carga = c.id_banci_carga AND t.activo = 1 AND t.estado = N'PENDIENTE')
+              OR c.total_delitos <> (SELECT COUNT_BIG(*) FROM dbo.banci_carga_tmp_delito t WHERE t.id_banci_carga = c.id_banci_carga AND t.activo = 1 AND t.estado = N'PENDIENTE')
+              OR c.total_victimas <> (SELECT COUNT_BIG(*) FROM dbo.banci_carga_tmp_victima t WHERE t.id_banci_carga = c.id_banci_carga AND t.activo = 1 AND t.estado = N'PENDIENTE')
+              OR c.total_advertencias <> (SELECT COUNT_BIG(*) FROM dbo.banci_carga_observacion o WHERE o.id_banci_carga = c.id_banci_carga AND o.activo = 1 AND o.severidad = N'ADVERTENCIA')
+          )
+    )
+        THROW 52423, 'Los temporales u observaciones BANCI no coinciden con la carga validada.', 1;
 
     SET @Origen =
         CASE
@@ -629,10 +662,189 @@ BEGIN
         mensaje_error = NULL
     WHERE id_banci_carga = @IdBanciCarga;
 
+    IF @EmitirResultado = 1
     SELECT
         @IdBanciCarga AS id_banci_carga,
         @Altas AS total_altas,
         @Actualizaciones AS total_actualizaciones,
         @SinCambio AS total_sin_cambio;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE dbo.sp_banci_confirmar_carga
+    @CodigoReferencia NVARCHAR(50),
+    @Aceptar BIT,
+    @IdUsuario INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    -- El procedimiento es dueño de la transacción. La API lo llama sin otra transacción.
+    IF @@TRANCOUNT <> 0
+        THROW 52400, 'Ejecute la decisión BANCI sin una transacción externa abierta.', 1;
+    IF @Aceptar IS NULL OR @IdUsuario IS NULL OR @IdUsuario <= 0 OR NULLIF(LTRIM(RTRIM(@CodigoReferencia)), N'') IS NULL
+        THROW 52401, 'Debe indicar referencia, usuario y decisión BANCI.', 1;
+
+    SET @CodigoReferencia = LTRIM(RTRIM(@CodigoReferencia));
+
+    DECLARE @IdBanciCarga BIGINT;
+    DECLARE @IdEntidad TINYINT;
+    DECLARE @IdUsuarioCarga INT;
+    DECLARE @Estado NVARCHAR(40);
+    DECLARE @AceptadaAnterior BIT;
+    DECLARE @YaResuelta BIT = 0;
+    DECLARE @Mensaje NVARCHAR(1000);
+    DECLARE @Recurso NVARCHAR(255);
+    DECLARE @Bloqueo INT;
+    DECLARE @Resultado TABLE
+    (
+        es_valido BIT, id_banci_carga BIGINT, codigo_referencia NVARCHAR(50),
+        estado NVARCHAR(40), aceptada_usuario BIT, ya_resuelta BIT,
+        id_usuario_confirmacion INT, fecha_confirmacion DATETIME2(7),
+        total_carpetas INT, total_delitos INT, total_victimas INT,
+        total_altas INT, total_actualizaciones INT, total_sin_cambio INT,
+        total_advertencias INT, mensaje NVARCHAR(1000)
+    );
+
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        SELECT @IdEntidad = id_entidad_federativa
+        FROM dbo.banci_carga
+        WHERE codigo_referencia = @CodigoReferencia AND activo = 1;
+
+        IF @IdEntidad IS NULL
+            THROW 52402, 'No existe una carga BANCI disponible para esa referencia.', 1;
+
+        -- Misma entidad: serializa también dos referencias distintas con llaves coincidentes.
+        SET @Recurso = CONCAT(N'BANCI:ENTIDAD:', @IdEntidad);
+        EXEC @Bloqueo = sys.sp_getapplock
+            @Resource = @Recurso,
+            @LockMode = N'Exclusive',
+            @LockOwner = N'Transaction',
+            @LockTimeout = 10000,
+            @DbPrincipal = N'public';
+
+        IF @Bloqueo < 0
+            THROW 52403, 'Hay otra integración BANCI en curso para la entidad. Reintente la misma referencia.', 1;
+
+        SELECT
+            @IdBanciCarga = id_banci_carga,
+            @IdUsuarioCarga = id_usuario_carga,
+            @Estado = estado,
+            @AceptadaAnterior = aceptada_usuario
+        FROM dbo.banci_carga WITH (UPDLOCK, HOLDLOCK)
+        WHERE codigo_referencia = @CodigoReferencia
+          AND id_entidad_federativa = @IdEntidad
+          AND activo = 1;
+
+        IF @IdBanciCarga IS NULL OR @IdUsuarioCarga <> @IdUsuario
+            THROW 52404, 'Sólo el usuario que preparó la carga puede aceptar o rechazar esta referencia.', 1;
+
+        -- Se comprueba nuevamente el acceso; no basta con haber validado anteriormente.
+        -- BANCI hereda membresía MENSUAL, no sus switches de carga/modificación.
+        IF NOT EXISTS
+        (
+            SELECT 1
+            FROM dbo.usuario u WITH (HOLDLOCK)
+            INNER JOIN dbo.roles r WITH (HOLDLOCK) ON r.id_rol = u.id_rol AND r.activo = 1
+            INNER JOIN dbo.catalogo_modulo mensual WITH (HOLDLOCK) ON mensual.clave = N'MENSUAL' AND mensual.activo = 1
+            INNER JOIN dbo.usuario_modulo um WITH (HOLDLOCK) ON um.id_usuario = u.id_usuario AND um.id_modulo = mensual.id_modulo AND um.habilitado = 1 AND um.activo = 1
+            INNER JOIN dbo.catalogo_modulo banci WITH (HOLDLOCK) ON banci.clave = N'BANCI' AND banci.activo = 1
+            WHERE u.id_usuario = @IdUsuario AND u.activo = 1
+              AND (r.rol = N'SUPER_USUARIO' OR u.id_entidad_federativa = @IdEntidad)
+        )
+            THROW 52405, 'El usuario ya no tiene acceso BANCI vigente para la entidad de esta carga.', 1;
+
+        IF @Estado IN (N'PROCESADO', N'PROCESADO_CON_ADVERTENCIAS')
+        BEGIN
+            IF @Aceptar = 0
+                THROW 52406, 'Una carga integrada no puede rechazarse.', 1;
+            IF @AceptadaAnterior IS NULL OR @AceptadaAnterior <> 1
+                THROW 52407, 'La carga pertenece al flujo anterior y ya está procesada. No se modifica su decisión histórica.', 1;
+            SET @YaResuelta = 1;
+            SET @Mensaje = N'La carga BANCI ya estaba integrada. Se devuelve el resultado existente sin procesar nuevamente.';
+        END
+        ELSE IF @Estado = N'RECHAZADO_VALIDACION'
+        BEGIN
+            IF @Aceptar = 1
+                THROW 52408, 'Una carga rechazada no puede integrarse. Debe validar una nueva operación.', 1;
+            SET @YaResuelta = 1;
+            SET @Mensaje = N'La carga BANCI ya estaba rechazada. No se modificó la operación.';
+        END
+        ELSE
+        BEGIN
+            IF @Estado <> N'VALIDADO_PENDIENTE' OR @AceptadaAnterior IS NOT NULL
+                THROW 52409, 'La carga BANCI no está pendiente de decisión.', 1;
+
+            IF @Aceptar = 0
+            BEGIN
+                UPDATE dbo.banci_carga
+                SET estado = N'RECHAZADO_VALIDACION',
+                    aceptada_usuario = 0,
+                    id_usuario_confirmacion = @IdUsuario,
+                    fecha_confirmacion = SYSDATETIME(),
+                    mensaje_error = NULL
+                WHERE id_banci_carga = @IdBanciCarga;
+
+                INSERT INTO dbo.banci_carga_bitacora_estado
+                    (id_banci_carga, estado_anterior, estado_nuevo, id_usuario, comentario)
+                VALUES
+                    (@IdBanciCarga, @Estado, N'RECHAZADO_VALIDACION', @IdUsuario, N'El usuario rechazó la carga antes de integrar. Se conservan temporales y observaciones.');
+
+                SET @Mensaje = N'La carga BANCI fue rechazada. No se integraron datos definitivos.';
+            END
+            ELSE
+            BEGIN
+                UPDATE dbo.banci_carga
+                SET estado = N'PROCESANDO',
+                    aceptada_usuario = 1,
+                    id_usuario_confirmacion = @IdUsuario,
+                    fecha_confirmacion = SYSDATETIME(),
+                    fecha_inicio_procesamiento = SYSDATETIME(),
+                    fecha_fin_procesamiento = NULL,
+                    mensaje_error = NULL
+                WHERE id_banci_carga = @IdBanciCarga;
+
+                INSERT INTO dbo.banci_carga_bitacora_estado
+                    (id_banci_carga, estado_anterior, estado_nuevo, id_usuario, comentario)
+                VALUES
+                    (@IdBanciCarga, @Estado, N'PROCESANDO', @IdUsuario, N'El usuario aceptó la carga y sus advertencias. Inicia integración atómica.');
+
+                EXEC dbo.sp_banci_procesar_carga
+                    @IdBanciCarga = @IdBanciCarga,
+                    @IdUsuario = @IdUsuario,
+                    @EmitirResultado = 0;
+
+                SELECT @Estado = estado FROM dbo.banci_carga WHERE id_banci_carga = @IdBanciCarga;
+                IF @Estado NOT IN (N'PROCESADO', N'PROCESADO_CON_ADVERTENCIAS')
+                    THROW 52410, 'La integración BANCI no terminó correctamente. Se revierte la operación.', 1;
+
+                INSERT INTO dbo.banci_carga_bitacora_estado
+                    (id_banci_carga, estado_anterior, estado_nuevo, id_usuario, comentario)
+                VALUES
+                    (@IdBanciCarga, N'PROCESANDO', @Estado, @IdUsuario, N'Integración BANCI terminada. Los totales corresponden a los cambios aplicados.');
+
+                SET @Mensaje = N'La carga BANCI fue aceptada e integrada correctamente.';
+            END;
+        END;
+
+        INSERT INTO @Resultado
+        SELECT CONVERT(BIT, 1), id_banci_carga, codigo_referencia,
+               estado, aceptada_usuario, @YaResuelta,
+               id_usuario_confirmacion, fecha_confirmacion,
+               total_carpetas, total_delitos, total_victimas,
+               total_altas, total_actualizaciones, total_sin_cambio,
+               total_advertencias, @Mensaje
+        FROM dbo.banci_carga WHERE id_banci_carga = @IdBanciCarga;
+
+        COMMIT TRANSACTION;
+        SELECT * FROM @Resultado;
+    END TRY
+    BEGIN CATCH
+        IF XACT_STATE() <> 0 ROLLBACK TRANSACTION;
+        THROW;
+    END CATCH;
 END;
 GO
