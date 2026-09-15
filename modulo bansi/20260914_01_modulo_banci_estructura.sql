@@ -873,20 +873,6 @@ BEGIN TRY
             (
                 grdo_cons IS NULL
                 OR grdo_cons IN (1, 2)
-            ),
-
-        CONSTRAINT CK_banci_delito_coord_x
-            CHECK
-            (
-                coord_x IS NULL
-                OR coord_x BETWEEN -118.000000 AND -86.000000
-            ),
-
-        CONSTRAINT CK_banci_delito_coord_y
-            CHECK
-            (
-                coord_y IS NULL
-                OR coord_y BETWEEN 13.000000 AND 34.000000
             )
     );
 
