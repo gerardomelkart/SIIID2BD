@@ -430,6 +430,8 @@ BEGIN
     CROSS APPLY
     (
         VALUES
+        (N'id_tv', CONVERT(NVARCHAR(MAX), t.id_tv), CONVERT(NVARCHAR(MAX), COALESCE(s.id_tv, t.id_tv))),
+        (N'id_tpm', CONVERT(NVARCHAR(MAX), t.id_tpm), CONVERT(NVARCHAR(MAX), COALESCE(s.id_tpm, t.id_tpm))),
         (N'sexo', CONVERT(NVARCHAR(MAX), t.sexo), CONVERT(NVARCHAR(MAX), COALESCE(s.sexo, t.sexo))),
         (N'genero', CONVERT(NVARCHAR(MAX), t.genero), CONVERT(NVARCHAR(MAX), COALESCE(s.genero, t.genero))),
         (N'pob', CONVERT(NVARCHAR(MAX), t.pob), CONVERT(NVARCHAR(MAX), COALESCE(s.pob, t.pob))),
@@ -466,6 +468,8 @@ BEGIN
 
     UPDATE t
     SET
+        id_tv = COALESCE(s.id_tv, t.id_tv),
+        id_tpm = COALESCE(s.id_tpm, t.id_tpm),
         sexo = COALESCE(s.sexo, t.sexo),
         genero = COALESCE(s.genero, t.genero),
         pob = COALESCE(s.pob, t.pob),
@@ -520,7 +524,7 @@ BEGIN
 
     INSERT INTO dbo.banci_victima
     (
-        id_banci_delito, id_vicf, sexo, genero, pob, disc, fha_nac, edad,
+        id_banci_delito, id_vicf, id_tv, id_tpm, sexo, genero, pob, disc, fha_nac, edad,
         nacional, no_banci, folio_fotovolante, folio_rnpdno, pro_apellido,
         sdo_apellido, nomb, entidad_nacimiento, estado_migratorio, curp, rfc,
         fecha_ultimo_contacto, hora_ultimo_contacto, entidad_visto,
@@ -531,7 +535,7 @@ BEGIN
     )
     OUTPUT INSERTED.id_banci_victima INTO #AltasVictimas(id)
     SELECT
-        d.id_banci_delito, s.id_vicf, s.sexo, s.genero, s.pob, s.disc,
+        d.id_banci_delito, s.id_vicf, s.id_tv, s.id_tpm, s.sexo, s.genero, s.pob, s.disc,
         s.fha_nac, s.edad, s.nacional,
 
         /* No_BANCI reservado para asignación posterior SESNSP */
