@@ -913,7 +913,7 @@ BEGIN TRY
         entidad_nacimiento NVARCHAR(250) NULL,
         estado_migratorio NVARCHAR(500) NULL,
 
-        curp NVARCHAR(18) NULL,
+        curp NVARCHAR(50) NULL,
         rfc NVARCHAR(13) NULL,
 
         fecha_ultimo_contacto DATE NULL,
@@ -976,14 +976,6 @@ BEGIN TRY
         CONSTRAINT FK_banci_victima_genero
             FOREIGN KEY (genero)
             REFERENCES dbo.catalogo_genero(clave),
-
-        CONSTRAINT FK_banci_victima_pob
-            FOREIGN KEY (pob)
-            REFERENCES dbo.catalogo_pertenece_poblacion_indigena(clave),
-
-        CONSTRAINT FK_banci_victima_disc
-            FOREIGN KEY (disc)
-            REFERENCES dbo.catalogo_presenta_discapacidad(clave),
 
         CONSTRAINT FK_banci_victima_nacionalidad
             FOREIGN KEY (nacional)
