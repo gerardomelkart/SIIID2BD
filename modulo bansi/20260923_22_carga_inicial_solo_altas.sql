@@ -3,7 +3,7 @@ GO
 SET NOCOUNT ON;
 SET XACT_ABORT ON;
 -- BANCI V2 / corrección 22: rechazar carpetas existentes en todas las modalidades. Ejecutar completo en desarrollo, sin modo SQLCMD.
-IF DB_NAME() <> N'siiid2' THROW 52500, 'Base de datos incorrecta.', 1;
+IF DB_NAME() <> N'siiid2' THROW 52500, 'Base de datos incorrecta', 1;
 IF @@TRANCOUNT <> 0 THROW 52500, 'Use una ventana sin transacciones abiertas.', 1;
 IF COL_LENGTH(N'dbo.banci_carga', N'version_formato') IS NULL THROW 52500, 'Ejecute primero el script 16.', 1;
 BEGIN TRY
