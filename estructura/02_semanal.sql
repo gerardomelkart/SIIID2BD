@@ -411,6 +411,26 @@ BEGIN TRY
         );
     END;
 
+    IF NOT EXISTS
+    (
+        SELECT 1
+        FROM sys.indexes
+        WHERE object_id = OBJECT_ID(N'dbo.semanal_carga_tmp_victima')
+          AND name = N'IX_semanal_tmp_victima_match_confirmacion'
+    )
+    BEGIN
+        CREATE NONCLUSTERED INDEX IX_semanal_tmp_victima_match_confirmacion
+        ON dbo.semanal_carga_tmp_victima
+        (
+            id_semanal_carga,
+            id_ci,
+            id_delito,
+            id_vicf
+        )
+        WHERE incluido = 1
+          AND activo = 1;
+    END;
+
     COMMIT TRANSACTION;
 
     PRINT 'Encabezado y temporales del módulo semanal creados correctamente.';
