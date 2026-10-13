@@ -9,8 +9,10 @@ SQL Server para Consolidado (Mensual), Semanal, Federal, BANCI y Configuración 
 | `catalogos/` | Catálogos generales, municipios INEGI, actualización de códigos postales, Federal y BANCI. |
 | `estructura/` | Base inicial y ajustes agrupados por módulo; índices y vistas de compatibilidad. |
 | `mantenimiento/` | Cuatro procedimientos de limpieza, un coordinador y el ejecutor Linux. |
+| `desarrollo/` | Ajustes de BANCI y cruce; revisar requisitos en su README antes de ejecutarlos. |
+| `herramientas/desarrollo/` | Borrado explícito de datos de prueba, separado de los ajustes. |
 
-La reorganización parte del commit `4586325`. Los scripts históricos de publicación, migración FGR, pruebas, borrado de datos, alta de usuarios, jobs individuales, DBML y dbdiagram se retiraron del árbol actual. Siguen recuperables en el historial Git. No se reescribió ese historial.
+La reorganización parte del commit `4586325`. En esa reorganización se retiraron los scripts históricos de publicación, migración FGR, pruebas, borrado de datos, alta de usuarios, jobs individuales, DBML y dbdiagram. Los ajustes y herramientas incorporados después se describen en sus carpetas. Siguen recuperables en el historial Git. No se reescribió ese historial.
 
 ## Modelo de datos
 
@@ -86,3 +88,9 @@ Lee `/home/opc/.config/siiid2/mantenimiento.env` (o `SIIID_MANTENIMIENTO_CONFIG`
 ## Verificación y publicación
 
 Esta reorganización cambia el repositorio; no modifica QA ni producción. Se verificaron sintaxis Bash, propagación del código de error de sqlcmd, selección de base y conservación de catálogos. **Los SP nuevos requieren validación real en QA antes de instalarlos en producción.** No se afirma que coincidan con procedimientos modificados directamente en el servidor: deben compararse con esas definiciones si hubo cambios fuera de Git.
+
+## Ajustes de desarrollo y herramientas
+
+Consultar `desarrollo/README.md` para los requisitos de los scripts 02 a 06. Se conserva la numeración histórica y las redefiniciones de procedimientos: no son copias intercambiables ni un instalador general.
+
+El anterior `desarrollo/01_borrar_registros_banci.sql` se encuentra ahora en `herramientas/desarrollo/01_borrar_registros_banci.sql`, con el mismo contenido. Su separación evita incluir un borrado en una selección de ajustes. No ejecutar carpetas completas como procedimiento de publicación; seleccionar únicamente los cambios pendientes y comprobar el estado real de la base.
