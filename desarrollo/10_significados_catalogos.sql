@@ -230,17 +230,44 @@ WHERE c.activo=1 AND c.codigo_regla=N''NO_DELITO'' AND m.activo=1;';
         (constitutiva_delito IS NULL AND motivo_desaparicion IS NULL) OR
         (constitutiva_delito IS NOT NULL AND motivo_desaparicion IS NOT NULL AND LEN(LTRIM(RTRIM(motivo_desaparicion)))>0));
     DECLARE @Definicion NVARCHAR(MAX), @DefinicionNueva NVARCHAR(MAX), @ValidacionCatalogo NVARCHAR(MAX);
+    DECLARE @NombreSP SYSNAME, @PosNombre INT, @RevCreate INT, @RevAlter INT,
+        @Cabecera INT, @Palabra NVARCHAR(6), @Firma NVARCHAR(MAX), @FirmaNormalizada NVARCHAR(MAX);
     SET @ValidacionCatalogo=N'NOT EXISTS(SELECT 1 FROM dbo.vw_catalogos_reglas r WHERE r.Catalogo=CASE campo WHEN N''localizado_o_no_localizado'' THEN N''banci_catalogo_localizacion'' WHEN N''con_o_sin_vida'' THEN N''banci_catalogo_condicion_vida'' WHEN N''constitutiva_delito'' THEN N''banci_catalogo_constitutiva_delito'' END AND r.Clave=CONVERT(NVARCHAR(20),TRY_CONVERT(TINYINT,valor)))';
-    SET @Definicion=OBJECT_DEFINITION(OBJECT_ID(N'dbo.sp_banci_calcular_actualizacion_v2'));
+    SET @NombreSP=N'sp_banci_calcular_actualizacion_v2';
+    SET @Definicion=OBJECT_DEFINITION(OBJECT_ID(N'dbo.'+@NombreSP));
     IF @Definicion IS NULL THROW 52712, 'Falta sp_banci_calcular_actualizacion_v2 o permiso para leer su definición.', 1;
     SET @DefinicionNueva=REPLACE(REPLACE(@Definicion,N'TRY_CONVERT(TINYINT,valor) NOT IN (1,2)',@ValidacionCatalogo),N'TRY_CONVERT(TINYINT,valor) NOT IN (1, 2)',@ValidacionCatalogo);
     IF @DefinicionNueva NOT LIKE N'%vw_catalogos_reglas%' THROW 52712, 'La guarda de actualización BANCI no coincide con la versión esperada. Revise antes de publicar.', 1;
     IF @DefinicionNueva<>@Definicion
     BEGIN
-        SET @DefinicionNueva=REPLACE(REPLACE(@DefinicionNueva,N'CREATE OR ALTER PROCEDURE',N'ALTER PROCEDURE'),N'CREATE PROCEDURE',N'ALTER PROCEDURE');
+        -- Convertir únicamente la palabra de declaración, independientemente de espacios o saltos.
+        -- Conserva el cuerpo, los comentarios y CREATE OR ALTER, que ya permite actualizar el objeto.
+        SET @PosNombre=CHARINDEX(@NombreSP, @DefinicionNueva COLLATE Latin1_General_100_CI_AS);
+        IF @PosNombre=0 THROW 52713, 'La definición no contiene el nombre del procedimiento.', 1;
+        SET @Firma=REVERSE(LEFT(@DefinicionNueva,@PosNombre-1));
+        SET @RevCreate=CHARINDEX(N'ETAERC',@Firma COLLATE Latin1_General_100_CI_AS);
+        SET @RevAlter=CHARINDEX(N'RETLA',@Firma COLLATE Latin1_General_100_CI_AS);
+        IF @RevCreate=0 AND @RevAlter=0 THROW 52713, 'No se identificó CREATE ni ALTER en la declaración.', 1;
+        IF @RevAlter>0 AND (@RevCreate=0 OR @RevAlter<@RevCreate)
+        BEGIN
+            SET @Cabecera=@PosNombre-1-@RevAlter-LEN(N'ALTER')+2;
+            SET @Palabra=N'ALTER';
+        END
+        ELSE
+        BEGIN
+            SET @Cabecera=@PosNombre-1-@RevCreate-LEN(N'CREATE')+2;
+            SET @Palabra=N'CREATE';
+        END;
+        SET @Firma=SUBSTRING(@DefinicionNueva,@Cabecera,@PosNombre-@Cabecera);
+        SET @FirmaNormalizada=UPPER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+            @Firma,N' ',N''),NCHAR(9),N''),NCHAR(10),N''),NCHAR(13),N''),N'[',N''),N']',N''));
+        IF @FirmaNormalizada COLLATE Latin1_General_100_BIN2 NOT IN
+            (N'CREATEPROCEDUREDBO.',N'CREATEPROCDBO.',N'ALTERPROCEDUREDBO.',N'ALTERPROCDBO.',
+             N'CREATEPROCEDURE',N'CREATEPROC',N'ALTERPROCEDURE',N'ALTERPROC')
+            THROW 52713, 'Declaración de procedimiento no reconocida; no se modificó.', 1;
+        IF @Palabra=N'CREATE' SET @DefinicionNueva=STUFF(@DefinicionNueva,@Cabecera,LEN(N'CREATE'),N'ALTER');
         EXEC sys.sp_executesql @DefinicionNueva;
     END;
-    DECLARE @NombreSP SYSNAME;
     DECLARE estados CURSOR LOCAL FAST_FORWARD FOR
         SELECT nombre FROM (VALUES(N'sp_banci_procesar_carga_v2'),(N'sp_banci_vista_previa_v2')) n(nombre);
     OPEN estados;
@@ -253,7 +280,32 @@ WHERE c.activo=1 AND c.codigo_regla=N''NO_DELITO'' AND m.activo=1;';
         IF @DefinicionNueva NOT LIKE N'%codigo_regla%NO_LOCALIZADO%' THROW 52712, 'El estado inicial BANCI no coincide con la versión esperada. Revise antes de publicar.', 1;
         IF @DefinicionNueva<>@Definicion
         BEGIN
-            SET @DefinicionNueva=REPLACE(REPLACE(@DefinicionNueva,N'CREATE OR ALTER PROCEDURE',N'ALTER PROCEDURE'),N'CREATE PROCEDURE',N'ALTER PROCEDURE');
+            -- Convertir únicamente la palabra de declaración, independientemente de espacios o saltos.
+            -- Conserva el cuerpo, los comentarios y CREATE OR ALTER, que ya permite actualizar el objeto.
+            SET @PosNombre=CHARINDEX(@NombreSP, @DefinicionNueva COLLATE Latin1_General_100_CI_AS);
+            IF @PosNombre=0 THROW 52713, 'La definición no contiene el nombre del procedimiento.', 1;
+            SET @Firma=REVERSE(LEFT(@DefinicionNueva,@PosNombre-1));
+            SET @RevCreate=CHARINDEX(N'ETAERC',@Firma COLLATE Latin1_General_100_CI_AS);
+            SET @RevAlter=CHARINDEX(N'RETLA',@Firma COLLATE Latin1_General_100_CI_AS);
+            IF @RevCreate=0 AND @RevAlter=0 THROW 52713, 'No se identificó CREATE ni ALTER en la declaración.', 1;
+            IF @RevAlter>0 AND (@RevCreate=0 OR @RevAlter<@RevCreate)
+            BEGIN
+                SET @Cabecera=@PosNombre-1-@RevAlter-LEN(N'ALTER')+2;
+                SET @Palabra=N'ALTER';
+            END
+            ELSE
+            BEGIN
+                SET @Cabecera=@PosNombre-1-@RevCreate-LEN(N'CREATE')+2;
+                SET @Palabra=N'CREATE';
+            END;
+            SET @Firma=SUBSTRING(@DefinicionNueva,@Cabecera,@PosNombre-@Cabecera);
+            SET @FirmaNormalizada=UPPER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+                @Firma,N' ',N''),NCHAR(9),N''),NCHAR(10),N''),NCHAR(13),N''),N'[',N''),N']',N''));
+            IF @FirmaNormalizada COLLATE Latin1_General_100_BIN2 NOT IN
+                (N'CREATEPROCEDUREDBO.',N'CREATEPROCDBO.',N'ALTERPROCEDUREDBO.',N'ALTERPROCDBO.',
+                 N'CREATEPROCEDURE',N'CREATEPROC',N'ALTERPROCEDURE',N'ALTERPROC')
+                THROW 52713, 'Declaración de procedimiento no reconocida; no se modificó.', 1;
+            IF @Palabra=N'CREATE' SET @DefinicionNueva=STUFF(@DefinicionNueva,@Cabecera,LEN(N'CREATE'),N'ALTER');
             EXEC sys.sp_executesql @DefinicionNueva;
         END;
         FETCH NEXT FROM estados INTO @NombreSP;
