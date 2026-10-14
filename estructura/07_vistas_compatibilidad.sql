@@ -1,3 +1,5 @@
+-- Las vistas exponen nombres compatibles sin duplicar los datos operativos de Mensual, Semanal y Federal.
+
 -- REFERENCIA TECNICA: base y ajustes en secuencia; no ejecutar sobre una BD publicada.
 -- No sustituye una exportación del esquema real. Revisar dependencias indicadas en README.
 

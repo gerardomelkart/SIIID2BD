@@ -1,3 +1,5 @@
+-- Limpieza del ciclo mensual: preservar cargas pendientes, rechazos vigentes y datos operativos según los filtros del SP.
+
 -- Ejecutar en la base seleccionada (producción o QA).
 GO
 

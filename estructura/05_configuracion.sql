@@ -1,3 +1,6 @@
+-- Configuración administra disponibilidad de módulos, opciones y accesos con versión y bitácora.
+-- Las dependencias entre opciones se aplican además en la API para las sesiones y operaciones vigentes.
+
 -- REFERENCIA TECNICA: base y ajustes en secuencia; no ejecutar sobre una BD publicada.
 -- No sustituye una exportación del esquema real. Revisar dependencias indicadas en README.
 

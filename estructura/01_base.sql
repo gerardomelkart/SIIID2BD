@@ -1,3 +1,6 @@
+-- Relación operativa de Consolidado: carpeta -> delito -> víctima.
+-- Las tablas de carga y staging conservan la remisión antes de su integración; los históricos conservan versiones.
+
 -- Referencia de la estructura inicial. Seleccione una base VACIA antes de ejecutar.
 -- No crea ni elimina bases. Los ajustes posteriores están separados por módulo.
 CREATE TABLE [roles] (

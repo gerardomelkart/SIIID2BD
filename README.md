@@ -94,3 +94,7 @@ Esta reorganización cambia el repositorio; no modifica QA ni producción. Se ve
 Consultar `desarrollo/README.md` para los requisitos de los scripts 02 a 06. Se conserva la numeración histórica y las redefiniciones de procedimientos: no son copias intercambiables ni un instalador general.
 
 El anterior `desarrollo/01_borrar_registros_banci.sql` se encuentra ahora en `herramientas/desarrollo/01_borrar_registros_banci.sql`, con el mismo contenido. Su separación evita incluir un borrado en una selección de ajustes. No ejecutar carpetas completas como procedimiento de publicación; seleccionar únicamente los cambios pendientes y comprobar el estado real de la base.
+
+## Estilo y comentarios
+
+Indentar los bloques SQL con cuatro espacios y mantener `BEGIN`/`END` en líneas independientes. Mantener declaraciones y condiciones cortas en una línea; dividir las expresiones largas por cláusula. Los comentarios describen relaciones, dependencias y finalidad de cada etapa. Conservar literalmente el SQL dinámico y los patrones de comparación del script 08: el texto instalado de los procedimientos también es una dependencia del ajuste incremental.

@@ -1,3 +1,5 @@
+-- Coordina los cuatro módulos y registra resultados por ejecución; cada procedimiento administra su propia transacción.
+
 -- Ejecutar en la base seleccionada (producción o QA).
 GO
 

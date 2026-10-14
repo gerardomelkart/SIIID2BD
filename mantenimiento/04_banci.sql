@@ -1,3 +1,5 @@
+-- El mantenimiento conserva propuestas de actualización y su historial de cambios, además de los datos BANCI vigentes.
+
 -- Ejecutar en la base seleccionada. Instala el SP; no ejecuta limpieza.
 GO
 CREATE OR ALTER PROCEDURE dbo.usp_mantenimiento_banci

@@ -1,3 +1,6 @@
+-- La revisión previa permite actualizar BANCI antes de aceptar o rechazar la remisión.
+-- En Federal, el ámbito del cruce corresponde exclusivamente a las carpetas reportadas por ese usuario.
+
 -- Incremental sobre desarrollo/05_cruce_consolidado_banci.sql.
 -- Seleccione la base de Desarrollo/QA antes de ejecutar. No borra registros.
 SET XACT_ABORT ON;

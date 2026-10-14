@@ -1,3 +1,6 @@
+-- El cruce usa entidad y período de la remisión; las carpetas de otros meses no son faltantes de esta carga.
+-- La información de cruce se conserva para revalidar antes de la integración final.
+
 -- Incremental sobre desarrollo/04_motivo_desaparicion_banci.sql.
 -- Instalar con API y FrontEnd de esta entrega. No borra registros BANCI.
 USE [siiid2];

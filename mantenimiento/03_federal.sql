@@ -1,3 +1,5 @@
+-- Mantenimiento del módulo Federal separado del mensual para conservar su historial y sus decisiones pendientes.
+
 -- Ejecutar en la base seleccionada (producción o QA).
 GO
 

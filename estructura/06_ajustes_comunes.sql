@@ -1,3 +1,6 @@
+-- Ajustes compartidos e índices sobre estructuras ya existentes; respetar las dependencias de cada bloque.
+-- La secuencia de definiciones forma parte de la referencia histórica del esquema.
+
 -- REFERENCIA TECNICA: base y ajustes en secuencia; no ejecutar sobre una BD publicada.
 -- No sustituye una exportación del esquema real. Revisar dependencias indicadas en README.
 

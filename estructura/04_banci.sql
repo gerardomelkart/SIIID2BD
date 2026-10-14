@@ -1,3 +1,6 @@
+-- BANCI conserva información viva: altas de carpetas y propuestas posteriores de actualización de víctimas.
+-- El cruce no reemplaza estas tablas: contrasta una remisión del período antes de permitir su decisión.
+
 -- REFERENCIA TECNICA: base y ajustes en secuencia; no ejecutar sobre una BD publicada.
 -- No sustituye una exportación del esquema real. Revisar dependencias indicadas en README.
 

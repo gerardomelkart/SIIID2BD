@@ -1,3 +1,6 @@
+-- Federal conserva cargas y datos separados de Consolidado; los usuarios y catálogos generales se comparten.
+-- Los identificadores relacionan carpeta, delito y víctima dentro del módulo Federal.
+
 -- REFERENCIA TECNICA: base y ajustes en secuencia; no ejecutar sobre una BD publicada.
 -- No sustituye una exportación del esquema real. Revisar dependencias indicadas en README.
 

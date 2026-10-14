@@ -1,3 +1,6 @@
+-- Las remisiones semanales se organizan por período y delito habilitado, con su propio staging e históricos.
+-- Los ajustes de este archivo se conservan en secuencia porque pueden redefinir objetos anteriores.
+
 -- REFERENCIA TECNICA: base y ajustes en secuencia; no ejecutar sobre una BD publicada.
 -- No sustituye una exportación del esquema real. Revisar dependencias indicadas en README.
 

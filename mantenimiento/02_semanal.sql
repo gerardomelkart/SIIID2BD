@@ -1,3 +1,5 @@
+-- Limpieza del ciclo semanal: conservar los períodos y decisiones pendientes que siguen respaldando la operación.
+
 -- Ejecutar en la base seleccionada (producción o QA).
 GO
 
