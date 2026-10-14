@@ -808,7 +808,7 @@ BEGIN TRY
         nom_col_hchos NVARCHAR(500) NULL,
         id_col_hchos NVARCHAR(250) NULL,
 
-        cp NVARCHAR(10) NULL,
+        cp NVARCHAR(100) NULL,
 
         coord_x DECIMAL(10,6) NULL,
         coord_y DECIMAL(10,6) NULL,
@@ -887,28 +887,7 @@ BEGIN TRY
 
         CONSTRAINT FK_banci_delito_usuario_modificacion
             FOREIGN KEY (id_usuario_modificacion)
-            REFERENCES dbo.usuario(id_usuario),
-
-        CONSTRAINT CK_banci_delito_forma_accion
-            CHECK
-            (
-                forma_acc IS NULL
-                OR forma_acc IN (1, 2, 3)
-            ),
-
-        CONSTRAINT CK_banci_delito_instrumento
-            CHECK
-            (
-                emto_com_dto IS NULL
-                OR emto_com_dto BETWEEN 1 AND 8
-            ),
-
-        CONSTRAINT CK_banci_delito_grado
-            CHECK
-            (
-                grdo_cons IS NULL
-                OR grdo_cons IN (1, 2)
-            )
+            REFERENCES dbo.usuario(id_usuario)
     );
 
     /* ============================================================
@@ -999,6 +978,15 @@ BEGIN TRY
             FOREIGN KEY (id_banci_delito)
             REFERENCES dbo.banci_delito(id_banci_delito),
 
+        -- Los tipos usan los mismos catálogos compartidos que Consolidado.
+        CONSTRAINT FK_banci_victima_tipo_victima
+            FOREIGN KEY (id_tv)
+            REFERENCES dbo.catalogo_tipo_victima(clave),
+
+        CONSTRAINT FK_banci_victima_tipo_persona_moral
+            FOREIGN KEY (id_tpm)
+            REFERENCES dbo.catalogo_tipo_victima_moral(clave),
+
         CONSTRAINT FK_banci_victima_sexo
             FOREIGN KEY (sexo)
             REFERENCES dbo.catalogo_sexo(clave),
@@ -1039,20 +1027,6 @@ BEGIN TRY
             FOREIGN KEY (id_usuario_modificacion)
             REFERENCES dbo.usuario(id_usuario),
 
-        CONSTRAINT CK_banci_victima_sexo
-            CHECK
-            (
-                sexo IS NULL
-                OR sexo IN (1, 2)
-            ),
-
-        CONSTRAINT CK_banci_victima_genero
-            CHECK
-            (
-                genero IS NULL
-                OR genero IN (1, 2, 3)
-            ),
-
         -- Igual que Consolidado: relación con las claves de los catálogos existentes.
         -- La API comprueba adicionalmente el campo activo de ambos catálogos.
         CONSTRAINT FK_banci_victima_pob_catalogo
@@ -1061,35 +1035,7 @@ BEGIN TRY
 
         CONSTRAINT FK_banci_victima_disc_catalogo
             FOREIGN KEY (disc)
-            REFERENCES dbo.catalogo_presenta_discapacidad(clave),
-
-        CONSTRAINT CK_banci_victima_localizacion
-            CHECK
-            (
-                localizado_o_no_localizado IS NULL
-                OR localizado_o_no_localizado IN (1, 2)
-            ),
-
-        CONSTRAINT CK_banci_victima_condicion_vida
-            CHECK
-            (
-                con_o_sin_vida IS NULL
-                OR con_o_sin_vida IN (1, 2)
-            ),
-
-        CONSTRAINT CK_banci_victima_voluntaria
-            CHECK
-            (
-                voluntaria IS NULL
-                OR voluntaria IN (1, 2)
-            ),
-
-        CONSTRAINT CK_banci_victima_fue_delito
-            CHECK
-            (
-                fue_delito IS NULL
-                OR fue_delito IN (1, 2)
-            )
+            REFERENCES dbo.catalogo_presenta_discapacidad(clave)
     );
 
     /* ============================================================
