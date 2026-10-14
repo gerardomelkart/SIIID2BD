@@ -29,7 +29,8 @@ DECLARE @Nombre SYSNAME,@Original NVARCHAR(MAX),@Nueva NVARCHAR(MAX),
     @New NVARCHAR(60)=N'CONVERT(DATE,N''20241001'',112)',
     @Codigo NVARCHAR(30),@P INT,@Q INT,@R INT,@Inicio INT,@Fin INT,
     @Bloque NVARCHAR(MAX),@Condicion NVARCHAR(MAX),@Esperada NVARCHAR(MAX),
-    @Cabecera INT,@Cambiar BIT;
+    @Cabecera INT,@Cambiar BIT,@PosNombre INT,@RevCreate INT,@RevAlter INT,
+    @Palabra NVARCHAR(6),@Firma NVARCHAR(MAX),@FirmaNormalizada NVARCHAR(MAX);
 
 DECLARE preparar CURSOR LOCAL FAST_FORWARD FOR SELECT nombre FROM @Nombres ORDER BY nombre;
 OPEN preparar;
@@ -93,14 +94,45 @@ BEGIN
     SET @Cambiar=CASE WHEN @Nueva<>REPLACE(@Original,NCHAR(13),N'') THEN 1 ELSE 0 END;
     IF @Cambiar=1
     BEGIN
-        SET @Cabecera=LEN(@Nueva)-LEN(LTRIM(@Nueva))+1;
-        IF SUBSTRING(@Nueva,@Cabecera,16) COLLATE Latin1_General_100_CI_AS=N'CREATE PROCEDURE'
-            SET @Nueva=STUFF(@Nueva,@Cabecera,6,N'ALTER');
-        ELSE IF SUBSTRING(@Nueva,@Cabecera,11) COLLATE Latin1_General_100_CI_AS=N'CREATE PROC'
-            SET @Nueva=STUFF(@Nueva,@Cabecera,6,N'ALTER');
-        ELSE IF SUBSTRING(@Nueva,@Cabecera,15) COLLATE Latin1_General_100_CI_AS<>N'CREATE OR ALTER'
-            AND SUBSTRING(@Nueva,@Cabecera,5) COLLATE Latin1_General_100_CI_AS<>N'ALTER'
-            THROW 52815, 'Encabezado de procedimiento desconocido.', 1;
+        -- OBJECT_DEFINITION puede empezar con comentarios o espacios.
+        -- Buscar la palabra de declaración INMEDIATAMENTE anterior al
+        -- nombre del procedimiento, sin modificar comentarios ni su cuerpo.
+        SET @PosNombre=CHARINDEX(@Nombre,@Nueva COLLATE Latin1_General_100_CI_AS);
+        IF @PosNombre=0
+            THROW 52815, 'La definición no contiene el nombre del procedimiento.', 1;
+
+        SET @Firma=REVERSE(LEFT(@Nueva,@PosNombre-1));
+        SET @RevCreate=CHARINDEX(N'ETAERC',@Firma COLLATE Latin1_General_100_CI_AS);
+        SET @RevAlter=CHARINDEX(N'RETLA',@Firma COLLATE Latin1_General_100_CI_AS);
+        IF @RevCreate=0 AND @RevAlter=0
+            THROW 52815, 'No se identificó CREATE ni ALTER en la declaración.', 1;
+
+        IF @RevAlter>0 AND (@RevCreate=0 OR @RevAlter<@RevCreate)
+        BEGIN
+            SET @Cabecera=LEN(@Firma)-@RevAlter-LEN(N'ALTER')+2;
+            SET @Palabra=N'ALTER';
+        END
+        ELSE
+        BEGIN
+            SET @Cabecera=LEN(@Firma)-@RevCreate-LEN(N'CREATE')+2;
+            SET @Palabra=N'CREATE';
+        END;
+
+        SET @Firma=SUBSTRING(@Nueva,@Cabecera,@PosNombre-@Cabecera);
+        SET @FirmaNormalizada=UPPER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+            @Firma,N' ',N''),NCHAR(9),N''),NCHAR(10),N''),N'[',N''),N']',N''));
+
+        IF @FirmaNormalizada COLLATE Latin1_General_100_BIN2 NOT IN
+        (
+            N'CREATEPROCEDUREDBO.',N'CREATEPROCDBO.',
+            N'ALTERPROCEDUREDBO.',N'ALTERPROCDBO.',
+            N'CREATEPROCEDURE',N'CREATEPROC',
+            N'ALTERPROCEDURE',N'ALTERPROC'
+        )
+            THROW 52815, 'Declaración de procedimiento no reconocida; no se modificó.', 1;
+
+        IF @Palabra=N'CREATE'
+            SET @Nueva=STUFF(@Nueva,@Cabecera,LEN(N'CREATE'),N'ALTER');
     END;
     INSERT INTO @Cambios VALUES(@Nombre,@Nueva,@Cambiar);
     SET @Original=NULL;
