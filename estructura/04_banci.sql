@@ -1050,19 +1050,15 @@ BEGIN TRY
                 OR genero IN (1, 2, 3)
             ),
 
-        CONSTRAINT CK_banci_victima_pob
-            CHECK
-            (
-                pob IS NULL
-                OR pob IN (0, 1)
-            ),
+        -- Igual que Consolidado: relación con las claves de los catálogos existentes.
+        -- La API comprueba adicionalmente el campo activo de ambos catálogos.
+        CONSTRAINT FK_banci_victima_pob_catalogo
+            FOREIGN KEY (pob)
+            REFERENCES dbo.catalogo_pertenece_poblacion_indigena(clave),
 
-        CONSTRAINT CK_banci_victima_disc
-            CHECK
-            (
-                disc IS NULL
-                OR disc IN (0, 1)
-            ),
+        CONSTRAINT FK_banci_victima_disc_catalogo
+            FOREIGN KEY (disc)
+            REFERENCES dbo.catalogo_presenta_discapacidad(clave),
 
         CONSTRAINT CK_banci_victima_localizacion
             CHECK

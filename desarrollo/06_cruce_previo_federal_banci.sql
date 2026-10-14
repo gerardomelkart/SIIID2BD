@@ -131,8 +131,8 @@ BEGIN
     DECLARE @HoyBanci DATE = CONVERT(DATE, SYSUTCDATETIME() AT TIME ZONE 'UTC' AT TIME ZONE 'Central Standard Time (Mexico)');
     DECLARE @MesBanci DATE = DATEFROMPARTS(YEAR(@HoyBanci), MONTH(@HoyBanci), 1);
     IF EXISTS (SELECT 1 FROM dbo.banci_carga_tmp_carpeta WHERE id_banci_carga=@IdBanciCarga AND activo=1
-        AND (TRY_CONVERT(DATE,fha_de_ini,23) IS NULL OR TRY_CONVERT(DATE,fha_de_ini,23)<DATEADD(MONTH,-1,@MesBanci) OR TRY_CONVERT(DATE,fha_de_ini,23)>=DATEADD(MONTH,1,@MesBanci)))
-        THROW 52610, 'La fecha de inicio debe pertenecer al mes en curso o al anterior. Vuelva a validar si cambió el periodo.', 1;
+        AND (TRY_CONVERT(DATE,fha_de_ini,23) IS NULL OR TRY_CONVERT(DATE,fha_de_ini,23)<CONVERT(DATE,'20241001',112) OR TRY_CONVERT(DATE,fha_de_ini,23)>=DATEADD(MONTH,1,@MesBanci)))
+        THROW 52610, 'La fecha de inicio debe estar entre octubre de 2024 y el mes actual. Vuelva a validar si cambió el periodo.', 1;
     IF EXISTS (SELECT 1 FROM dbo.banci_carga_tmp_carpeta WHERE id_banci_carga=@IdBanciCarga AND activo=1 GROUP BY LTRIM(RTRIM(ntra_ci)) HAVING COUNT_BIG(*)>1)
         THROW 52611, 'No repita NTRA_CI en Carpetas.', 1;
     IF EXISTS (SELECT 1 FROM dbo.banci_carga_tmp_carpeta c WHERE c.id_banci_carga=@IdBanciCarga AND c.activo=1
@@ -145,8 +145,6 @@ BEGIN
         THROW 52510, 'Esta operación requiere una carga del formato BANCI v3.', 1;
     IF EXISTS (SELECT 1 FROM dbo.banci_carga_tmp_carpeta WHERE id_banci_carga = @IdBanciCarga AND activo = 1 AND NULLIF(LTRIM(RTRIM(ntra_ci)), N'') IS NULL)
         THROW 52511, 'NTRA_CI es obligatorio.', 1;
-    IF EXISTS (SELECT 1 FROM dbo.banci_carga_tmp_victima WHERE id_banci_carga = @IdBanciCarga AND activo = 1 AND NULLIF(LTRIM(RTRIM(fub)), N'') IS NULL)
-        THROW 52512, 'FUB es obligatorio para cada víctima.', 1;
     IF EXISTS (SELECT 1 FROM dbo.banci_carga_tmp_carpeta s LEFT JOIN dbo.banci_carpeta_investigacion c ON c.id_entidad_federativa = @IdEntidad AND c.id_ci = LTRIM(RTRIM(s.id_ci))
         WHERE s.id_banci_carga = @IdBanciCarga AND s.activo = 1 AND NULLIF(LTRIM(RTRIM(s.no_banci)), N'') IS NOT NULL AND (c.no_banci IS NULL OR c.no_banci <> LTRIM(RTRIM(s.no_banci))))
         THROW 52513, 'NO_BANCI lo asigna el sistema; el informado no corresponde a la carpeta.', 1;
@@ -874,8 +872,8 @@ BEGIN
     DECLARE @HoyBanci DATE = CONVERT(DATE, SYSUTCDATETIME() AT TIME ZONE 'UTC' AT TIME ZONE 'Central Standard Time (Mexico)');
     DECLARE @MesBanci DATE = DATEFROMPARTS(YEAR(@HoyBanci), MONTH(@HoyBanci), 1);
     IF EXISTS (SELECT 1 FROM dbo.banci_carga_tmp_carpeta WHERE id_banci_carga=@IdBanciCarga AND activo=1
-        AND (TRY_CONVERT(DATE,fha_de_ini,23) IS NULL OR TRY_CONVERT(DATE,fha_de_ini,23)<DATEADD(MONTH,-1,@MesBanci) OR TRY_CONVERT(DATE,fha_de_ini,23)>=DATEADD(MONTH,1,@MesBanci)))
-        THROW 52610, 'La fecha de inicio debe pertenecer al mes en curso o al anterior. Vuelva a validar si cambió el periodo.', 1;
+        AND (TRY_CONVERT(DATE,fha_de_ini,23) IS NULL OR TRY_CONVERT(DATE,fha_de_ini,23)<CONVERT(DATE,'20241001',112) OR TRY_CONVERT(DATE,fha_de_ini,23)>=DATEADD(MONTH,1,@MesBanci)))
+        THROW 52610, 'La fecha de inicio debe estar entre octubre de 2024 y el mes actual. Vuelva a validar si cambió el periodo.', 1;
     IF EXISTS (SELECT 1 FROM dbo.banci_carga_tmp_carpeta WHERE id_banci_carga=@IdBanciCarga AND activo=1 GROUP BY LTRIM(RTRIM(ntra_ci)) HAVING COUNT_BIG(*)>1)
         THROW 52611, 'No repita NTRA_CI en Carpetas.', 1;
     IF EXISTS (SELECT 1 FROM dbo.banci_carga_tmp_carpeta c WHERE c.id_banci_carga=@IdBanciCarga AND c.activo=1
@@ -888,8 +886,6 @@ BEGIN
         THROW 52510, 'Esta operación requiere una carga del formato BANCI v3.', 1;
     IF EXISTS (SELECT 1 FROM dbo.banci_carga_tmp_carpeta WHERE id_banci_carga = @IdBanciCarga AND activo = 1 AND NULLIF(LTRIM(RTRIM(ntra_ci)), N'') IS NULL)
         THROW 52511, 'NTRA_CI es obligatorio.', 1;
-    IF EXISTS (SELECT 1 FROM dbo.banci_carga_tmp_victima WHERE id_banci_carga = @IdBanciCarga AND activo = 1 AND NULLIF(LTRIM(RTRIM(fub)), N'') IS NULL)
-        THROW 52512, 'FUB es obligatorio para cada víctima.', 1;
     IF EXISTS (SELECT 1 FROM dbo.banci_carga_tmp_carpeta s LEFT JOIN dbo.banci_carpeta_investigacion c ON c.id_entidad_federativa = @IdEntidad AND c.id_ci = LTRIM(RTRIM(s.id_ci))
         WHERE s.id_banci_carga = @IdBanciCarga AND s.activo = 1 AND NULLIF(LTRIM(RTRIM(s.no_banci)), N'') IS NOT NULL AND (c.no_banci IS NULL OR c.no_banci <> LTRIM(RTRIM(s.no_banci))))
         THROW 52513, 'NO_BANCI lo asigna el sistema; el informado no corresponde a la carpeta.', 1;
@@ -1397,7 +1393,6 @@ BEGIN
         acciones_busqueda = COALESCE(TRY_CONVERT(NVARCHAR(MAX),(SELECT valor FROM #Valores WHERE indice = a.indice AND campo = N'acciones_busqueda')),a.acciones_busqueda),
         obs = COALESCE(TRY_CONVERT(NVARCHAR(MAX),(SELECT valor FROM #Valores WHERE indice = a.indice AND campo = N'obs')),a.obs)
     INTO #Propuesto FROM #Actual a;
-    IF EXISTS (SELECT 1 FROM #Propuesto WHERE NULLIF(LTRIM(RTRIM(fub)), N'') IS NULL) THROW 52531, 'FUB es obligatorio; informe el folio faltante antes de actualizar.', 1;
     -- Revalidar la fecha final al preparar, recuperar y confirmar; los vacíos conservan el valor registrado.
     DECLARE @HoyLocal DATE = CONVERT(DATE, SWITCHOFFSET(SYSDATETIMEOFFSET(), '-06:00'));
     IF EXISTS (SELECT 1 FROM #Propuesto p JOIN #Actual a ON a.id_banci_victima = p.id_banci_victima
