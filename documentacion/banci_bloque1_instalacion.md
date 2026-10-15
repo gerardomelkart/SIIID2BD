@@ -1,5 +1,7 @@
 # BANCI mensual — bloque 1
 
+Antecedente de instalación. La entrega posterior recupera el diseño y las vistas operativas; para la versión actual seguir `banci_operacion_mensual.md`. El endpoint transitorio de preparación se retiró.
+
 ## Entrega y alcance
 
 El bloque 1 sustituye el modelo anterior, retira su cruce y prepara el esquema mensual. **Carga, actualización e informes BANCI no están habilitados todavía**: el Front muestra preparación y conserva usuarios. No es la entrega completa de BANCI por cortes; el siguiente bloque implementa precarga aceptada, Excel de tres pestañas y manual.

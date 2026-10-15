@@ -104,3 +104,5 @@ Indentar los bloques SQL con cuatro espacios y mantener `BEGIN`/`END` en líneas
 Diseño acordado y plan de retiro: `documentacion/banci_modelo_mensual.md`. Antes de instalar el modelo nuevo, obtener el esquema realmente instalado con `herramientas/desarrollo/02_inventario_modelo_banci.sql` (solo lectura). Esta preparación no cambia el módulo publicado ni borra datos de prueba.
 
 Estado del bloque 1 e instalación coordinada: `documentacion/banci_bloque1_instalacion.md`.
+
+La entrega de operación y vistas BANCI mensuales se instala con `desarrollo/12_banci_mensual_operacion.sql` después del bloque 1. Ver `documentacion/banci_operacion_mensual.md`.
