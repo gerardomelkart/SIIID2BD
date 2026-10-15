@@ -1,6 +1,6 @@
 # BANCI mensual — preparación y plan de sustitución
 
-Decisiones acordadas el 14 de octubre de 2026. Esta entrega es el inventario y diseño previo al bloque 1; no instala el nuevo modelo ni borra pruebas. El esquema instalado en QA debe contrastarse antes de emitir DDL destructivo.
+Decisiones acordadas el 14 de octubre de 2026. Diseño de referencia del rediseño. El bloque 1 y su instalación coordinada se describen en `banci_bloque1_instalacion.md`; los bloques de carga, aprobación y cruce aún están pendientes.
 
 ## Fuentes revisadas
 
@@ -88,4 +88,4 @@ Ejecutar `herramientas/desarrollo/02_inventario_modelo_banci.sql` en QA y devolv
 
 Las dependencias catalogadas no detectan por sí solas SQL dinámico o consumidores externos. Se contrastarán también los cuerpos instalados, llamadas de los tres repos y mantenimiento/jobs. Si los jobs no son visibles, el resultado lo indica: su ausencia en el inventario no equivale a que no existan.
 
-Pendiente para iniciar la sustitución destructiva: esquema instalado de QA. La preparación no modifica la operación actual.
+Se recibió el inventario completo del servidor el 15/10/2026. La sustitución del bloque 1 está preparada; su aceptación requiere ejecutar el script y las pruebas de la guía en desarrollo/QA.

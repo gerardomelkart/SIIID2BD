@@ -27,7 +27,7 @@ En los módulos de remisión, una carga agrupa las filas de `carga_tmp_carpeta`,
 
 Los temporales no son descartables indiscriminadamente: pueden respaldar una operación pendiente, un rechazo administrativo vigente o los acuses de BANCI. La carga, sus archivos, observaciones y bitácoras documentan el proceso.
 
-`banci_actualizacion_v2` conserva propuestas JSON y su decisión (`PENDIENTE`, `INTEGRADA`, `RECHAZADA`); `banci_historial_cambio` puede referenciar esas operaciones. Este mantenimiento conserva ambas tablas.
+En el modelo mensual, `banci_carga` concentra altas y actualizaciones pendientes de aprobación; `banci_historial_cambio` conserva cambios y `banci_reclasificado` conserva las salidas por reclasificación. El mantenimiento no elimina datos definitivos ni reclasificados.
 
 Los catálogos aportan claves geográficas y clasificaciones. Los polígonos municipales INEGI respaldan el cruce de coordenadas. Configuración del sistema contiene reglas activables por módulo y administración de accesos; no se deben restablecer sus valores al reorganizar archivos.
 
@@ -38,8 +38,8 @@ Los catálogos aportan claves geográficas y clasificaciones. Los polígonos mun
 - `01_base.sql`: estructura inicial; se retiraron `DROP DATABASE`, el cambio a usuario único y la creación automática de la base. Requiere una base vacía seleccionada.
 - `02_semanal.sql`: bases y ajustes del módulo semanal.
 - `03_federal.sql`: estructura Federal; catálogos separados.
-- `04_banci.sql`: secuencia de definiciones del paquete de instalación utilizado para publicar BANCI; se conserva la variante que omite asignaciones masivas de permisos.
-- `05_configuracion.sql`: estructura, procedimientos, administradores y reglas (incluidas coordenadas y cruce pendiente).
+- `04_banci.sql`: estructura mensual BANCI para instalación nueva; requiere catálogos vigentes. Para sustituir el modelo previo, usar el script 11.
+- `05_configuracion.sql`: estructura, procedimientos, administradores y reglas generales y coordenadas; el cruce anterior fue retirado.
 - `06_ajustes_comunes.sql`: índices y cambios compartidos, incluido feminicidio de Consolidado.
 - `07_vistas_compatibilidad.sql`: vistas locales Mensual, Semanal y Federal.
 
@@ -102,3 +102,5 @@ Indentar los bloques SQL con cuatro espacios y mantener `BEGIN`/`END` en líneas
 ## Rediseño mensual de BANCI
 
 Diseño acordado y plan de retiro: `documentacion/banci_modelo_mensual.md`. Antes de instalar el modelo nuevo, obtener el esquema realmente instalado con `herramientas/desarrollo/02_inventario_modelo_banci.sql` (solo lectura). Esta preparación no cambia el módulo publicado ni borra datos de prueba.
+
+Estado del bloque 1 e instalación coordinada: `documentacion/banci_bloque1_instalacion.md`.
