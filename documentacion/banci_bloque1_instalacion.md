@@ -35,7 +35,7 @@ Opciones nuevas en BANCI: `VALIDACIONES_CAMPOS` activa; `PERMITIR_CORTES_ANTERIO
 1. Probar primero en desarrollo o QA. El inventario recibido era de la base `siiid2` del servidor; no sustituye la prueba de ejecución en QA.
 2. Respaldar esa base y detener la API correspondiente y su mantenimiento durante la instalación. Preparar los nuevos paquetes API/Front antes de comenzar: el código viejo no es compatible con el esquema nuevo.
 3. Ejecutar **únicamente** `desarrollo/11_banci_mensual_bloque1.sql` en la conexión/base seleccionada. No tiene USE fijo. No ejecutar estructura/04 ni los scripts 02–10 antiguos.
-4. El script aborta si encuentra registros operativos BANCI posteriores al inventario o dependencias externas no previstas. No vacía tablas compartidas. Los DROP usan una lista explícita, en una transacción; un error revierte el conjunto.
+4. El script elimina las tablas del modelo anterior y sus datos de prueba aunque tengan registros, como se autorizó para sustituir BANCI. Aborta si encuentra dependencias externas no previstas. No vacía tablas compartidas. Los DROP usan una lista explícita, en una transacción; un error revierte el conjunto.
 5. Publicar API y Front del bloque 1 y arrancar la API. Sin esos paquetes no reanudar la aplicación con el esquema nuevo.
 6. Ejecutar `herramientas/desarrollo/03_verificar_banci_bloque1.sql` y probar los puntos siguientes.
 

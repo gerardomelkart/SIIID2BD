@@ -1,6 +1,7 @@
 -- BLOQUE 1: sustituir exclusivamente el modelo de pruebas BANCI.
 -- Publicar con la API/Front del bloque 1, primero en desarrollo/QA.
 -- Detener la API correspondiente mientras se ejecuta. No ejecutar versiones antiguas de desarrollo/.
+-- El DROP de las tablas anteriores elimina sus datos de prueba, aunque tengan filas.
 -- No procesa mensual, semanal ni federal, ni elimina usuarios/catálogos compartidos.
 SET NOCOUNT ON;
 SET XACT_ABORT ON;
@@ -21,19 +22,6 @@ BEGIN TRANSACTION;
 DECLARE @Lock INT;
 EXEC @Lock=sys.sp_getapplock @Resource=N'SIIID2:CONFIGURACION',@LockMode=N'Exclusive',@LockOwner=N'Transaction',@LockTimeout=10000;
 IF @Lock<0 THROW 52910,'No se pudo bloquear la configuración.',1;
-IF OBJECT_ID(N'dbo.banci_historial_cambio',N'U') IS NOT NULL EXEC(N'IF EXISTS(SELECT 1 FROM dbo.banci_historial_cambio) THROW 52911, ''Hay datos BANCI posteriores al inventario. Revise y retire las pruebas antes de sustituir.'',1;');
-IF OBJECT_ID(N'dbo.banci_actualizacion_v2',N'U') IS NOT NULL EXEC(N'IF EXISTS(SELECT 1 FROM dbo.banci_actualizacion_v2) THROW 52911, ''Hay datos BANCI posteriores al inventario. Revise y retire las pruebas antes de sustituir.'',1;');
-IF OBJECT_ID(N'dbo.banci_victima',N'U') IS NOT NULL EXEC(N'IF EXISTS(SELECT 1 FROM dbo.banci_victima) THROW 52911, ''Hay datos BANCI posteriores al inventario. Revise y retire las pruebas antes de sustituir.'',1;');
-IF OBJECT_ID(N'dbo.banci_delito',N'U') IS NOT NULL EXEC(N'IF EXISTS(SELECT 1 FROM dbo.banci_delito) THROW 52911, ''Hay datos BANCI posteriores al inventario. Revise y retire las pruebas antes de sustituir.'',1;');
-IF OBJECT_ID(N'dbo.banci_carpeta_investigacion',N'U') IS NOT NULL EXEC(N'IF EXISTS(SELECT 1 FROM dbo.banci_carpeta_investigacion) THROW 52911, ''Hay datos BANCI posteriores al inventario. Revise y retire las pruebas antes de sustituir.'',1;');
-IF OBJECT_ID(N'dbo.banci_carga_tmp_victima',N'U') IS NOT NULL EXEC(N'IF EXISTS(SELECT 1 FROM dbo.banci_carga_tmp_victima) THROW 52911, ''Hay datos BANCI posteriores al inventario. Revise y retire las pruebas antes de sustituir.'',1;');
-IF OBJECT_ID(N'dbo.banci_carga_tmp_delito',N'U') IS NOT NULL EXEC(N'IF EXISTS(SELECT 1 FROM dbo.banci_carga_tmp_delito) THROW 52911, ''Hay datos BANCI posteriores al inventario. Revise y retire las pruebas antes de sustituir.'',1;');
-IF OBJECT_ID(N'dbo.banci_carga_tmp_carpeta',N'U') IS NOT NULL EXEC(N'IF EXISTS(SELECT 1 FROM dbo.banci_carga_tmp_carpeta) THROW 52911, ''Hay datos BANCI posteriores al inventario. Revise y retire las pruebas antes de sustituir.'',1;');
-IF OBJECT_ID(N'dbo.banci_carga_observacion',N'U') IS NOT NULL EXEC(N'IF EXISTS(SELECT 1 FROM dbo.banci_carga_observacion) THROW 52911, ''Hay datos BANCI posteriores al inventario. Revise y retire las pruebas antes de sustituir.'',1;');
-IF OBJECT_ID(N'dbo.banci_carga_archivo',N'U') IS NOT NULL EXEC(N'IF EXISTS(SELECT 1 FROM dbo.banci_carga_archivo) THROW 52911, ''Hay datos BANCI posteriores al inventario. Revise y retire las pruebas antes de sustituir.'',1;');
-IF OBJECT_ID(N'dbo.banci_carga_bitacora_estado',N'U') IS NOT NULL EXEC(N'IF EXISTS(SELECT 1 FROM dbo.banci_carga_bitacora_estado) THROW 52911, ''Hay datos BANCI posteriores al inventario. Revise y retire las pruebas antes de sustituir.'',1;');
-IF OBJECT_ID(N'dbo.banci_carga',N'U') IS NOT NULL EXEC(N'IF EXISTS(SELECT 1 FROM dbo.banci_carga) THROW 52911, ''Hay datos BANCI posteriores al inventario. Revise y retire las pruebas antes de sustituir.'',1;');
-IF OBJECT_ID(N'dbo.banci_consecutivo_carpeta',N'U') IS NOT NULL EXEC(N'IF EXISTS(SELECT 1 FROM dbo.banci_consecutivo_carpeta) THROW 52911, ''Hay datos BANCI posteriores al inventario. Revise y retire las pruebas antes de sustituir.'',1;');
 DECLARE @Retirar TABLE(id INT PRIMARY KEY);
 INSERT @Retirar SELECT DISTINCT id FROM (VALUES (OBJECT_ID(N'dbo.banci_cruce_federal')),(OBJECT_ID(N'dbo.banci_cruce_mensual')),(OBJECT_ID(N'dbo.banci_historial_cambio')),(OBJECT_ID(N'dbo.banci_actualizacion_v2')),(OBJECT_ID(N'dbo.banci_victima')),(OBJECT_ID(N'dbo.banci_delito')),(OBJECT_ID(N'dbo.banci_carpeta_investigacion')),(OBJECT_ID(N'dbo.banci_carga_tmp_victima')),(OBJECT_ID(N'dbo.banci_carga_tmp_delito')),(OBJECT_ID(N'dbo.banci_carga_tmp_carpeta')),(OBJECT_ID(N'dbo.banci_carga_observacion')),(OBJECT_ID(N'dbo.banci_carga_archivo')),(OBJECT_ID(N'dbo.banci_carga_bitacora_estado')),(OBJECT_ID(N'dbo.banci_carga')),(OBJECT_ID(N'dbo.banci_consecutivo_carpeta')),(OBJECT_ID(N'dbo.banci_catalogo_voluntaria')),(OBJECT_ID(N'dbo.banci_catalogo_fue_delito')),(OBJECT_ID(N'dbo.banci_catalogo_motivo_localizacion')),(OBJECT_ID(N'dbo.sp_banci_confirmar_carga_v2')),(OBJECT_ID(N'dbo.sp_banci_procesar_carga')),(OBJECT_ID(N'dbo.fn_banci_es_usuario_federal')),(OBJECT_ID(N'dbo.sp_banci_vista_previa_v2')),(OBJECT_ID(N'dbo.sp_banci_vista_previa')),(OBJECT_ID(N'dbo.banci_vw_victimas_v2')),(OBJECT_ID(N'dbo.sp_banci_confirmar_carga')),(OBJECT_ID(N'dbo.fn_banci_puede_actualizar_victima')),(OBJECT_ID(N'dbo.sp_banci_confirmar_actualizacion_v2')),(OBJECT_ID(N'dbo.sp_banci_calcular_actualizacion_v2')),(OBJECT_ID(N'dbo.sp_banci_vista_previa_actualizacion_v2')),(OBJECT_ID(N'dbo.sp_banci_asignar_folios_v2')),(OBJECT_ID(N'dbo.sp_banci_procesar_carga_v2')),(OBJECT_ID(N'dbo.sp_banci_buscar_victimas_v2')),(OBJECT_ID(N'dbo.sp_banci_preparar_actualizacion_v2'))) t(id) WHERE id IS NOT NULL;
 -- Restricciones y triggers propios desaparecen junto con su tabla; no son dependencias externas.
