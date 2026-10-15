@@ -98,3 +98,7 @@ El anterior `desarrollo/01_borrar_registros_banci.sql` se encuentra ahora en `he
 ## Estilo y comentarios
 
 Indentar los bloques SQL con cuatro espacios y mantener `BEGIN`/`END` en líneas independientes. Mantener declaraciones y condiciones cortas en una línea; dividir las expresiones largas por cláusula. Los comentarios describen relaciones, dependencias y finalidad de cada etapa. Conservar literalmente el SQL dinámico y los patrones de comparación del script 08: el texto instalado de los procedimientos también es una dependencia del ajuste incremental.
+
+## Rediseño mensual de BANCI
+
+Diseño acordado y plan de retiro: `documentacion/banci_modelo_mensual.md`. Antes de instalar el modelo nuevo, obtener el esquema realmente instalado con `herramientas/desarrollo/02_inventario_modelo_banci.sql` (solo lectura). Esta preparación no cambia el módulo publicado ni borra datos de prueba.
