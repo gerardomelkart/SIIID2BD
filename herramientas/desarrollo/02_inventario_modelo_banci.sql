@@ -22,12 +22,13 @@ SELECT N'02_OBJETOS' AS seccion, o.object_id, SCHEMA_NAME(o.schema_id) AS esquem
 FROM sys.objects o WHERE o.is_ms_shipped=0 ORDER BY esquema, objeto;
 
 SELECT N'03_COLUMNAS' AS seccion, SCHEMA_NAME(o.schema_id) AS esquema, o.name AS objeto,
-    c.column_id, c.name AS columna, TYPE_SCHEMA_NAME(c.user_type_id) AS esquema_tipo,
+    c.column_id, c.name AS columna, SCHEMA_NAME(ty.schema_id) AS esquema_tipo,
     TYPE_NAME(c.user_type_id) AS tipo, c.max_length AS longitud_bytes, c.precision, c.scale,
     c.is_nullable, c.is_identity, c.is_computed, c.collation_name,
     CONVERT(NVARCHAR(100),ic.seed_value) AS semilla, CONVERT(NVARCHAR(100),ic.increment_value) AS incremento,
     dc.name AS default_nombre, dc.definition AS default_definicion, cc.definition AS calculada_definicion
 FROM sys.columns c JOIN sys.objects o ON o.object_id=c.object_id
+JOIN sys.types ty ON ty.user_type_id=c.user_type_id
 LEFT JOIN sys.identity_columns ic ON ic.object_id=c.object_id AND ic.column_id=c.column_id
 LEFT JOIN sys.default_constraints dc ON dc.object_id=c.default_object_id
 LEFT JOIN sys.computed_columns cc ON cc.object_id=c.object_id AND cc.column_id=c.column_id
