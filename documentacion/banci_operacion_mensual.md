@@ -42,3 +42,13 @@ La compilación, las regresiones de reglas/Excel y las pruebas de componentes/co
 ## Bloque separado
 
 El nuevo cruce dentro de actualizaciones del consolidado y la reclasificación con aprobación conjunta siguen en el bloque 5 del diseño acordado. Su opción permanece desactivada y no disponible; esta entrega no la habilita ni vuelve a instalar el cruce anterior.
+
+## Ajustes de carga y captura manual
+
+Aplicar `desarrollo/13_banci_ajustes_carga_configuracion.sql` después del 12. Solo reubica la opción pendiente del cruce desde BANCI hacia MENSUAL (Consolidado). El cruce de actualizaciones y la reclasificación vinculada continúan pendientes y no se habilitan con este ajuste.
+
+La carga inicial admite envíos adicionales del mismo corte: la plantilla conserva solo las carpetas aceptadas en Consolidado aún no registradas en BANCI. Las carpetas previamente aprobadas, sus delitos, víctimas y números BANCI no se reemplazan ni se eliminan. Un corte histórico sin origen puede recibir nuevas carpetas; no se aceptan identificadores o nomenclaturas ya registrados para la entidad. Los envíos adicionales mantienen el ciclo de aprobación administrativa.
+
+En actualización manual el botón de validación aparece solo al modificar algún dato personal o de localización y se oculta si se revierten todos los cambios. La API también rechaza actualizaciones sin cambios. Los datos editables de identidad se precargan con el valor BANCI existente; si está vacío se usa el dato de identidad disponible en el origen. Los campos de origen se conservan para validar, sin duplicarlos visualmente junto al editable. Después de una validación correcta se oculta el botón de validar y se desplaza la vista a Continuar/Descartar.
+
+Prueba en desarrollo: aprobar una carga, agregar nuevas carpetas aceptadas en Consolidado al mismo corte, descargar otra plantilla y verificar que contenga solo las nuevas. Aprobar la segunda carga y comprobar que se conserva el total anterior, sus números BANCI y sus complementos. Probar también el rechazo de una carpeta repetida y de una actualización sin cambios.
