@@ -1,13 +1,15 @@
 # BANCI: vistas y operación mensual
 
+Actualización del 20/10/2026: el mensual opera únicamente con archivos masivos. Reclasificación por víctima y cruce: `banci_reclasificacion_cruce.md`; requiere el script 14. Los párrafos de ajustes manuales al final describen el comportamiento anterior, retirado.
+
 Entrega coordinada posterior al bloque 1. Recupera el diseño original del módulo: barra institucional, menú lateral, tarjeta de usuario, colores, bienvenida y accesos. No utiliza la pantalla provisional ni los endpoints del modelo retirado.
 
 ## Vistas
 
-- Carga masiva y manual: entidad/corte, precarga del consolidado aceptado, plantilla única con Carpetas, Delitos y Victimas, validación por campo y envío.
-- Actualización masiva y manual: selección de cortes sin depender del permiso de históricos, precarga de BANCI aprobado, edición de datos personales y localización. Carpetas, delitos, tipos de víctima e identificadores permanecen protegidos.
+- Carga masiva: entidad/corte, precarga del consolidado aceptado, plantilla única con Carpetas, Delitos y Victimas, validación por campo y envío.
+- Actualización masiva: selección de cortes sin depender del permiso de históricos, precarga de BANCI aprobado, edición de datos personales y localización. Carpetas, delitos, tipos de víctima e identificadores permanecen protegidos.
 - Consulta de envíos: estados, motivos, detalle de las tres hojas, ordenamiento, paginación y descarga de la tabla.
-- Reporte de cargas y archivos originales: acceso de superusuario. Cada original se conserva separado por referencia; una captura manual guarda el libro equivalente.
+- Reporte de cargas y archivos originales: acceso de superusuario. Cada original se conserva separado por referencia; los movimientos manuales históricos no ofrecen un original artificial.
 - Aprobación administrativa: revisión de registros y diferencias personales/localización, aprobación o rechazo motivado. Los enlaces envían a revisión; los superusuarios integran directamente, como mensual.
 - Usuarios: conserva el CRUD y sus controles de cuentas protegidas.
 - Configuración: acceso/carga/actualización por usuario, permisos operativos globales, autorización de cortes anteriores y validaciones de contenido. Los cambios de reglas usan versión y motivo, con bitácora.
@@ -41,7 +43,7 @@ La compilación, las regresiones de reglas/Excel y las pruebas de componentes/co
 
 ## Bloque separado
 
-El nuevo cruce dentro de actualizaciones del consolidado y la reclasificación con aprobación conjunta siguen en el bloque 5 del diseño acordado. Su opción permanece desactivada y no disponible; esta entrega no la habilita ni vuelve a instalar el cruce anterior.
+El nuevo cruce dentro de actualizaciones del Consolidado y la reclasificación reversible por víctima se entregan con el script 14. Consulte `banci_reclasificacion_cruce.md` para instalación y pruebas. El cruce anterior no se reinstala.
 
 ## Ajustes de carga y captura manual
 

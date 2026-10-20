@@ -117,7 +117,7 @@ CREATE TABLE dbo.banci_victima(
  con_o_sin_vida TINYINT NULL REFERENCES dbo.banci_catalogo_condicion_vida(clave), fecha_localizacion DATE NULL,
  constitutiva_delito TINYINT NULL REFERENCES dbo.banci_catalogo_constitutiva_delito(clave),
  motivo_desaparicion NVARCHAR(1000) NULL, acciones_busqueda NVARCHAR(MAX) NULL, obs NVARCHAR(MAX) NULL,
- id_victima_consolidado BIGINT NULL, activo BIT NOT NULL DEFAULT(1),
+ id_victima_consolidado BIGINT NULL, activo BIT NOT NULL DEFAULT(1), reclasificada BIT NOT NULL DEFAULT(0),
  UNIQUE(id_banci_delito,id_vicf)
 );
 CREATE TABLE dbo.banci_historial_cambio(
@@ -129,6 +129,8 @@ CREATE TABLE dbo.banci_historial_cambio(
 );
 CREATE TABLE dbo.banci_reclasificado(
  id_banci_reclasificado BIGINT IDENTITY(1,1) PRIMARY KEY,
+ id_banci_victima BIGINT NULL REFERENCES dbo.banci_victima(id_banci_victima),
+ es_reclasificacion BIT NOT NULL DEFAULT(1),
  id_banci_delito BIGINT NOT NULL REFERENCES dbo.banci_delito(id_banci_delito),
  id_banci_carga BIGINT NOT NULL REFERENCES dbo.banci_carga(id_banci_carga),
  constitutiva_delito TINYINT NOT NULL REFERENCES dbo.banci_catalogo_constitutiva_delito(clave),
@@ -147,6 +149,7 @@ CREATE INDEX IX_banci_carga_periodo ON dbo.banci_carga(id_entidad_federativa,ani
 CREATE INDEX IX_banci_carpeta_corte ON dbo.banci_carpeta_investigacion(id_entidad_federativa,anio_corte,mes_corte,activo);
 CREATE INDEX IX_banci_delito_carga ON dbo.banci_delito(id_banci_carga);
 CREATE INDEX IX_banci_victima_carga ON dbo.banci_victima(id_banci_carga);
+CREATE INDEX IX_banci_reclasificado_victima ON dbo.banci_reclasificado(id_banci_victima,fecha_utc);
 CREATE INDEX IX_banci_reclasificado_delito ON dbo.banci_reclasificado(id_banci_delito);
 
 COMMIT;

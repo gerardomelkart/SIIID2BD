@@ -1,6 +1,6 @@
 # BANCI mensual — preparación y plan de sustitución
 
-Decisiones acordadas el 14 de octubre de 2026. Diseño de referencia del rediseño. El bloque 1 y su instalación coordinada se describen en `banci_bloque1_instalacion.md`; las vistas de carga, actualización, aprobación e informes se describen en `banci_operacion_mensual.md`. El nuevo cruce/reclasificación permanece en el bloque 5.
+Decisiones acordadas el 14 de octubre de 2026. Diseño de referencia del rediseño. El bloque 1 y su instalación coordinada se describen en `banci_bloque1_instalacion.md`; las vistas de carga, actualización, aprobación e informes se describen en `banci_operacion_mensual.md`. El bloque 5 se implementa mediante `banci_reclasificacion_cruce.md` y el script incremental 14. Las decisiones posteriores eliminan el modo manual mensual y establecen la reclasificación reversible por víctima.
 
 ## Fuentes revisadas
 
